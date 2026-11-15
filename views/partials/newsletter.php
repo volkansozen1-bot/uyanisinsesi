@@ -3,7 +3,7 @@ use App\Core\Csrf;
 
 $success = flash('newsletter_success');
 $error   = flash('newsletter_error');
-$path    = (string) parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH);
+$path    = current_path();
 ?>
 <section class="newsletter" id="bulten">
     <div class="container narrow">

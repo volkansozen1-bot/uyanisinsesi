@@ -33,10 +33,9 @@ final class Router
         ];
     }
 
-    public function dispatch(string $method, string $uri): void
+    public function dispatch(string $method): void
     {
-        $path = rawurldecode((string) parse_url($uri, PHP_URL_PATH));
-        $path = '/' . trim($path, '/');
+        $path = current_path();
         if ($method === 'HEAD') {
             $method = 'GET';
         }

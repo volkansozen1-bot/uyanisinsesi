@@ -6,7 +6,7 @@ use App\Core\Env;
 // Degerler .env dosyasindan gelir; .env.example dosyasini .env olarak kopyalayip doldurun.
 return [
     'app' => [
-        'url'      => Env::get('APP_URL', 'http://localhost:8000'),
+        'url'      => Env::get('APP_URL') ?: detect_base_url(), // canlida APP_URL'i .env'de sabitleyin
         'debug'    => Env::get('APP_DEBUG', 'false') === 'true',
         'timezone' => Env::get('APP_TIMEZONE', 'Europe/Istanbul'),
     ],

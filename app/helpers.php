@@ -35,6 +35,33 @@ function url(string $path = '/'): string
     return rtrim((string) config('app.url'), '/') . '/' . ltrim($path, '/');
 }
 
+/**
+ * Istegin site ici yolu: "/", "/iletisim" gibi.
+ * Site bir alt klasorde calisiyorsa (ornek: localhost/uyanisinsesi/public) o kisim atilir.
+ */
+function current_path(): string
+{
+    $path = rawurldecode((string) parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH));
+    $base = rtrim(str_replace('\\', '/', dirname((string) ($_SERVER['SCRIPT_NAME'] ?? ''))), '/');
+    if ($base !== '' && ($path === $base || str_starts_with($path, $base . '/'))) {
+        $path = substr($path, strlen($base));
+    }
+    if ($path === '/index.php' || str_starts_with($path, '/index.php/')) {
+        $path = substr($path, strlen('/index.php'));
+    }
+    return '/' . trim($path, '/');
+}
+
+/** .env icinde APP_URL bos ise site adresi istekten bulunur (ornek: http://localhost/uyanisinsesi/public). */
+function detect_base_url(): string
+{
+    $https  = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+    $host   = (string) ($_SERVER['HTTP_HOST'] ?? 'localhost');
+    $host   = preg_match('/^[a-z0-9.\-]+(:\d+)?$/i', $host) ? $host : 'localhost';
+    $base   = rtrim(str_replace('\\', '/', dirname((string) ($_SERVER['SCRIPT_NAME'] ?? ''))), '/');
+    return ($https ? 'https' : 'http') . '://' . $host . $base;
+}
+
 function asset(string $path): string
 {
     $file    = BASE_PATH . '/public/assets/' . ltrim($path, '/');

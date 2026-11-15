@@ -33,7 +33,15 @@ PHP + MySQL ile yazılmış tanıtım sitesi. Framework yok: tek giriş noktası
 
    Tarayıcıda `http://localhost:8000` adresini açın.
 
-XAMPP/Laragon kullanıyorsanız sanal sunucunun kök klasörünü (document root) `public/` olarak ayarlayın ve `.env` içindeki `APP_URL` değerini buna göre değiştirin.
+### XAMPP ile
+
+Projeyi `C:\xampp\htdocs\uyanisinsesi` klasörüne koyun, Apache ve MySQL'i başlatın, 1–3. adımları phpMyAdmin'den yapın ve tarayıcıda şu adresi açın:
+
+```
+http://localhost/uyanisinsesi/public/
+```
+
+`.env` içinde `APP_URL` boş kalabilir; adres otomatik bulunur. Canlı sitede document root `public/` klasörü olmalı ve `APP_URL` yazılmalıdır.
 
 ## Klasör yapısı
 
