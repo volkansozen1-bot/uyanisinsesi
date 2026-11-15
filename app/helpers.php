@@ -91,7 +91,7 @@ function menu(string $location): array
     );
 }
 
-function redirect(string $path): never
+function redirect(string $path): void
 {
     header('Location: ' . url($path), true, 302);
     exit;

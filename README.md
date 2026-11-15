@@ -4,7 +4,7 @@ PHP + MySQL ile yazılmış tanıtım sitesi. Framework yok: tek giriş noktası
 
 ## Gereksinimler
 
-- PHP 8.2 veya üzeri (`pdo_mysql`, `mbstring`)
+- PHP 8.0 veya üzeri (`pdo_mysql`, `mbstring`); canlı site için güncel bir sürüm (8.2+) önerilir
 - MySQL 8 veya MariaDB 10.6+
 - Apache (`mod_rewrite`) ya da geliştirme için PHP'nin yerleşik sunucusu
 
