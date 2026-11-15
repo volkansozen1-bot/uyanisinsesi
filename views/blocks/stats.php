@@ -6,9 +6,11 @@ if (!$stats) {
     return;
 }
 ?>
-<section class="section section-alt">
+<section class="section">
     <div class="container">
-        <?php if ($block['title']): ?><h2><?= e($block['title']) ?></h2><?php endif; ?>
+        <?php if ($block['title']): ?>
+        <div class="section-head"><h2><?= e($block['title']) ?></h2></div>
+        <?php endif; ?>
         <dl class="stats">
             <?php foreach ($stats as $stat): ?>
             <div>

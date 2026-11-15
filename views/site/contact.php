@@ -9,9 +9,13 @@ $success = flash('success');
 $error   = flash('error');
 $field   = static fn (string $key): string => e($old[$key] ?? '');
 ?>
-<section class="section">
+<header class="page-head">
     <div class="container narrow">
         <h1>İletişim</h1>
+    </div>
+</header>
+<section class="section">
+    <div class="container narrow">
         <?php if ($success): ?><p class="notice notice-success" role="status"><?= e($success) ?></p><?php endif; ?>
         <?php if ($error): ?><p class="notice notice-error" role="alert"><?= e($error) ?></p><?php endif; ?>
 

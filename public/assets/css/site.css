@@ -1,125 +1,213 @@
-/* uyanisinsesi - temel stil. Renk ve fontlar gecici; tasarim onayindan sonra :root degiskenleri guncellenecek. */
+/* uyanisinsesi - tema
+   Renkler ve fontlar asagidaki :root degiskenlerinden degistirilir. */
 
 :root {
-    --color-bg: #faf7f2;
-    --color-surface: #ffffff;
-    --color-alt: #f1ebe2;
-    --color-text: #2b2623;
-    --color-muted: #6b625c;
-    --color-accent: #7a4b3a;
-    --color-accent-contrast: #ffffff;
-    --color-border: #e2d9cd;
-    --color-success: #2f6b46;
-    --color-error: #a23b3b;
-    --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-    --font-heading: Georgia, "Times New Roman", serif;
-    --radius: 10px;
+    --ink: #1d1730;            /* koyu gece moru: basliklar, koyu bolumler */
+    --ink-soft: #2e2547;
+    --plum: #5b3a6e;           /* ikincil vurgu */
+    --gold: #c39a4b;           /* ana vurgu: butonlar, cizgiler */
+    --gold-soft: #e6d3a7;
+    --cream: #fbf7f0;          /* sayfa zemini */
+    --sand: #f3ebdd;           /* alternatif zemin */
+    --surface: #ffffff;
+    --text: #3a3347;
+    --muted: #756c82;
+    --border: #e6dccb;
+    --success: #2f6b46;
+    --error: #a23b3b;
+
+    --font-heading: "Cormorant Garamond", "Palatino Linotype", Georgia, serif;
+    --font-body: "Mulish", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+    --radius: 14px;
     --container: 72rem;
-    --narrow: 44rem;
+    --narrow: 46rem;
+    --shadow: 0 10px 30px rgba(29, 23, 48, 0.08);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
 body {
     margin: 0;
     font-family: var(--font-body);
     font-size: 1.0625rem;
-    line-height: 1.65;
-    color: var(--color-text);
-    background: var(--color-bg);
+    line-height: 1.75;
+    color: var(--text);
+    background: var(--cream);
+    -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3 { font-family: var(--font-heading); line-height: 1.2; margin: 0 0 0.75rem; }
-h1 { font-size: clamp(2rem, 5vw, 3.25rem); }
-h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem); }
-h3 { font-size: 1.25rem; }
-p { margin: 0 0 1rem; }
-a { color: var(--color-accent); }
+h1, h2, h3 { font-family: var(--font-heading); font-weight: 600; line-height: 1.15; color: var(--ink); margin: 0 0 1rem; letter-spacing: 0.005em; }
+h1 { font-size: clamp(2.4rem, 6vw, 4rem); }
+h2 { font-size: clamp(1.9rem, 4vw, 2.75rem); }
+h3 { font-size: 1.5rem; }
+p { margin: 0 0 1.1rem; }
+a { color: var(--plum); text-underline-offset: 3px; }
+a:hover { color: var(--ink); }
 img { max-width: 100%; height: auto; display: block; }
 
 .container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 1.25rem; }
 .container.narrow { max-width: var(--narrow); }
+.center { text-align: center; }
 
-.skip-link { position: absolute; left: -999px; top: 0; background: var(--color-surface); padding: 0.5rem 1rem; z-index: 100; }
+.skip-link { position: absolute; left: -999px; top: 0; background: var(--surface); padding: 0.5rem 1rem; z-index: 100; }
 .skip-link:focus { left: 0; }
 
+/* Kucuk ust baslik ve susleme cizgisi */
+.eyebrow { display: inline-block; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+.ornament { display: flex; align-items: center; justify-content: center; gap: 0.9rem; margin: 0 auto 1.5rem; color: var(--gold); }
+.ornament::before, .ornament::after { content: ""; width: 3.5rem; height: 1px; background: currentColor; opacity: 0.6; }
+.ornament span { width: 0.5rem; height: 0.5rem; border: 1px solid currentColor; transform: rotate(45deg); }
+
+/* Butonlar */
+.btn { display: inline-block; font: inherit; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.04em; background: var(--gold); color: var(--ink); border: 1px solid var(--gold); border-radius: 999px; padding: 0.85rem 2rem; text-decoration: none; cursor: pointer; transition: background 0.2s, color 0.2s, transform 0.2s; }
+.btn:hover { background: var(--ink); border-color: var(--ink); color: var(--cream); transform: translateY(-1px); }
+.btn-ghost { background: transparent; color: var(--gold-soft); border-color: var(--gold); }
+.btn-ghost:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+.btn-outline { background: transparent; color: var(--ink); border-color: var(--ink); }
+.btn-outline:hover { background: var(--ink); color: var(--cream); }
+
 /* Ust menu */
-.site-header { background: var(--color-surface); border-bottom: 1px solid var(--color-border); position: sticky; top: 0; z-index: 50; }
-.header-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 4rem; flex-wrap: wrap; }
-.logo { font-family: var(--font-heading); font-size: 1.35rem; font-weight: 700; color: var(--color-text); text-decoration: none; }
-.nav-toggle { font: inherit; background: none; border: 1px solid var(--color-border); border-radius: var(--radius); padding: 0.4rem 0.9rem; cursor: pointer; }
+.site-header { background: rgba(251, 247, 240, 0.94); backdrop-filter: blur(8px); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 4.5rem; flex-wrap: wrap; }
+.logo { font-family: var(--font-heading); font-size: 1.6rem; font-weight: 600; color: var(--ink); text-decoration: none; letter-spacing: 0.02em; }
+.nav-toggle { font: inherit; font-weight: 600; background: none; color: var(--ink); border: 1px solid var(--border); border-radius: 999px; padding: 0.4rem 1.1rem; cursor: pointer; }
 .site-nav { display: none; width: 100%; }
 .site-nav.is-open { display: block; }
 .site-nav ul { list-style: none; margin: 0; padding: 0 0 1rem; }
-.site-nav a { display: block; padding: 0.5rem 0; color: var(--color-text); text-decoration: none; }
-.site-nav a:hover { color: var(--color-accent); }
+.site-nav a { display: block; padding: 0.55rem 0; color: var(--ink); text-decoration: none; font-size: 0.95rem; font-weight: 600; letter-spacing: 0.03em; }
+.site-nav a:hover { color: var(--gold); }
 
-@media (min-width: 56rem) {
+@media (min-width: 60rem) {
     .nav-toggle { display: none; }
     .site-nav { display: block; width: auto; }
-    .site-nav ul { display: flex; gap: 1.5rem; padding: 0; }
+    .site-nav ul { display: flex; gap: 1.75rem; padding: 0; }
+    .site-nav a { padding: 0.25rem 0; border-bottom: 1px solid transparent; }
+    .site-nav a:hover { border-bottom-color: var(--gold); }
 }
 
 /* Bolumler */
-.section { padding: 3.5rem 0; }
-.section-alt { background: var(--color-alt); }
+.section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
+.section-alt { background: var(--sand); }
+.section-dark { background: var(--ink); color: #d9d2e4; }
+.section-dark h1, .section-dark h2, .section-dark h3 { color: var(--cream); }
+.section-head { max-width: 40rem; margin: 0 auto 2.5rem; text-align: center; }
+.lead { font-size: 1.2rem; color: var(--muted); }
+.section-dark .lead { color: #c3bad3; }
 
-.hero { padding: 5rem 0; text-align: center; background-color: var(--color-alt); background-size: cover; background-position: center; }
-.hero .lead { font-size: 1.2rem; color: var(--color-muted); margin-bottom: 1.75rem; }
+/* Hero: koyu gece zemini, isik haleleri */
+.hero { position: relative; overflow: hidden; padding: clamp(5rem, 14vw, 9rem) 0; text-align: center; color: #d9d2e4;
+    background:
+        radial-gradient(60rem 30rem at 50% -10%, rgba(195, 154, 75, 0.28), transparent 60%),
+        radial-gradient(40rem 26rem at 85% 110%, rgba(91, 58, 110, 0.7), transparent 60%),
+        radial-gradient(36rem 24rem at 10% 100%, rgba(91, 58, 110, 0.5), transparent 60%),
+        var(--ink);
+    background-size: cover; background-position: center; }
+.hero.has-image::before { content: ""; position: absolute; inset: 0; background: rgba(29, 23, 48, 0.62); }
+.hero .container { position: relative; }
+.hero h1 { color: var(--cream); font-weight: 500; font-style: italic; margin-bottom: 1.25rem; }
+.hero .lead { color: #c9c0d8; max-width: 34rem; margin: 0 auto 2.25rem; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 0.9rem; justify-content: center; }
 
-.quote-band { padding: 3rem 0; text-align: center; }
-.quote-band blockquote { margin: 0; font-family: var(--font-heading); font-size: 1.35rem; font-style: italic; }
-.quote-band cite { display: block; margin-top: 0.75rem; font-size: 1rem; font-style: normal; color: var(--color-muted); }
+/* Alinti bandi */
+.quote-band { padding: clamp(3rem, 7vw, 4.5rem) 0; text-align: center; background: var(--sand); }
+.quote-band blockquote { margin: 0; font-family: var(--font-heading); font-size: clamp(1.5rem, 3.4vw, 2.2rem); font-style: italic; line-height: 1.35; color: var(--ink); }
+.quote-band cite { display: block; margin-top: 1rem; font-family: var(--font-body); font-size: 0.85rem; font-style: normal; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); }
 
-.btn { display: inline-block; font: inherit; font-weight: 600; background: var(--color-accent); color: var(--color-accent-contrast); border: 0; border-radius: var(--radius); padding: 0.75rem 1.5rem; text-decoration: none; cursor: pointer; }
-.btn:hover, .btn:focus-visible { filter: brightness(1.1); }
+/* Hikaye: gorsel + metin */
+.split { display: grid; gap: 2.5rem; align-items: center; }
+@media (min-width: 56rem) { .split { grid-template-columns: 5fr 6fr; gap: 4rem; } }
+.split-media { aspect-ratio: 4 / 5; border-radius: 12rem 12rem var(--radius) var(--radius); overflow: hidden; background: linear-gradient(160deg, var(--plum), var(--ink)); box-shadow: var(--shadow); max-width: 26rem; width: 100%; margin: 0 auto; }
+.split-media img { width: 100%; height: 100%; object-fit: cover; }
 
-.card-grid { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); margin-top: 1.5rem; }
-.card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius); padding: 1.5rem; }
-.card h3 a { color: var(--color-text); text-decoration: none; }
-.card h3 a:hover { color: var(--color-accent); }
-.card p:last-child { margin-bottom: 0; }
+/* Kartlar */
+.card-grid { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+.card { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow); transition: transform 0.2s, border-color 0.2s; }
+.card:hover { transform: translateY(-4px); border-color: var(--gold); }
+.card h3 a { color: var(--ink); text-decoration: none; }
+.card h3 a:hover { color: var(--plum); }
+.card p { color: var(--muted); }
+.card .card-link { margin-top: auto; font-weight: 700; font-size: 0.9rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gold); text-decoration: none; }
+.card .card-link:hover { color: var(--ink); }
+.card-number { font-family: var(--font-heading); font-size: 2.25rem; color: var(--gold); line-height: 1; margin-bottom: 0.75rem; }
+.card-media { aspect-ratio: 16 / 10; margin: -2rem -2rem 1.5rem; border-radius: var(--radius) var(--radius) 0 0; overflow: hidden; background: linear-gradient(135deg, var(--sand), var(--gold-soft)); }
+.card-media img { width: 100%; height: 100%; object-fit: cover; }
+.card-date { font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.5rem; }
 
-.stats { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); margin: 1.5rem 0 0; text-align: center; }
-.stats dd { margin: 0; font-family: var(--font-heading); font-size: 2.5rem; font-weight: 700; color: var(--color-accent); }
-.stats dt { color: var(--color-muted); }
+/* Egitim duyurusu ve geri sayim */
+.promo { text-align: center; background:
+        radial-gradient(40rem 22rem at 50% 0%, rgba(195, 154, 75, 0.22), transparent 65%),
+        var(--ink); }
+.countdown { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem; max-width: 24rem; margin: 2rem auto; }
+.countdown div { padding: 1rem 0.25rem; border: 1px solid rgba(195, 154, 75, 0.5); border-radius: var(--radius); }
+.countdown strong { display: block; font-family: var(--font-heading); font-size: clamp(1.7rem, 7vw, 2.4rem); line-height: 1; color: var(--cream); }
+.countdown span { font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-soft); }
+.promo-date { color: var(--gold-soft); font-weight: 600; letter-spacing: 0.04em; }
 
-.prose h2 { margin-top: 2rem; }
+/* Yorumlar */
+.testimonial { margin: 0; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 2rem; box-shadow: var(--shadow); }
+.testimonial .stars { color: var(--gold); letter-spacing: 0.2em; margin-bottom: 0.75rem; }
+.testimonial blockquote { margin: 0 0 1rem; font-family: var(--font-heading); font-size: 1.3rem; font-style: italic; line-height: 1.45; color: var(--ink); }
+.testimonial cite { font-style: normal; font-weight: 700; font-size: 0.9rem; color: var(--muted); }
+
+/* Sayaclar */
+.stats { display: grid; gap: 1.5rem; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); margin: 0; text-align: center; }
+.stats dd { margin: 0; font-family: var(--font-heading); font-size: 3.25rem; font-weight: 600; line-height: 1.1; color: var(--gold); }
+.stats dt { color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; font-size: 0.82rem; }
+
+/* Ic sayfalar */
+.page-head { padding: clamp(3rem, 8vw, 5rem) 0; text-align: center; background:
+        radial-gradient(40rem 20rem at 50% 0%, rgba(195, 154, 75, 0.2), transparent 65%),
+        var(--ink); }
+.page-head h1 { color: var(--cream); margin: 0; font-size: clamp(2.2rem, 5vw, 3.25rem); }
+.prose h2 { margin-top: 2.25rem; }
+.prose ul, .prose ol { padding-left: 1.25rem; }
 
 /* Formlar */
-.form, .newsletter-form { display: grid; gap: 1rem; }
-.form-row { display: grid; gap: 1rem; }
+.form, .newsletter-form { display: grid; gap: 1.1rem; }
+.form-row { display: grid; gap: 1.1rem; }
 @media (min-width: 40rem) {
     .form-row { grid-template-columns: 1fr 1fr; }
     .newsletter-form { grid-template-columns: 1fr 1fr auto; align-items: end; }
 }
-label { display: grid; gap: 0.35rem; font-weight: 600; font-size: 0.95rem; }
+label { display: grid; gap: 0.4rem; font-weight: 700; font-size: 0.85rem; letter-spacing: 0.04em; color: var(--ink); }
 input[type="text"], input[type="email"], input[type="tel"], textarea {
-    font: inherit; width: 100%; padding: 0.65rem 0.8rem; border: 1px solid var(--color-border);
-    border-radius: var(--radius); background: var(--color-surface); color: var(--color-text);
+    font: inherit; font-weight: 400; letter-spacing: 0; width: 100%; padding: 0.8rem 1rem; border: 1px solid var(--border);
+    border-radius: 10px; background: var(--surface); color: var(--text);
 }
-input:focus-visible, textarea:focus-visible, .btn:focus-visible, a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
-.checkbox { display: flex; gap: 0.6rem; align-items: flex-start; font-weight: 400; }
-.checkbox input { margin-top: 0.35rem; }
-.field-error { color: var(--color-error); font-weight: 400; font-size: 0.9rem; }
+input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; border-color: var(--gold); }
+.btn:focus-visible, a:focus-visible, button:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.checkbox { display: flex; gap: 0.6rem; align-items: flex-start; font-weight: 400; letter-spacing: 0; font-size: 0.95rem; }
+.checkbox input { margin-top: 0.4rem; accent-color: var(--plum); }
+.field-error { color: var(--error); font-weight: 400; font-size: 0.9rem; letter-spacing: 0; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.form .btn { justify-self: start; }
 
-.notice { padding: 0.75rem 1rem; border-radius: var(--radius); border: 1px solid; }
-.notice-success { color: var(--color-success); border-color: var(--color-success); background: #eef6f0; }
-.notice-error { color: var(--color-error); border-color: var(--color-error); background: #f9eeee; }
+.notice { padding: 0.8rem 1.1rem; border-radius: 10px; border: 1px solid; }
+.notice-success { color: var(--success); border-color: var(--success); background: #eef6f0; }
+.notice-error { color: var(--error); border-color: var(--error); background: #f9eeee; }
 
-.newsletter { padding: 3rem 0; background: var(--color-alt); border-top: 1px solid var(--color-border); }
+/* Bulten */
+.newsletter { padding: clamp(3rem, 7vw, 4.5rem) 0; background: var(--sand); border-top: 1px solid var(--border); text-align: center; }
+.newsletter-form { text-align: left; margin-top: 1.5rem; }
 
 /* Alt bilgi */
-.site-footer { background: var(--color-text); color: #e9e2d9; padding: 2.5rem 0 1.5rem; }
-.site-footer a { color: #e9e2d9; }
-.footer-grid { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
-.site-footer ul { list-style: none; margin: 0.5rem 0 0; padding: 0; }
-.site-footer li { margin-bottom: 0.35rem; }
-.footer-bottom { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.15); }
+.site-footer { background: var(--ink); color: #b9b0c9; padding: 4rem 0 1.5rem; font-size: 0.95rem; }
+.site-footer a { color: #d9d2e4; text-decoration: none; }
+.site-footer a:hover { color: var(--gold); }
+.footer-grid { display: grid; gap: 2.5rem; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); }
+.footer-brand { font-family: var(--font-heading); font-size: 1.7rem; color: var(--cream); display: block; margin-bottom: 0.5rem; }
+.footer-title { display: block; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+.site-footer ul { list-style: none; margin: 0; padding: 0; }
+.site-footer li { margin-bottom: 0.5rem; }
+.site-footer p { margin-bottom: 0.5rem; }
+.footer-bottom { margin-top: 3rem; padding-top: 1.25rem; border-top: 1px solid rgba(255, 255, 255, 0.12); text-align: center; }
 
-.whatsapp-fab { position: fixed; right: 1rem; bottom: 1rem; background: #1f8f4e; color: #fff; padding: 0.7rem 1.1rem; border-radius: 999px; text-decoration: none; font-weight: 600; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2); z-index: 60; }
+.whatsapp-fab { position: fixed; right: 1rem; bottom: 1rem; background: #1f8f4e; color: #fff; padding: 0.75rem 1.2rem; border-radius: 999px; text-decoration: none; font-weight: 700; font-size: 0.9rem; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25); z-index: 60; }
+.whatsapp-fab:hover { color: #fff; background: #17753f; }
 
 @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
     * { animation: none !important; transition: none !important; }
 }

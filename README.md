@@ -23,6 +23,8 @@ PHP + MySQL ile yazılmış tanıtım sitesi. Framework yok: tek giriş noktası
    mysql -u root -p uyanisinsesi < database/seed.sql
    ```
 
+   Tasarımı örnek içerikle dolu görmek için ayrıca `database/demo.sql` dosyasını yükleyin (yer tutucu metinler; ana sayfa bölümlerini, hizmetleri, eğitimi, yorumları ve yazıları yeniden yazar).
+
 3. `.env.example` dosyasını `.env` adıyla kopyalayın, veritabanı bilgilerini yazın.
 
 4. Geliştirme sunucusunu başlatın:

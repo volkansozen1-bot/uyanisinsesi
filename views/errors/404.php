@@ -10,7 +10,7 @@
 </head>
 <body>
     <main class="section">
-        <div class="container narrow">
+        <div class="container narrow center">
             <h1>Sayfa bulunamadı</h1>
             <p>Aradığınız sayfa taşınmış ya da kaldırılmış olabilir.</p>
             <p><a class="btn" href="<?= e(url('/')) ?>">Ana sayfaya dön</a></p>

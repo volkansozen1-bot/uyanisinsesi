@@ -15,6 +15,9 @@ $title    = isset($pageTitle) && $pageTitle !== $siteName ? $pageTitle . ' | ' .
     <meta property="og:title" content="<?= e($title) ?>">
     <meta property="og:type" content="website">
     <meta property="og:locale" content="tr_TR">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Mulish:wght@400;600;700&display=swap">
     <link rel="stylesheet" href="<?= e(asset('css/site.css')) ?>">
 </head>
 <body>

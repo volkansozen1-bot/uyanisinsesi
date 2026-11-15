@@ -31,6 +31,13 @@ final class HomeController
                 'SELECT name, `text`, rating FROM testimonials WHERE is_active = 1 ORDER BY sort_order, id LIMIT 6'
             );
         }
+        if (in_array('course_promo', $types, true)) {
+            // Duyurulan egitim: siralamada ilk gelen aktif egitim
+            $data['course'] = Database::one(
+                'SELECT slug, title, summary, start_date, countdown_until FROM courses
+                 WHERE is_active = 1 ORDER BY sort_order, id LIMIT 1'
+            );
+        }
         if (in_array('latest_posts', $types, true)) {
             $data['posts'] = Database::all(
                 "SELECT slug, title, excerpt, cover_image, published_at FROM posts

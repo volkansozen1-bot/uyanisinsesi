@@ -7,7 +7,8 @@ $path    = current_path();
 ?>
 <section class="newsletter" id="bulten">
     <div class="container narrow">
-        <h2>Bülten</h2>
+        <span class="eyebrow">Bülten</span>
+        <h2>Yeni yazılar ve duyurular e-postanıza gelsin</h2>
         <?php if ($success): ?><p class="notice notice-success" role="status"><?= e($success) ?></p><?php endif; ?>
         <?php if ($error): ?><p class="notice notice-error" role="alert"><?= e($error) ?></p><?php endif; ?>
         <form method="post" action="<?= e(url('/bulten')) ?>#bulten" class="newsletter-form">
