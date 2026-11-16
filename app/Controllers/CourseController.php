@@ -43,6 +43,7 @@ final class CourseController
             ),
             'pageTitle'       => $course['meta_title'] ?: $course['title'],
             'metaDescription' => (string) ($course['meta_description'] ?: $course['summary']),
+            'ogImage'         => $course['image'] ?: null,
         ]);
     }
 }

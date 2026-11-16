@@ -83,6 +83,7 @@ final class BlogController
             ),
             'pageTitle'       => $post['meta_title'] ?: $post['title'],
             'metaDescription' => (string) ($post['meta_description'] ?: $post['excerpt']),
+            'ogImage'         => $post['cover_image'] ?: null,
         ]);
     }
 }
