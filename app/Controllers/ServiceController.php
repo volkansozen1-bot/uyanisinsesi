@@ -29,6 +29,10 @@ final class ServiceController
 
         View::render('site/service', [
             'service'  => $service,
+            'sections' => Database::all(
+                'SELECT * FROM service_sections WHERE service_id = ? ORDER BY sort_order, id',
+                [$service['id']]
+            ),
             'packages' => Database::all(
                 'SELECT * FROM service_packages WHERE service_id = ? ORDER BY sort_order, id',
                 [$service['id']]
@@ -41,6 +45,7 @@ final class ServiceController
                 'SELECT name, `text`, rating FROM testimonials WHERE service_id = ? AND is_active = 1 ORDER BY sort_order, id',
                 [$service['id']]
             ),
+            'ogImage'         => $service['image'] ?: null,
             'pageTitle'       => $service['meta_title'] ?: $service['title'],
             'metaDescription' => (string) ($service['meta_description'] ?: $service['summary']),
         ]);

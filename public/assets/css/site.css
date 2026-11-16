@@ -307,3 +307,36 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
                 repeating-radial-gradient(circle at 50% 50%, rgba(195, 154, 75, 0.35) 0 1px, transparent 1px 9px),
                 linear-gradient(135deg, var(--plum), var(--ink)); }
 .album-cover img { width: 100%; height: 100%; object-fit: cover; }
+
+/* --- Hizmet sayfasi: kitle sekmeleri ve randevu --- */
+.audience-links { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-top: 1.75rem; }
+.tab-list { display: flex; justify-content: center; gap: 0.4rem; margin: 0 auto 3rem; padding: 0.35rem; width: max-content; max-width: 100%; background: var(--surface); border: 1px solid var(--border); border-radius: 999px; }
+.tab { font: inherit; font-weight: 700; font-size: 0.95rem; letter-spacing: 0.03em; padding: 0.7rem 1.6rem; border: 0; border-radius: 999px; background: transparent; color: var(--muted); cursor: pointer; transition: background 0.2s, color 0.2s; }
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { background: var(--ink); color: var(--cream); }
+.tab-panel { scroll-margin-top: 6rem; }
+.tab-panel:focus { outline: none; }
+/* JS yokken tum bolumler alt alta gorunur; JS sekmeleri etkinlestirince yalnizca secili olan gorunur */
+.tab-panel + .tab-panel { margin-top: 4rem; padding-top: 4rem; border-top: 1px solid var(--border); }
+.tabs-ready .tab-panel + .tab-panel { margin-top: 0; padding-top: 0; border-top: 0; }
+.tabs-ready .tab-panel[hidden] { display: none; }
+.tabs-ready .tab-panel:not([hidden]) { animation: panel-in 0.35s ease; }
+@keyframes panel-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.audience-split .split-media svg { width: 100%; height: 100%; display: block; }
+.audience-split .prose p:last-child { margin-bottom: 0; }
+
+.focus { margin-top: 3rem; padding: clamp(1.5rem, 4vw, 2.5rem); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); }
+.focus h3 { text-align: center; margin-bottom: 1.5rem; }
+.focus-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.85rem 2.5rem; }
+@media (min-width: 48rem) { .focus-list { grid-template-columns: 1fr 1fr; } }
+.focus-list li { position: relative; padding-left: 1.6rem; }
+.focus-list li::before { content: ""; position: absolute; left: 0.2rem; top: 0.62em; width: 0.45rem; height: 0.45rem; border: 1px solid var(--gold); background: var(--gold-soft); transform: rotate(45deg); }
+.tab-panel > .center { margin-top: 2rem; }
+
+.price-note { margin-top: 2rem; font-size: 0.88rem; color: var(--muted); }
+
+.booking { display: grid; gap: 1rem; margin: 2rem auto; max-width: 40rem; }
+@media (min-width: 40rem) { .booking { grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); } }
+.booking div { padding: 1.1rem 1rem; border: 1px solid rgba(195, 154, 75, 0.45); border-radius: var(--radius); }
+.booking dt { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.35rem; }
+.booking dd { margin: 0; font-family: var(--font-heading); font-size: 1.3rem; color: var(--cream); line-height: 1.3; }

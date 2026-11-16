@@ -111,12 +111,36 @@ CREATE TABLE IF NOT EXISTS services (
     image            VARCHAR(255) NULL,
     meta_title       VARCHAR(200) NULL,
     meta_description VARCHAR(300) NULL,
+    booking_days     VARCHAR(150) NULL,
+    booking_hours    VARCHAR(100) NULL,
+    booking_place    VARCHAR(150) NULL,
+    whatsapp_message VARCHAR(300) NULL,
     sort_order       INT NOT NULL DEFAULT 0,
     is_active        TINYINT(1) NOT NULL DEFAULT 1,
     created_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id),
     UNIQUE KEY uq_services_slug (slug)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
+
+-- Bir hizmetin hedef kitleye gore bolumleri (ornek: Kadinlar icin / Erkekler icin). Sayfada sekme olarak gorunur.
+CREATE TABLE IF NOT EXISTS service_sections (
+    id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    service_id  INT UNSIGNED NOT NULL,
+    anchor      VARCHAR(50) NOT NULL,
+    tab_label   VARCHAR(100) NOT NULL,
+    eyebrow     VARCHAR(150) NULL,
+    title       VARCHAR(200) NOT NULL,
+    image       VARCHAR(255) NULL,
+    body        MEDIUMTEXT NULL,
+    focus_title VARCHAR(200) NULL,
+    focus_items TEXT NULL,
+    sort_order  INT NOT NULL DEFAULT 0,
+    created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    UNIQUE KEY uq_sections_anchor (service_id, anchor),
+    CONSTRAINT fk_sections_service FOREIGN KEY (service_id) REFERENCES services (id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
 
 CREATE TABLE IF NOT EXISTS service_packages (
