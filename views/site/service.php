@@ -40,7 +40,7 @@ $hasSections = count($sections) > 0;
         <?php if ($service['image']): ?>
         <img class="prose-image" src="<?= e(url($service['image'])) ?>" alt="">
         <?php endif; ?>
-        <?php /* body panelden girilen HTML'dir; kaydedilirken temizlenir */ ?>
+        <?php /* body panelden girilecek HTML'dir. Panelden duzenleme eklenince kaydederken temizlenmeli (HTML temizleyici henuz yok); simdilik icerik yalnizca SQL dosyalarindan gelir. Burada oldugu gibi basilir. */ ?>
         <?= $service['body'] ?>
     </div>
 </article>
@@ -85,6 +85,7 @@ $hasSections = count($sections) > 0;
                 <div>
                     <?php if ($section['eyebrow']): ?><span class="eyebrow"><?= e($section['eyebrow']) ?></span><?php endif; ?>
                     <h2><?= e($section['title']) ?></h2>
+                    <?php /* section body panelden girilecek HTML'dir. Panelden duzenleme eklenince kaydederken temizlenmeli (HTML temizleyici henuz yok); simdilik icerik yalnizca SQL dosyalarindan gelir. Burada oldugu gibi basilir. */ ?>
                     <div class="prose"><?= $section['body'] ?></div>
                 </div>
             </div>

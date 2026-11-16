@@ -49,10 +49,27 @@ abstract class AdminController
         }
     }
 
+    /**
+     * $_GET degerini metin olarak okur. "?q[]=x" gibi dizi gelirse varsayilan doner
+     * (boylece "Array to string conversion" uyarisi cikmaz).
+     */
+    protected function query(string $key, string $default = ''): string
+    {
+        $value = $_GET[$key] ?? null;
+        return is_string($value) ? $value : $default;
+    }
+
+    /** $_POST degerini metin olarak okur; dizi ya da eksikse varsayilan doner. */
+    protected function post(string $key, string $default = ''): string
+    {
+        $value = $_POST[$key] ?? null;
+        return is_string($value) ? $value : $default;
+    }
+
     /** "?sayfa=3" -> 3 */
     protected function currentPage(): int
     {
-        $page = filter_var($_GET['sayfa'] ?? 1, FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
+        $page = filter_var($this->query('sayfa', '1'), FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
         return $page === false ? 1 : $page;
     }
 

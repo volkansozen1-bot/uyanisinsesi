@@ -47,7 +47,7 @@ final class SettingsController extends AdminController
         $input  = [];
         $errors = [];
         foreach (self::FIELDS as $key => [$label, $type]) {
-            $value = trim((string) ($_POST[$key] ?? ''));
+            $value = trim($this->post($key));
             $input[$key] = $value;
 
             if (mb_strlen($value) > 255) {

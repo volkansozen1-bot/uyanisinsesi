@@ -21,9 +21,9 @@ final class PasswordController extends AdminController
     {
         $this->verifyCsrf('/yonetim/parola');
 
-        $current  = (string) ($_POST['current_password'] ?? '');
-        $password = (string) ($_POST['password'] ?? '');
-        $confirm  = (string) ($_POST['password_confirm'] ?? '');
+        $current  = $this->post('current_password');
+        $password = $this->post('password');
+        $confirm  = $this->post('password_confirm');
 
         $row    = Database::one('SELECT password_hash FROM admins WHERE id = ?', [$this->admin['id']]);
         $errors = [];

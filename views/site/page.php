@@ -6,7 +6,7 @@
 </header>
 <article class="section">
     <div class="container narrow prose">
-        <?php /* body panelden girilen HTML'dir; kaydedilirken temizlenir (HTMLPurifier), burada oldugu gibi basilir */ ?>
+        <?php /* body panelden girilecek HTML'dir. Panelden duzenleme eklenince kaydederken temizlenmeli (HTML temizleyici henuz yok); simdilik icerik yalnizca SQL dosyalarindan gelir. Burada oldugu gibi basilir. */ ?>
         <?= $page['body'] ?>
     </div>
 </article>
