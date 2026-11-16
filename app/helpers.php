@@ -123,3 +123,22 @@ function slugify(string $text): string
     $text = preg_replace('/[^a-z0-9]+/', '-', $text) ?? '';
     return trim($text, '-');
 }
+
+/** "2026-11-10 10:00:00" -> "10 Kasım 2026" */
+function tr_date(?string $datetime): string
+{
+    $time = $datetime ? strtotime($datetime) : false;
+    if ($time === false) {
+        return '';
+    }
+    $months = [1 => 'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+    return (int) date('j', $time) . ' ' . $months[(int) date('n', $time)] . ' ' . date('Y', $time);
+}
+
+/** 7500.00 -> "7.500 TL" */
+function tr_price($amount): string
+{
+    $amount = (float) $amount;
+    $decimals = fmod($amount, 1.0) === 0.0 ? 0 : 2;
+    return number_format($amount, $decimals, ',', '.') . ' TL';
+}

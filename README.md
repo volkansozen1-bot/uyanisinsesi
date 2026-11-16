@@ -60,14 +60,19 @@ storage/     logs/, cache/
 
 ## Şu an çalışanlar
 
-- Ana sayfa: `home_blocks` tablosundaki bölümler sırayla basılır (hero, alıntı, hizmetler, sayaçlar, son yazılar)
+- Ana sayfa: `home_blocks` tablosundaki bölümler sırayla basılır (hero, karşılama, alıntı, hikâye, hizmetler, eğitim duyurusu ve geri sayım, yorumlar, sayaçlar, son yazılar)
+- Hizmetler (`/hizmetler`, `/hizmetler/{slug}`): paketler, yorumlar, SSS
+- Eğitimler (`/egitimler`, `/egitimler/{slug}`): modüller, katılım seçenekleri, geri sayım, SSS
+- Blog (`/blog`, `/blog/{slug}`, `/blog/kategori/{slug}`): sayfalama ve kategoriler
+- Albümler (`/albumler`)
 - `pages` tablosundaki sayfalar: `/hakkimda`, yasal metinler
 - İletişim formu: doğrulama, CSRF, honeypot; mesajlar `contact_messages` tablosuna yazılır
-- Bülten kaydı: `subscribers` tablosuna yazılır; onay ve çıkış bağlantıları hazır
+- Bülten kaydı: açık rıza kutusu; `subscribers` tablosuna yazılır; onay ve çıkış bağlantıları hazır
+- Fontlar yerelden sunulur (`public/assets/fonts`, SIL OFL 1.1)
 
 ## Sıradaki adımlar
 
-- Hizmetler, eğitimler, blog ve albümler sayfaları
 - Yönetim paneli (`/yonetim`)
 - E-posta gönderimi (iletişim bildirimi, bülten onay e-postası)
-- Tasarım: renk ve fontlar `public/assets/css/site.css` başındaki `:root` değişkenlerinden değiştirilir
+- Ödeme (sanal POS) ve üyelik
+- Renk ve fontlar `public/assets/css/site.css` başındaki `:root` değişkenlerinden değiştirilir

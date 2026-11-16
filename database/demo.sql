@@ -11,7 +11,7 @@ UPDATE settings SET `value` = 'İçindeki sesi duymak için sakin bir alan.' WHE
 -- Ana sayfa bolumleri -------------------------------------------------------
 DELETE FROM home_blocks;
 INSERT INTO home_blocks (type, title, subtitle, body, button_text, button_url, extra_json, sort_order, is_active) VALUES
-    ('hero', 'İçindeki sesi duymaya hazır mısın?', 'Gürültünün ardında seni bekleyen bir dinginlik var. Onu birlikte dinlemeyi öğrenelim.', NULL, 'Yolculuğa Başla', '/hizmetler', '{"eyebrow":"Perihan Ateş","button2_text":"Hikâyemi Oku","button2_url":"/hakkimda"}', 1, 1),
+    ('hero', 'İçindeki sesi duymaya hazır mısın?', 'Gürültünün ardında seni bekleyen bir dinginlik var. Onu birlikte dinlemeyi öğrenelim.', NULL, 'Yolculuğa Başla', '/hizmetler', '{"eyebrow":"Perihan Ateş","button2_text":"Hikâyemi Oku","button2_url":"/hakkimda","keywords":["Nefes","Farkındalık","Sessizlik","Dönüşüm","Beden","Topluluk"],"note_title":"Haftalık buluşmalar","note_text":"Her hafta çevrim içi, canlı ve birlikte."}', 1, 1),
     ('intro', 'Değişim, kendine döndüğün yerde başlar', 'Hoş geldin', 'Burası; durmak, nefes almak ve kendini yeniden duymak isteyenler için açılmış bir alan. Bireysel seanslar, grup çalışmaları ve haftalık buluşmalarla bu yolda birbirimize eşlik ediyoruz.', 'Topluluğa Katıl', '/hizmetler', NULL, 2, 1),
     ('quote', NULL, 'Her uyanış, küçük bir sessizlikle başlar.', NULL, NULL, NULL, NULL, 3, 1),
     ('story', 'Bu yola nasıl çıktım?', 'Hikâyem', 'Buraya kısa bir tanıtım metni gelecek: yolculuğun nasıl başladığı, hangi çalışmalarla derinleştiği ve bugün insanlara nasıl eşlik edildiği birkaç cümleyle anlatılacak.', 'Devamını Oku', '/hakkimda', NULL, 4, 1),
@@ -57,3 +57,47 @@ INSERT INTO menu_items (location, label, url, sort_order) VALUES
     ('footer_services', 'Hizmetler', '/hizmetler', 1),
     ('footer_services', 'Eğitimler', '/egitimler', 2),
     ('footer_services', 'İletişim', '/iletisim', 3);
+
+-- Hizmet paketleri (fiyatlar bos: gercek fiyatlar panelden girilecek) -------------
+INSERT INTO service_packages (service_id, name, price, description, button_text, button_url, sort_order)
+SELECT id, 'Tek Seans', NULL, 'Tek bir konuya odaklanan görüşme.', 'Bilgi Al', '/iletisim', 1 FROM services WHERE slug = 'bireysel-seans';
+INSERT INTO service_packages (service_id, name, price, description, button_text, button_url, sort_order)
+SELECT id, '3 Seanslık Paket', NULL, 'Yaklaşık bir aya yayılan kısa süreç.', 'Bilgi Al', '/iletisim', 2 FROM services WHERE slug = 'bireysel-seans';
+INSERT INTO service_packages (service_id, name, price, description, button_text, button_url, sort_order)
+SELECT id, '6 Seanslık Paket', NULL, 'Daha derin çalışmak isteyenler için.', 'Bilgi Al', '/iletisim', 3 FROM services WHERE slug = 'bireysel-seans';
+INSERT INTO service_packages (service_id, name, price, description, button_text, button_url, sort_order)
+SELECT id, 'Aylık Üyelik', NULL, 'Haftalık canlı buluşmaların tamamı.', 'Bilgi Al', '/iletisim', 1 FROM services WHERE slug = 'aylik-uyelik';
+
+-- Sik sorulan sorular -------------------------------------------------------
+DELETE FROM faqs;
+INSERT INTO faqs (owner_type, owner_id, question, answer, sort_order)
+SELECT 'service', id, 'Seanslar nasıl yapılıyor?', 'Cevap metni buraya gelecek.', 1 FROM services WHERE slug = 'bireysel-seans';
+INSERT INTO faqs (owner_type, owner_id, question, answer, sort_order)
+SELECT 'service', id, 'Bir seans ne kadar sürüyor?', 'Cevap metni buraya gelecek.', 2 FROM services WHERE slug = 'bireysel-seans';
+INSERT INTO faqs (owner_type, owner_id, question, answer, sort_order)
+SELECT 'service', id, 'Randevumu değiştirebilir miyim?', 'Cevap metni buraya gelecek.', 3 FROM services WHERE slug = 'bireysel-seans';
+INSERT INTO faqs (owner_type, owner_id, question, answer, sort_order)
+SELECT 'course', id, 'Eğitim canlı mı, kayıttan mı?', 'Cevap metni buraya gelecek.', 1 FROM courses WHERE slug = 'ornek-egitim';
+INSERT INTO faqs (owner_type, owner_id, question, answer, sort_order)
+SELECT 'course', id, 'Katılım belgesi veriliyor mu?', 'Cevap metni buraya gelecek.', 2 FROM courses WHERE slug = 'ornek-egitim';
+
+-- Egitim modulleri ve planlari ---------------------------------------------
+INSERT INTO course_modules (course_id, title, description, sort_order)
+SELECT id, 'Birinci modül başlığı', 'Modülün kısa açıklaması buraya gelecek.', 1 FROM courses WHERE slug = 'ornek-egitim';
+INSERT INTO course_modules (course_id, title, description, sort_order)
+SELECT id, 'İkinci modül başlığı', 'Modülün kısa açıklaması buraya gelecek.', 2 FROM courses WHERE slug = 'ornek-egitim';
+INSERT INTO course_modules (course_id, title, description, sort_order)
+SELECT id, 'Üçüncü modül başlığı', 'Modülün kısa açıklaması buraya gelecek.', 3 FROM courses WHERE slug = 'ornek-egitim';
+INSERT INTO course_modules (course_id, title, description, sort_order)
+SELECT id, 'Dördüncü modül başlığı', 'Modülün kısa açıklaması buraya gelecek.', 4 FROM courses WHERE slug = 'ornek-egitim';
+INSERT INTO course_plans (course_id, name, list_price, price, description, button_text, button_url, sort_order)
+SELECT id, 'Katılımcı', NULL, NULL, 'Tüm modüllere katılım.', 'Kayıt İçin Yaz', '/iletisim', 1 FROM courses WHERE slug = 'ornek-egitim';
+INSERT INTO course_plans (course_id, name, list_price, price, description, button_text, button_url, sort_order)
+SELECT id, 'Katılımcı + Birebir Görüşme', NULL, NULL, 'Tüm modüller ve ek bireysel görüşmeler.', 'Kayıt İçin Yaz', '/iletisim', 2 FROM courses WHERE slug = 'ornek-egitim';
+
+-- Albumler ------------------------------------------------------------------
+DELETE FROM albums;
+INSERT INTO albums (title, type, year, track_count, listen_url, sort_order) VALUES
+    ('Örnek Albüm', 'album', 2026, 9, NULL, 1),
+    ('Örnek EP', 'ep', 2025, 4, NULL, 2),
+    ('Örnek Single', 'single', 2025, 1, NULL, 3);
