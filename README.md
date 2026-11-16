@@ -70,6 +70,46 @@ storage/     logs/, cache/
 - Bülten kaydı: açık rıza kutusu; `subscribers` tablosuna yazılır; onay ve çıkış bağlantıları hazır
 - Fontlar yerelden sunulur (`public/assets/fonts`, SIL OFL 1.1)
 
+## Yönetim paneli
+
+Adres: `/yonetim` (XAMPP'ta `http://localhost/uyanisinsesi/public/yonetim`). Arama motorlarına kapalıdır (`noindex`).
+
+### Kurulum
+
+1. Mevcut bir veritabanına `database/migrations/002_admin.sql` dosyasını içe aktarın (giriş denemeleri tablosu ve bildirim e-postası ayarı).
+2. İlk yöneticiyi oluşturun. İki yol var:
+   - **Komut satırı:**
+
+     ```bash
+     php bin/create-admin.php "Ad Soyad" eposta@ornek.com
+     ```
+
+     XAMPP (Windows), proje klasöründeyken:
+
+     ```
+     C:\xampp\php\php.exe bin\create-admin.php "Ad Soyad" eposta@ornek.com
+     ```
+
+     Parola sorulur (en az 10 karakter). Windows komut isteminde yazılan parola ekranda görünür. Aynı e-postayla yeniden çalıştırılırsa parolayı yeniler; parola unutulduğunda da bu yol kullanılır.
+   - **Tarayıcı:** henüz hiç yönetici yoksa `/yonetim/kurulum` sayfası ilk hesabı oluşturur. Bu sayfa yalnızca siteyi çalıştıran bilgisayardan (`localhost`) açıldığında çalışır; bir yönetici oluşturulunca kapanır (404).
+3. `/yonetim/giris` adresinden giriş yapın.
+
+### Güvenlik
+
+- Aynı IP ya da e-posta için 15 dakikada 5 hatalı denemeden sonra giriş 15 dakika kapanır (`login_attempts` tablosu).
+- Oturum 2 saat işlem yapılmazsa kapanır. Parola değiştirilince diğer cihazlardaki oturumlar düşer.
+- Tüm formlar CSRF korumalıdır.
+
+### Modüller
+
+Panel özeti, gelen mesajlar, bülten aboneleri (arama, CSV dışa aktarım, KVKK silme), ayarlar, parola değiştirme. Hizmet, eğitim, blog gibi içerik modülleri sonraki adımda eklenecek; menüde "yakında" olarak görünürler.
+
+Yeni modül eklemek için:
+
+1. `app/Controllers/Admin/` altında `AdminController`'dan türeyen bir sınıf yazın (giriş kontrolü yapıcıda otomatik yapılır; `$this->render('klasor/sablon', [...])`, `$this->verifyCsrf('/geri/donus')`, `$this->paginate($toplam)` hazır).
+2. Rotaları `config/routes/admin.php` dosyasına ekleyin.
+3. Menüye `config/admin_menu.php` içinde tek satır ekleyin (`url` değeri `null` olan öğeler pasif görünür).
+
 ## Sıradaki adımlar
 
 - Yönetim paneli (`/yonetim`)
