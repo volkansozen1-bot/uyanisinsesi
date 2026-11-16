@@ -1,0 +1,64 @@
+# Siteyi FTP ile sunucuya gonderir.
+# Calismasi icin GitHub > Settings > Secrets and variables > Actions altinda:
+#   Secrets  : FTP_SERVER, FTP_USERNAME, FTP_PASSWORD
+#   Variables: FTP_SERVER_DIR (orn. /public_html/ ya da /httpdocs/ - sonu / ile biter)
+#              FTP_PROTOCOL (ftps ya da ftp; bos ise ftps)
+#              DEPLOY_ENABLED = true  (true yazilana kadar push'ta calismaz)
+# Ayrintilar: README > "Otomatik yayin (GitHub -> FTP)"
+
+name: Siteyi yayinla
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: ${{ vars.DEPLOY_ENABLED == 'true' || github.event_name == 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Ayarlari kontrol et
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+          FTP_SERVER_DIR: ${{ vars.FTP_SERVER_DIR }}
+        run: |
+          missing=""
+          [ -z "$FTP_SERVER" ] && missing="$missing FTP_SERVER"
+          [ -z "$FTP_USERNAME" ] && missing="$missing FTP_USERNAME"
+          [ -z "$FTP_PASSWORD" ] && missing="$missing FTP_PASSWORD"
+          [ -z "$FTP_SERVER_DIR" ] && missing="$missing FTP_SERVER_DIR"
+          if [ -n "$missing" ]; then
+            echo "::error::Eksik ayar:$missing (Settings > Secrets and variables > Actions)"
+            exit 1
+          fi
+
+      - name: Kodu al
+        uses: actions/checkout@v4
+
+      - name: FTP ile gonder
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ${{ vars.FTP_PROTOCOL || 'ftps' }}
+          server-dir: ${{ vars.FTP_SERVER_DIR }}
+          # Sunucuya ozel dosyalar gonderilmez ve silinmez
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            .env
+            storage/logs/**
+            storage/cache/**
+            public/uploads/**
+            public/kontrol.php
+            README.md

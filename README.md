@@ -65,6 +65,18 @@ http://localhost/uyanisinsesi/public/
 - **İlk yönetici:** `/yonetim/kurulum` sayfası yalnızca yerelden açılır. Canlıda SSH varsa `php bin/create-admin.php "Ad Soyad" eposta@adres`; SSH yoksa sunucudaki `.env` dosyasına en az 20 karakterlik rastgele bir `SETUP_KEY=...` satırı ekleyin; `/yonetim/kurulum` sayfası bu anahtarı isteyerek açılır. İlk yönetici oluşunca sayfa kapanır; ardından `SETUP_KEY` satırını silin.
 - **Git ile dağıtım (Plesk):** Alan adı → Git → Uzak depo: `https://github.com/volkansozen1-bot/uyanisinsesi.git` (private ise SSH adresi + GitHub "Deploy key"). Dağıtım yolu `httpdocs`. Önce elle dağıtım; `.env`, `storage/logs` ve `public/uploads` repoda olmadığı için sunucuda korunur. Veritabanı değişiklikleri Git ile gelmez: migration varsa phpMyAdmin'den ayrıca içe aktarılır.
 
+## Otomatik yayın (GitHub → FTP)
+
+`main` dalına her gönderimde `.github/workflows/deploy.yml` siteyi FTP ile sunucuya yükler. Panel gerektirmez.
+
+1. GitHub → repo → **Settings → Secrets and variables → Actions**
+   - **Secrets** sekmesi: `FTP_SERVER` (örn. `ftp.perihanates.com`), `FTP_USERNAME`, `FTP_PASSWORD`
+   - **Variables** sekmesi: `FTP_SERVER_DIR` — projenin sunucudaki klasörü, sonu `/` ile (örn. `/public_html/` ya da `/httpdocs/`; içinde `public/` klasörü olan yer). İsteğe bağlı `FTP_PROTOCOL` (`ftps` varsayılan; sunucu desteklemiyorsa `ftp`).
+2. **Actions** sekmesi → "Siteyi yayinla" → **Run workflow** ile ilk yüklemeyi elle başlatın ve sonucu kontrol edin.
+3. Sorunsuzsa Variables'a `DEPLOY_ENABLED` = `true` ekleyin; bundan sonra her gönderim otomatik yayınlanır.
+
+`.env`, `storage/logs`, `public/uploads` ve `public/kontrol.php` gönderilmez, sunucudakiler korunur. Veritabanı değişiklikleri FTP ile gelmez; migration varsa phpMyAdmin'den ayrıca içe aktarılır. Sunucudaki dosyaları elle değiştirmeyin, sonraki yayında üzerine yazılır.
+
 ## Klasör yapısı
 
 ```
