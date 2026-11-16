@@ -112,7 +112,7 @@ Yeni modül eklemek için:
 
 ## Sıradaki adımlar
 
-- Yönetim paneli (`/yonetim`)
+- Yönetim paneli içerik modülleri: ana sayfa, sayfalar, hizmetler, eğitimler, blog, albümler, yorumlar, medya
 - E-posta gönderimi (iletişim bildirimi, bülten onay e-postası)
 - Ödeme (sanal POS) ve üyelik
 - Renk ve fontlar `public/assets/css/site.css` başındaki `:root` değişkenlerinden değiştirilir

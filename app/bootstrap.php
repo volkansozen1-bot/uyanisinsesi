@@ -49,6 +49,8 @@ set_exception_handler(static function (Throwable $e): void {
 });
 
 if (PHP_SAPI !== 'cli' && session_status() === PHP_SESSION_NONE) {
+    // XAMPP varsayilani 24 dk; panelin 2 saatlik hareketsizlik suresiyle uyumlu olsun
+    ini_set('session.gc_maxlifetime', '7200');
     session_set_cookie_params([
         'httponly' => true,
         'secure'   => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',

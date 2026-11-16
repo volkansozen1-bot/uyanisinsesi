@@ -19,4 +19,4 @@ CREATE TABLE IF NOT EXISTS login_attempts (
 
 -- Iletisim formu bildirimlerinin gidecegi adres (bos ise contact_email kullanilir)
 INSERT INTO settings (`key`, `value`)
-SELECT 'admin_notify_email', '' WHERE NOT EXISTS (SELECT 1 FROM settings WHERE `key` = 'admin_notify_email');
+SELECT 'admin_notify_email', '' FROM (SELECT 1 AS x) AS tek WHERE NOT EXISTS (SELECT 1 FROM settings WHERE `key` = 'admin_notify_email');

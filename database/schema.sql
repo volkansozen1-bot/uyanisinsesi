@@ -22,6 +22,19 @@ CREATE TABLE IF NOT EXISTS admins (
     UNIQUE KEY uq_admins_email (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
 
+-- Yalnizca hatali denemeler yazilir; basarili giristen sonra o e-posta ve IP icin silinir.
+CREATE TABLE IF NOT EXISTS login_attempts (
+    id           INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    email        VARCHAR(190) NOT NULL,
+    ip           VARCHAR(45) NOT NULL,
+    attempted_at DATETIME NOT NULL,
+    created_at   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    KEY idx_login_attempts_ip (ip, attempted_at),
+    KEY idx_login_attempts_email (email, attempted_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
+
 CREATE TABLE IF NOT EXISTS settings (
     id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `key`      VARCHAR(100) NOT NULL,

@@ -7,6 +7,7 @@ INSERT INTO settings (`key`, `value`) VALUES
     ('site_name', 'Perihan Ateş'),
     ('site_tagline', 'Site sloganı buraya gelecek'),
     ('contact_email', 'bilgi@example.com'),
+    ('admin_notify_email', ''),
     ('contact_phone', ''),
     ('whatsapp_number', ''),
     ('instagram_url', ''),
