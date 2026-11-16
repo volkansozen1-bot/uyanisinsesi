@@ -11,7 +11,7 @@ UPDATE settings SET `value` = 'İçindeki sesi duymak için sakin bir alan.' WHE
 -- Ana sayfa bolumleri -------------------------------------------------------
 DELETE FROM home_blocks;
 INSERT INTO home_blocks (type, title, subtitle, body, button_text, button_url, extra_json, sort_order, is_active) VALUES
-    ('hero', 'İçindeki sesi duymaya hazır mısın?', 'Gürültünün ardında seni bekleyen bir dinginlik var. Onu birlikte dinlemeyi öğrenelim.', NULL, 'Yolculuğa Başla', '/hizmetler', '{"eyebrow":"Uyanışın Sesi","button2_text":"Hikâyemi Oku","button2_url":"/hakkimda"}', 1, 1),
+    ('hero', 'İçindeki sesi duymaya hazır mısın?', 'Gürültünün ardında seni bekleyen bir dinginlik var. Onu birlikte dinlemeyi öğrenelim.', NULL, 'Yolculuğa Başla', '/hizmetler', '{"eyebrow":"Perihan Ateş","button2_text":"Hikâyemi Oku","button2_url":"/hakkimda"}', 1, 1),
     ('intro', 'Değişim, kendine döndüğün yerde başlar', 'Hoş geldin', 'Burası; durmak, nefes almak ve kendini yeniden duymak isteyenler için açılmış bir alan. Bireysel seanslar, grup çalışmaları ve haftalık buluşmalarla bu yolda birbirimize eşlik ediyoruz.', 'Topluluğa Katıl', '/hizmetler', NULL, 2, 1),
     ('quote', NULL, 'Her uyanış, küçük bir sessizlikle başlar.', NULL, NULL, NULL, NULL, 3, 1),
     ('story', 'Bu yola nasıl çıktım?', 'Hikâyem', 'Buraya kısa bir tanıtım metni gelecek: yolculuğun nasıl başladığı, hangi çalışmalarla derinleştiği ve bugün insanlara nasıl eşlik edildiği birkaç cümleyle anlatılacak.', 'Devamını Oku', '/hakkimda', NULL, 4, 1),

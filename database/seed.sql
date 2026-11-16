@@ -4,7 +4,7 @@
 SET NAMES utf8mb4;
 
 INSERT INTO settings (`key`, `value`) VALUES
-    ('site_name', 'Uyanışın Sesi'),
+    ('site_name', 'Perihan Ateş'),
     ('site_tagline', 'Site sloganı buraya gelecek'),
     ('contact_email', 'bilgi@example.com'),
     ('contact_phone', ''),

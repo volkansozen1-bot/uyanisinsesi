@@ -14,7 +14,7 @@ $social = array_filter([
 <footer class="site-footer">
     <div class="container footer-grid">
         <div>
-            <span class="footer-brand"><?= e(setting('site_name', 'Uyanışın Sesi')) ?></span>
+            <span class="footer-brand"><?= e(setting('site_name', 'Perihan Ateş')) ?></span>
             <?php if (setting('site_tagline')): ?><p><?= e(setting('site_tagline')) ?></p><?php endif; ?>
             <?php if (setting('contact_email')): ?>
             <p><a href="mailto:<?= e(setting('contact_email')) ?>"><?= e(setting('contact_email')) ?></a></p>
@@ -39,7 +39,7 @@ $social = array_filter([
         <?php endforeach; ?>
     </div>
     <div class="container footer-bottom">
-        <small>&copy; <?= date('Y') ?> <?= e(setting('site_name', 'Uyanışın Sesi')) ?>. Tüm hakları saklıdır.</small>
+        <small>&copy; <?= date('Y') ?> <?= e(setting('site_name', 'Perihan Ateş')) ?>. Tüm hakları saklıdır.</small>
     </div>
 </footer>
 <?php if ($whatsapp): ?>

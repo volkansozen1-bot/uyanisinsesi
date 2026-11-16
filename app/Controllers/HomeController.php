@@ -50,7 +50,7 @@ final class HomeController
         View::render('site/home', [
             'blocks'          => $blocks,
             'data'            => $data,
-            'pageTitle'       => setting('site_name', 'Uyanışın Sesi'),
+            'pageTitle'       => setting('site_name', 'Perihan Ateş'),
             'metaDescription' => setting('site_tagline'),
         ]);
     }
