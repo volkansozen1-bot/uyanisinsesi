@@ -30,6 +30,11 @@ final class Mailer
     public static function send(string $to, string $subject, string $htmlBody, ?string $replyTo = null): bool
     {
         try {
+            // Gonderen alan adi ve e-postadaki baglantilar Host basligindan uretilmesin
+            if (trusted_base_url() === null) {
+                error_log('Mailer: APP_URL tanimli degil; e-posta gonderilmedi (.env icine APP_URL yazin).');
+                return false;
+            }
             $to = self::cleanHeader($to);
             if (!filter_var($to, FILTER_VALIDATE_EMAIL)) {
                 throw new RuntimeException('Gecersiz alici adresi: ' . $to);
@@ -88,6 +93,7 @@ final class Mailer
             'allow_self_signed' => false,
             'peer_name'         => $host,
             'SNI_enabled'       => true,
+            'crypto_method'     => self::cryptoMethod(),
         ]]);
 
         $errno  = 0;
@@ -113,7 +119,7 @@ final class Mailer
                 if (preg_match('/^STARTTLS\b/mi', $ext)) {
                     $this->command('STARTTLS', [220]);
                     $this->refreshTimeout();
-                    if (@stream_socket_enable_crypto($this->socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT) !== true) {
+                    if (@stream_socket_enable_crypto($this->socket, true, self::cryptoMethod()) !== true) {
                         throw new RuntimeException('STARTTLS basarisiz (sertifika dogrulanamadi olabilir).');
                     }
                     $ext = $this->ehlo();
@@ -145,6 +151,19 @@ final class Mailer
             fclose($this->socket);
             $this->socket = null;
         }
+    }
+
+    /** Yalnizca TLS 1.2 / 1.3 (sabitler PHP 7.4+; yoksa PHP'nin varsayilani). */
+    private static function cryptoMethod(): int
+    {
+        $method = 0;
+        if (defined('STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT')) {
+            $method |= STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
+        }
+        if (defined('STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT')) {
+            $method |= STREAM_CRYPTO_METHOD_TLSv1_3_CLIENT;
+        }
+        return $method !== 0 ? $method : STREAM_CRYPTO_METHOD_TLS_CLIENT;
     }
 
     private function ehlo(): string
@@ -312,7 +331,7 @@ final class Mailer
             static function (array $m): string {
                 $label = trim(strip_tags($m[3]));
                 $href  = html_entity_decode($m[2], ENT_QUOTES | ENT_HTML5, 'UTF-8');
-                if ($label === '' || $label === $href || 'mailto:' . $label === $href) {
+                if ($label === '' || $label === $href || 'mailto:' . $label === rawurldecode($href)) {
                     return $label !== '' ? $label : $href;
                 }
                 return $label . ' (' . $href . ')';
@@ -342,7 +361,7 @@ final class Mailer
 
     private static function heloName(): string
     {
-        $host = (string) parse_url((string) config('app.url'), PHP_URL_HOST);
+        $host = (string) parse_url((string) trusted_base_url(), PHP_URL_HOST);
         return preg_match('/^[a-z0-9.-]+$/i', $host) ? $host : 'localhost';
     }
 

@@ -6,6 +6,8 @@
 $siteName  = setting('site_name', 'Site');
 $title     = $title ?? $siteName;
 $preheader = $preheader ?? '';
+// Host basligina guvenilmez; adres yalnizca APP_URL'den (ya da yerel gelistirmede istekten) gelir
+$siteUrl   = trusted_url('/');
 ?>
 <!DOCTYPE html>
 <html lang="tr">
@@ -34,7 +36,7 @@ $preheader = $preheader ?? '';
         </tr>
         <tr>
           <td align="center" style="background-color:#1d1730;padding:20px 32px;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:18px;color:#cfc6dd;">
-            <?= e($siteName) ?> &middot; <a href="<?= e(url('/')) ?>" style="color:#c39a4b;text-decoration:none;"><?= e(url('/')) ?></a>
+            <?= e($siteName) ?><?php if ($siteUrl !== null): ?> &middot; <a href="<?= e($siteUrl) ?>" style="color:#c39a4b;text-decoration:none;"><?= e($siteUrl) ?></a><?php endif; ?>
           </td>
         </tr>
       </table>
