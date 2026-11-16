@@ -11,7 +11,7 @@ $value = 'font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#2b2540;pa
 
 <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px;">
   <tr><td style="<?= $label ?>">Ad Soyad</td><td style="<?= $value ?>"><?= e(trim($firstName . ' ' . $lastName)) ?></td></tr>
-  <tr><td style="<?= $label ?>">E-posta</td><td style="<?= $value ?>"><a href="mailto:<?= e($email) ?>" style="color:#8a6a2c;"><?= e($email) ?></a></td></tr>
+  <tr><td style="<?= $label ?>">E-posta</td><td style="<?= $value ?>"><a href="mailto:<?= e(rawurlencode($email)) ?>" style="color:#8a6a2c;"><?= e($email) ?></a></td></tr>
   <?php if ($phone !== ''): ?>
   <tr><td style="<?= $label ?>">Telefon</td><td style="<?= $value ?>"><?= e($phone) ?></td></tr>
   <?php endif; ?>

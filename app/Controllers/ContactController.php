@@ -10,6 +10,9 @@ use App\Core\View;
 
 final class ContactController
 {
+    /** Ayni IP'den saatte en fazla bu kadar mesaj */
+    private const RATE_LIMIT = 5;
+
     public function form(): void
     {
         View::render('site/contact', [
@@ -28,17 +31,17 @@ final class ContactController
         }
 
         // Honeypot: gercek kullanicinin gormedigi alan doluysa bot kabul edilir
-        if (trim((string) ($_POST['website'] ?? '')) !== '') {
+        if (trim(input_string($_POST, 'website')) !== '') {
             flash('success', 'Mesajınız alındı. En kısa sürede dönüş yapacağız.');
             redirect('/iletisim');
         }
 
         $input = [
-            'first_name' => trim((string) ($_POST['first_name'] ?? '')),
-            'last_name'  => trim((string) ($_POST['last_name'] ?? '')),
-            'email'      => trim((string) ($_POST['email'] ?? '')),
-            'phone'      => trim((string) ($_POST['phone'] ?? '')),
-            'message'    => trim((string) ($_POST['message'] ?? '')),
+            'first_name' => trim(input_string($_POST, 'first_name')),
+            'last_name'  => trim(input_string($_POST, 'last_name')),
+            'email'      => trim(input_string($_POST, 'email')),
+            'phone'      => trim(input_string($_POST, 'phone')),
+            'message'    => trim(input_string($_POST, 'message')),
         ];
 
         $errors = [];
@@ -57,8 +60,14 @@ final class ContactController
         if (mb_strlen($input['message']) < 10 || mb_strlen($input['message']) > 5000) {
             $errors['message'] = 'Mesajınız 10 ile 5000 karakter arasında olmalı.';
         }
-        if (empty($_POST['consent'])) {
+        if (input_string($_POST, 'consent') === '') {
             $errors['consent'] = 'Devam etmek için aydınlatma metnini onaylayın.';
+        }
+
+        if ($errors === [] && $this->tooManyAttempts()) {
+            $_SESSION['_old'] = $input;
+            flash('error', 'Çok fazla deneme yapıldı, lütfen biraz sonra tekrar deneyin.');
+            redirect('/iletisim');
         }
 
         if ($errors !== []) {
@@ -86,6 +95,15 @@ final class ContactController
 
         flash('success', 'Mesajınız alındı. En kısa sürede dönüş yapacağız.');
         redirect('/iletisim');
+    }
+
+    private function tooManyAttempts(): bool
+    {
+        $row = Database::one(
+            'SELECT COUNT(*) AS n FROM contact_messages WHERE ip = ? AND created_at >= ?',
+            [client_ip(), date('Y-m-d H:i:s', time() - 3600)]
+        );
+        return (int) ($row['n'] ?? 0) >= self::RATE_LIMIT;
     }
 
     /** Yoneticiye bildirim; gonderilemezse mesaj yine kayitlidir (Mailer hatayi loglar). */

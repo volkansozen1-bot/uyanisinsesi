@@ -142,3 +142,35 @@ function tr_price($amount): string
     $decimals = fmod($amount, 1.0) === 0.0 ? 0 : 2;
     return number_format($amount, $decimals, ',', '.') . ' TL';
 }
+
+/**
+ * E-postalardaki mutlak baglantilar icin guvenilir site adresi.
+ * APP_URL doluysa o kullanilir. Bossa Host basligi saldirgan kontrolunde olabilecegi icin
+ * yalnizca yerel gelistirmede (localhost / 127.0.0.1 / ::1) istekten bulunur; aksi halde null.
+ */
+function trusted_base_url(): ?string
+{
+    $configured = trim((string) App\Core\Env::get('APP_URL', ''));
+    if ($configured !== '') {
+        return rtrim($configured, '/');
+    }
+    $host = strtolower((string) ($_SERVER['HTTP_HOST'] ?? ''));
+    if (preg_match('/^(localhost|127\.0\.0\.1|\[::1\])(:\d{1,5})?$/', $host) || $host === '::1') {
+        return rtrim(detect_base_url(), '/');
+    }
+    return null;
+}
+
+/** trusted_base_url() + yol; guvenilir adres yoksa null. */
+function trusted_url(string $path = '/'): ?string
+{
+    $base = trusted_base_url();
+    return $base === null ? null : $base . '/' . ltrim($path, '/');
+}
+
+/** $_POST/$_GET degerini metin olarak okur; dizi gibi beklenmeyen tipler bos metin sayilir. */
+function input_string(array $src, string $key): string
+{
+    $value = $src[$key] ?? '';
+    return is_string($value) ? $value : '';
+}
