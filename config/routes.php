@@ -33,7 +33,10 @@ $router->get('/blog/{slug}', [BlogController::class, 'show']);
 
 $router->get('/albumler', [AlbumController::class, 'index']);
 
-// Sonraki adimlarda eklenecek: /yonetim
+// Modul rotalari: config/routes/*.php (yonetim paneli, SEO vb.). Alfabetik sirayla yuklenir.
+foreach (glob(BASE_PATH . '/config/routes/*.php') ?: [] as $routeFile) {
+    require $routeFile;
+}
 
 // En sonda kalmali: pages tablosundaki sayfalar (/hakkimda, yasal metinler)
 $router->get('/{slug}', [PageController::class, 'show']);
