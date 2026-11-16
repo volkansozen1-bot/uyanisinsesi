@@ -21,7 +21,8 @@ INSERT INTO menu_items (location, label, url, sort_order) VALUES
     ('header', 'Eğitimler', '/egitimler', 4),
     ('header', 'Blog', '/blog', 5),
     ('header', 'Albümler', '/albumler', 6),
-    ('header', 'İletişim', '/iletisim', 7),
+    ('header', 'E-Kitaplar', '/e-kitaplar', 7),
+    ('header', 'İletişim', '/iletisim', 8),
     ('footer_legal', 'KVKK Aydınlatma Metni', '/kvkk-aydinlatma-metni', 1),
     ('footer_legal', 'Gizlilik ve Çerez Politikası', '/gizlilik-ve-cerez-politikasi', 2);
 

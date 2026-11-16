@@ -340,3 +340,64 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
 .booking div { padding: 1.1rem 1rem; border: 1px solid rgba(195, 154, 75, 0.45); border-radius: var(--radius); }
 .booking dt { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.35rem; }
 .booking dd { margin: 0; font-family: var(--font-heading); font-size: 1.3rem; color: var(--cream); line-height: 1.3; }
+
+/* --- Hakkimda ve E-kitaplar --- */
+/* Hakkimda baslik alani: metin + kemer portre */
+.about-hero { padding: clamp(3.5rem, 9vw, 6rem) 0; color: #d9d2e4; text-align: center;
+    background:
+        radial-gradient(40rem 24rem at 80% 40%, rgba(91, 58, 110, 0.8), transparent 62%),
+        radial-gradient(36rem 20rem at 10% 0%, rgba(195, 154, 75, 0.18), transparent 60%),
+        var(--ink); }
+.about-hero-grid { display: grid; gap: 2.75rem; align-items: center; }
+.about-hero h1 { color: var(--cream); font-weight: 500; font-style: italic; margin-bottom: 1rem; }
+.about-hero .lead { color: #c9c0d8; max-width: 32rem; margin: 0 auto; }
+.about-portrait { position: relative; width: min(100%, 19rem); aspect-ratio: 34 / 46; margin: 0 auto; border-radius: 20rem 20rem 1.25rem 1.25rem; overflow: hidden; border: 1px solid rgba(230, 211, 167, 0.55); box-shadow: 0 26px 60px rgba(0, 0, 0, 0.4), 0 0 0 10px rgba(195, 154, 75, 0.08); }
+.about-portrait img, .about-portrait svg { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media (min-width: 56rem) {
+    .about-hero { text-align: left; }
+    .about-hero-grid { grid-template-columns: 7fr 5fr; gap: 4rem; }
+    .about-hero .ornament { justify-content: flex-start; margin-left: 0; }
+    .about-hero .ornament::before { display: none; }
+    .about-hero .lead { margin: 0; }
+    .about-portrait { width: min(100%, 23rem); margin-right: 0; }
+}
+.about-intro > p:first-child { font-family: var(--font-heading); font-size: clamp(1.4rem, 2.6vw, 1.75rem); line-height: 1.45; color: var(--ink); }
+
+/* Zaman cizelgesi: mobilde cizgi solda, genis ekranda ortada ve kartlar sagli sollu */
+.timeline { list-style: none; margin: 0 auto; padding: 0; position: relative; max-width: 60rem; }
+.timeline::before { content: ""; position: absolute; top: 0.5rem; bottom: 0.5rem; left: 0.6rem; width: 1px; background: linear-gradient(var(--gold), rgba(195, 154, 75, 0.25)); }
+.timeline-item { position: relative; padding-left: 2.5rem; margin-bottom: 1.5rem; }
+.timeline-item:last-child { margin-bottom: 0; }
+.timeline-dot { position: absolute; left: 0.6rem; top: 1.6rem; width: 0.9rem; height: 0.9rem; transform: translate(-50%, 0) rotate(45deg); background: var(--sand); border: 1px solid var(--gold); }
+.timeline-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem 1.6rem; box-shadow: var(--shadow); }
+.timeline-year { display: block; font-family: var(--font-heading); font-style: italic; font-size: 1.35rem; color: var(--gold); line-height: 1.2; margin-bottom: 0.35rem; }
+.timeline-card h3 { margin-bottom: 0.4rem; }
+.timeline-card p { margin: 0; color: var(--muted); }
+@media (min-width: 52rem) {
+    .timeline::before { left: 50%; }
+    .timeline-item { width: 50%; padding: 0 2.75rem 0 0; margin-bottom: 0; }
+    .timeline-item + .timeline-item { margin-top: -2.5rem; }
+    .timeline-item:nth-child(even) { margin-left: 50%; padding: 0 0 0 2.75rem; }
+    .timeline-item:nth-child(odd) .timeline-card { text-align: right; }
+    .timeline-dot { left: 100%; }
+    .timeline-item:nth-child(even) .timeline-dot { left: 0; }
+}
+
+/* Yaklasim kartlari */
+.value-grid { max-width: 64rem; margin: 0 auto; }
+.value-card { text-align: center; align-items: center; }
+.value-icon { display: grid; place-items: center; width: 4.25rem; height: 4.25rem; margin-bottom: 1.25rem; border-radius: 50%; border: 1px solid var(--gold-soft); color: var(--gold); background: radial-gradient(circle, rgba(230, 211, 167, 0.35), transparent 70%); }
+.value-icon svg { width: 2.1rem; height: 2.1rem; }
+
+/* E-kitaplar: kapak bicimli yer tutucular */
+.ebook-grid { list-style: none; margin: 0 auto; padding: 0; display: grid; gap: 2.5rem 2rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); max-width: 56rem; text-align: center; }
+.ebook-cover { position: relative; aspect-ratio: 200 / 290; max-width: 15rem; margin: 0 auto 1.25rem; border-radius: 4px 12px 12px 4px; overflow: hidden; color: var(--ink); background: linear-gradient(160deg, var(--ink-soft), var(--ink)); box-shadow: inset 6px 0 0 rgba(0, 0, 0, 0.25), inset 8px 0 0 rgba(255, 255, 255, 0.06), 0 18px 36px rgba(29, 23, 48, 0.25); transition: transform 0.25s; }
+.ebook-cover-2 { color: var(--plum); background: linear-gradient(160deg, var(--plum), #3a2a52); }
+.ebook-cover-3 { color: #3a2a52; background: linear-gradient(160deg, #3a2a52, var(--ink)); }
+.ebook-cover svg { width: 100%; height: 100%; display: block; }
+.ebook:hover .ebook-cover { transform: translateY(-4px) rotate(-1deg); }
+.ebook-badge { position: absolute; top: 0.9rem; right: 0.9rem; padding: 0.25rem 0.7rem; border-radius: 999px; background: var(--gold); color: var(--ink); font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }
+.ebook h2 { margin-bottom: 0.35rem; }
+.ebook p { color: var(--muted); margin: 0; }
+.ebook-notify { margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid var(--border); }
+@media (max-width: 40rem) { .ebook-cover { max-width: 12rem; } }
