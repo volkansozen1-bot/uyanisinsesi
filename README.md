@@ -75,7 +75,9 @@ http://localhost/uyanisinsesi/public/
 2. **Actions** sekmesi → "Siteyi yayinla" → **Run workflow** ile ilk yüklemeyi elle başlatın ve sonucu kontrol edin.
 3. Sorunsuzsa Variables'a `DEPLOY_ENABLED` = `true` ekleyin; bundan sonra her gönderim otomatik yayınlanır.
 
-`.env`, `storage/logs`, `public/uploads` ve `public/kontrol.php` gönderilmez, sunucudakiler korunur. Veritabanı değişiklikleri FTP ile gelmez; migration varsa phpMyAdmin'den ayrıca içe aktarılır. Sunucudaki dosyaları elle değiştirmeyin, sonraki yayında üzerine yazılır.
+`.env`, `storage/logs`, `public/uploads` ve `public/kontrol.php` gönderilmez, sunucudakiler korunur.
+
+**Veritabanı güncellemeleri de otomatik:** sunucudaki `.env` dosyasına en az 32 karakterlik rastgele bir `DEPLOY_TOKEN=...` yazın; aynı değeri GitHub'da **Secrets**'a `DEPLOY_TOKEN` olarak, sitenin adresini (`https://perihanates.com`) **Variables**'a `SITE_URL` olarak ekleyin. Yüklemeden sonra iş akışı `database/migrations/` altındaki yeni dosyaları bir kez çalıştırır (`schema_migrations` tablosunda takip edilir). Elle yüklenmiş ya da zaten var olan değişiklikler atlanır. Yerelde aynı işi `php bin/migrate.php` yapar. Sunucudaki dosyaları elle değiştirmeyin, sonraki yayında üzerine yazılır.
 
 ## Klasör yapısı
 

@@ -1,6 +1,7 @@
 # Siteyi FTP ile sunucuya gonderir.
 # Calismasi icin GitHub > Settings > Secrets and variables > Actions altinda:
 #   Secrets  : FTP_SERVER, FTP_USERNAME, FTP_PASSWORD
+#   (istege bagli) Secret DEPLOY_TOKEN + Variable SITE_URL: yuklemeden sonra veritabani guncellemelerini calistirir
 #   Variables: FTP_SERVER_DIR (orn. /public_html/ ya da /httpdocs/ - sonu / ile biter)
 #              FTP_PROTOCOL (ftps ya da ftp; bos ise ftps)
 #              DEPLOY_ENABLED = true  (true yazilana kadar push'ta calismaz)
@@ -62,3 +63,20 @@ jobs:
             public/uploads/**
             public/kontrol.php
             README.md
+
+      - name: Veritabanini guncelle
+        env:
+          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+          SITE_URL: ${{ vars.SITE_URL }}
+        run: |
+          if [ -z "$DEPLOY_TOKEN" ] || [ -z "$SITE_URL" ]; then
+            echo "DEPLOY_TOKEN veya SITE_URL tanimli degil; veritabani guncellemesi atlandi."
+            exit 0
+          fi
+          code=$(curl -sS -o response.json -w '%{http_code}' -X POST \
+            -H "X-Deploy-Token: $DEPLOY_TOKEN" "${SITE_URL%/}/_deploy/migrate")
+          cat response.json; echo
+          if [ "$code" != "200" ]; then
+            echo "::error::Veritabani guncellemesi basarisiz (HTTP $code). 404 ise sunucudaki .env'de DEPLOY_TOKEN eksik ya da farkli."
+            exit 1
+          fi
