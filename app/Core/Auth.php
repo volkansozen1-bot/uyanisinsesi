@@ -11,8 +11,14 @@ namespace App\Core;
 final class Auth
 {
     public const IDLE_SECONDS  = 7200;  // 2 saat hareketsizlikte oturum duser
-    public const MAX_ATTEMPTS  = 5;     // pencere icinde izin verilen hatali deneme
-    public const WINDOW_SECONDS = 900;  // 15 dakika
+    // Kilit kurallari (pencere icindeki hatali deneme sayisi):
+    //   ayni e-posta + IP: 5, ayni IP (tum e-postalar): 10, ayni e-posta (tum IP'ler): 30.
+    // E-posta tek basina dusuk esikle kilitlenmez; yoksa herkes yoneticinin
+    // e-postasiyla 5 kez deneyerek gercek yoneticiyi disarida birakabilirdi.
+    public const MAX_ATTEMPTS       = 5;    // e-posta + IP cifti
+    public const MAX_ATTEMPTS_IP    = 10;   // tek IP
+    public const MAX_ATTEMPTS_EMAIL = 30;   // tek e-posta, tum IP'ler
+    public const WINDOW_SECONDS     = 900;  // 15 dakika
     public const MIN_PASSWORD  = 10;
 
     private const KEY = '_admin';
@@ -96,7 +102,7 @@ final class Auth
             return 'invalid';
         }
 
-        Database::run('DELETE FROM login_attempts WHERE email = ? OR ip = ?', [$email, $ip]);
+        Database::run('DELETE FROM login_attempts WHERE email = ? AND ip = ?', [mb_substr($email, 0, 190), $ip]);
         // Eski kayitlari ara ara temizle
         Database::run('DELETE FROM login_attempts WHERE attempted_at < ?', [date('Y-m-d H:i:s', time() - 86400)]);
 
@@ -109,14 +115,24 @@ final class Auth
         return 'ok';
     }
 
-    /** Ayni IP ya da e-posta icin son 15 dakikada 5 hatali deneme var mi? */
+    /** Uc kilit kuralindan biri asildi mi? (bkz. MAX_ATTEMPTS* sabitleri) */
     public static function isLocked(string $email, string $ip): bool
     {
+        $email = mb_substr(mb_strtolower(trim($email)), 0, 190);
+        $since = date('Y-m-d H:i:s', time() - self::WINDOW_SECONDS);
+
         $row = Database::one(
-            'SELECT COUNT(*) AS n FROM login_attempts WHERE attempted_at >= ? AND (ip = ? OR email = ?)',
-            [date('Y-m-d H:i:s', time() - self::WINDOW_SECONDS), $ip, mb_strtolower(trim($email))]
+            'SELECT
+                SUM(CASE WHEN ip = ? THEN 1 ELSE 0 END) AS by_ip,
+                SUM(CASE WHEN email = ? THEN 1 ELSE 0 END) AS by_email,
+                SUM(CASE WHEN ip = ? AND email = ? THEN 1 ELSE 0 END) AS by_pair
+             FROM login_attempts WHERE attempted_at >= ? AND (ip = ? OR email = ?)',
+            [$ip, $email, $ip, $email, $since, $ip, $email]
         );
-        return (int) ($row['n'] ?? 0) >= self::MAX_ATTEMPTS;
+
+        return (int) ($row['by_pair'] ?? 0) >= self::MAX_ATTEMPTS
+            || (int) ($row['by_ip'] ?? 0) >= self::MAX_ATTEMPTS_IP
+            || ($email !== '' && (int) ($row['by_email'] ?? 0) >= self::MAX_ATTEMPTS_EMAIL);
     }
 
     public static function login(int $adminId, string $passwordHash): void

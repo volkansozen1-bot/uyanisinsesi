@@ -90,8 +90,8 @@ final class SubscriberController extends AdminController
     /** @return array{0:string, 1:array<int, string>, 2:array<string, string>} */
     private function filters(): array
     {
-        $q      = mb_substr(trim((string) ($_GET['q'] ?? '')), 0, 190);
-        $status = (string) ($_GET['durum'] ?? '');
+        $q      = mb_substr(trim($this->query('q')), 0, 190);
+        $status = $this->query('durum');
         $where  = ['1 = 1'];
         $params = [];
 

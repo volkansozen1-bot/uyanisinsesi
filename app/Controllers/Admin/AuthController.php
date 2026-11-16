@@ -35,8 +35,9 @@ final class AuthController
             redirect('/yonetim/giris');
         }
 
-        $email    = trim((string) ($_POST['email'] ?? ''));
-        $password = (string) ($_POST['password'] ?? '');
+        // Dizi gelirse ("email[]=...") bos kabul edilir
+        $email    = is_string($_POST['email'] ?? null) ? trim($_POST['email']) : '';
+        $password = is_string($_POST['password'] ?? null) ? $_POST['password'] : '';
         $result   = Auth::attempt($email, $password);
 
         if ($result === 'ok') {

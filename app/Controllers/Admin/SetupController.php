@@ -6,12 +6,17 @@ namespace App\Controllers\Admin;
 use App\Core\Auth;
 use App\Core\Csrf;
 use App\Core\Database;
+use App\Core\Env;
 use App\Core\View;
 
 /**
  * Ilk yoneticiyi tarayicidan olusturma (terminal kullanmak istemeyenler icin).
  * Yalnizca admins tablosu bosken VE istek bu bilgisayardan (127.0.0.1 / ::1) geliyorsa calisir;
  * aksi halde sayfa yokmus gibi 404 doner.
+ *
+ * Not: Ayni bilgisayarda ters vekil / tunel (ngrok vb.) calisiyorsa disaridan gelen istekler de
+ * 127.0.0.1 gorunur. Ek koruma icin .env'e SETUP_KEY=uzun-rastgele-bir-deger yazin; tanimliysa
+ * form bu anahtari da ister. Tanimli degilse yalnizca yukaridaki kosullar uygulanir.
  */
 final class SetupController
 {
@@ -35,11 +40,18 @@ final class SetupController
         return (int) ($row['n'] ?? 0) === 0;
     }
 
+    /** .env'de SETUP_KEY tanimli mi (bos degilse). */
+    public static function keyRequired(): bool
+    {
+        return (string) Env::get('SETUP_KEY', '') !== '';
+    }
+
     public function form(): void
     {
         View::render('admin/auth/setup', [
-            'pageTitle' => 'İlk yönetici',
-            'bare'      => true,
+            'pageTitle'   => 'İlk yönetici',
+            'bare'        => true,
+            'keyRequired' => self::keyRequired(),
             'errors'    => $_SESSION['_errors'] ?? [],
             'old'       => $_SESSION['_old'] ?? [],
         ], 'layouts/admin');
@@ -53,12 +65,15 @@ final class SetupController
             redirect('/yonetim/kurulum');
         }
 
-        $name     = trim((string) ($_POST['name'] ?? ''));
-        $email    = mb_strtolower(trim((string) ($_POST['email'] ?? '')));
-        $password = (string) ($_POST['password'] ?? '');
-        $confirm  = (string) ($_POST['password_confirm'] ?? '');
+        $name     = trim(self::post('name'));
+        $email    = mb_strtolower(trim(self::post('email')));
+        $password = self::post('password');
+        $confirm  = self::post('password_confirm');
 
         $errors = [];
+        if (self::keyRequired() && !hash_equals((string) Env::get('SETUP_KEY'), self::post('setup_key'))) {
+            $errors['setup_key'] = 'Kurulum anahtarı hatalı.';
+        }
         if ($name === '' || mb_strlen($name) > 100) {
             $errors['name'] = 'Adınızı yazın (en fazla 100 karakter).';
         }
@@ -86,5 +101,12 @@ final class SetupController
         Auth::login(Database::lastId(), $hash);
         flash('admin_success', 'Yönetici hesabınız oluşturuldu. Hoş geldiniz.');
         redirect('/yonetim');
+    }
+
+    /** $_POST degerini metin olarak okur; dizi ya da eksikse bos doner. */
+    private static function post(string $key): string
+    {
+        $value = $_POST[$key] ?? null;
+        return is_string($value) ? $value : '';
     }
 }
