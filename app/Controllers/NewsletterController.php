@@ -27,6 +27,12 @@ final class NewsletterController
             redirect($back);
         }
 
+        // Acik riza olmadan kayit alinmaz
+        if (!$isBot && empty($_POST['consent'])) {
+            flash('newsletter_error', 'Abone olmak için onay kutusunu işaretleyin.');
+            redirect($back);
+        }
+
         if (!$isBot) {
             $now      = date('Y-m-d H:i:s');
             $existing = Database::one('SELECT id, unsubscribed_at FROM subscribers WHERE email = ?', [$email]);

@@ -24,6 +24,10 @@ $path    = current_path();
                 <input type="email" name="email" maxlength="190" required autocomplete="email">
             </label>
             <button type="submit" class="btn">Abone Ol</button>
+            <label class="checkbox newsletter-consent">
+                <input type="checkbox" name="consent" value="1" required>
+                <span>E-posta adresime bülten ve duyuru gönderilmesini kabul ediyorum. <a href="<?= e(url('/kvkk-aydinlatma-metni')) ?>" target="_blank" rel="noopener">KVKK Aydınlatma Metni</a>'ni okudum. Dilediğim zaman abonelikten çıkabilirim.</span>
+            </label>
         </form>
     </div>
 </section>
