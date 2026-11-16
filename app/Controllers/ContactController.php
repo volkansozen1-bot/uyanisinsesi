@@ -5,6 +5,7 @@ namespace App\Controllers;
 
 use App\Core\Csrf;
 use App\Core\Database;
+use App\Core\Mailer;
 use App\Core\View;
 
 final class ContactController
@@ -81,9 +82,35 @@ final class ContactController
             ]
         );
 
-        // TODO: Mailer eklendiginde yoneticiye bildirim e-postasi gonderilecek.
+        $this->notifyAdmin($input);
 
         flash('success', 'Mesajınız alındı. En kısa sürede dönüş yapacağız.');
         redirect('/iletisim');
+    }
+
+    /** Yoneticiye bildirim; gonderilemezse mesaj yine kayitlidir (Mailer hatayi loglar). */
+    private function notifyAdmin(array $input): void
+    {
+        $to = setting('admin_notify_email', setting('contact_email'));
+        if ($to === '') {
+            return;
+        }
+        $name = trim($input['first_name'] . ' ' . $input['last_name']);
+        Mailer::send(
+            $to,
+            'Yeni iletişim mesajı: ' . $name,
+            Mailer::render('contact_notification', [
+                'title'     => 'Yeni iletişim mesajı',
+                'preheader' => mb_substr($input['message'], 0, 90),
+                'firstName' => $input['first_name'],
+                'lastName'  => $input['last_name'],
+                'email'     => $input['email'],
+                'phone'     => $input['phone'],
+                'message'   => $input['message'],
+                'ip'        => client_ip(),
+                'sentAt'    => date('d.m.Y H:i'),
+            ]),
+            $input['email']
+        );
     }
 }
