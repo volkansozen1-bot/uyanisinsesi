@@ -1,0 +1,23 @@
+# Proje bir alt klasore kuruldugunda (ornek: XAMPP htdocs/uyanisinsesi) yalnizca public/ klasoru disariya acik olur.
+# .env, loglar, veritabani dosyalari ve kod dogrudan indirilemez.
+# Canli sunucuda document root dogrudan public/ olmalidir; o durumda bu dosya devreye girmez.
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^$ - [L]
+    RewriteRule ^index\.php$ - [L]
+    RewriteRule ^(?!public/) - [F,L]
+</IfModule>
+
+# mod_rewrite kapaliysa da hassas dosyalar engellenir
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+<FilesMatch "\.(sql|log|md|lock|json|sqlite)$">
+    Require all denied
+</FilesMatch>
+<IfModule mod_alias.c>
+    RedirectMatch 404 ^/.*/(\.git|app|bin|config|database|storage|views)(/|$)
+</IfModule>

@@ -14,9 +14,11 @@ use App\Core\View;
  * Yalnizca admins tablosu bosken VE istek bu bilgisayardan (127.0.0.1 / ::1) geliyorsa calisir;
  * aksi halde sayfa yokmus gibi 404 doner.
  *
- * Not: Ayni bilgisayarda ters vekil / tunel (ngrok vb.) calisiyorsa disaridan gelen istekler de
- * 127.0.0.1 gorunur. Ek koruma icin .env'e SETUP_KEY=uzun-rastgele-bir-deger yazin; tanimliysa
- * form bu anahtari da ister. Tanimli degilse yalnizca yukaridaki kosullar uygulanir.
+ * Canli sunucuda (SSH yoksa): .env'e en az 20 karakterlik SETUP_KEY=uzun-rastgele-bir-deger yazin.
+ * Anahtar tanimliyken sayfa her yerden acilir ama form bu anahtari ister. Ilk yonetici olusunca
+ * sayfa tamamen kapanir; sonra SETUP_KEY satirini .env'den silin.
+ * Not: SETUP_KEY yokken ayni bilgisayarda ters vekil / tunel (ngrok vb.) calisiyorsa disaridan gelen
+ * istekler de 127.0.0.1 gorunur.
  */
 final class SetupController
 {
@@ -33,7 +35,8 @@ final class SetupController
     public static function allowed(): bool
     {
         $ip = (string) ($_SERVER['REMOTE_ADDR'] ?? '');
-        if (!in_array($ip, ['127.0.0.1', '::1'], true)) {
+        // Anahtar tanimliysa uzaktan da acilir (form anahtari ister); degilse yalnizca bu bilgisayardan
+        if (!self::keyRequired() && !in_array($ip, ['127.0.0.1', '::1'], true)) {
             return false;
         }
         $row = Database::one('SELECT COUNT(*) AS n FROM admins');
@@ -43,7 +46,8 @@ final class SetupController
     /** .env'de SETUP_KEY tanimli mi (bos degilse). */
     public static function keyRequired(): bool
     {
-        return (string) Env::get('SETUP_KEY', '') !== '';
+        // Kisa anahtar tahmin edilebilir; 20 karakterden kisaysa yok sayilir
+        return strlen((string) Env::get('SETUP_KEY', '')) >= 20;
     }
 
     public function form(): void

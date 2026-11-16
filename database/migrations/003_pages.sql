@@ -1,5 +1,5 @@
 -- 003: Hakkimda zengin sablonu, E-kitaplar menusu
--- Mevcut kuruluma bir kez ice aktarilir (phpMyAdmin > Ice Aktar). MySQL 8 / MariaDB 10.6+
+-- Mevcut kuruluma bir kez ice aktarilir (phpMyAdmin > Ice Aktar). MySQL 8 / MariaDB 10.4+
 
 SET NAMES utf8mb4;
 

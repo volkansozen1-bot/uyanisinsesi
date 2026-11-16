@@ -136,7 +136,7 @@ $hasSections = count($sections) > 0;
             </div>
             <?php endforeach; ?>
         </div>
-        <p class="center price-note">Ödemeler güvenli ödeme sayfası üzerinden alınır; kart bilgileriniz bu sitede saklanmaz.</p>
+        <?php /* Odeme linkleri (PayTR/iyzico) eklenince buraya "kart bilgileriniz bu sitede saklanmaz" notu konabilir */ ?>
     </div>
 </section>
 <?php endif; ?>
