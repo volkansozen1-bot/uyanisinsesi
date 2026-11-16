@@ -110,9 +110,24 @@ Yeni modül eklemek için:
 2. Rotaları `config/routes/admin.php` dosyasına ekleyin.
 3. Menüye `config/admin_menu.php` içinde tek satır ekleyin (`url` değeri `null` olan öğeler pasif görünür).
 
+## E-posta
+
+Site e-postaları kendi küçük SMTP istemcisiyle gönderir (`app/Core/Mailer.php`); Composer ya da ek paket gerekmez. PHP'de `openssl` eklentisi açık olmalıdır (XAMPP'ta varsayılan olarak açıktır).
+
+- **Ayarlar:** `.env` içindeki `MAIL_HOST`, `MAIL_PORT`, `MAIL_USER`, `MAIL_PASS`, `MAIL_FROM`, `MAIL_FROM_NAME`. Port 465 ise SSL, diğer portlarda STARTTLS kullanılır; sunucu sertifikası her zaman doğrulanır. Örnek değerler `.env.example` içinde (hosting SMTP, Yandex, Gmail uygulama şifresi).
+- **Geliştirme:** `MAIL_HOST` boşsa e-posta gönderilmez; konu, düz metin ve HTML içerik `storage/logs/mail.log` dosyasına yazılır.
+- **Hata olursa:** sayfa yine normal tamamlanır (en fazla 10 sn bekler), hata `storage/logs/php-error.log` dosyasına yazılır.
+- **Gönderilen e-postalar:**
+  - İletişim formu: mesaj kaydedildikten sonra yöneticiye bildirim. Alıcı `settings` tablosundaki `admin_notify_email`, boşsa `contact_email`; ikisi de boşsa gönderilmez. E-postayı yanıtlamak doğrudan ziyaretçiye gider.
+  - Bülten: çift onay. Kayıttan sonra `/bulten/onay/{token}` bağlantılı onay e-postası gider (içinde çıkış bağlantısı da vardır). Onay bekleyen adrese en fazla 10 dakikada bir yeniden gönderilir; onaylı adrese gönderilmez.
+- **Şablonlar:** `views/emails/` (`layout.php` ortak çerçeve; tablo tabanlı, satır içi CSS). Kodda kullanım:
+
+  ```php
+  App\Core\Mailer::send($alici, 'Konu', App\Core\Mailer::render('sablon_adi', ['degisken' => '...']), $yanitAdresi);
+  ```
+
 ## Sıradaki adımlar
 
 - Yönetim paneli içerik modülleri: ana sayfa, sayfalar, hizmetler, eğitimler, blog, albümler, yorumlar, medya
-- E-posta gönderimi (iletişim bildirimi, bülten onay e-postası)
 - Ödeme (sanal POS) ve üyelik
 - Renk ve fontlar `public/assets/css/site.css` başındaki `:root` değişkenlerinden değiştirilir
