@@ -38,6 +38,11 @@ ini_set('error_log', BASE_PATH . '/storage/logs/php-error.log');
 
 set_exception_handler(static function (Throwable $e): void {
     error_log((string) $e);
+    // Komut satirinda (bin/*.php) HTML sayfa yerine hatanin kendisini yaz
+    if (PHP_SAPI === 'cli') {
+        fwrite(STDERR, 'HATA: ' . $e->getMessage() . PHP_EOL);
+        exit(1);
+    }
     if (!headers_sent()) {
         http_response_code(500);
     }
