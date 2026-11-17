@@ -66,6 +66,17 @@ try {
         if ($cmd) { $Php = $cmd.Source }
     }
     if (-not $Php) {
+        # IIS: FastCGI'da kayitli php-cgi.exe'nin yanindaki php.exe
+        try {
+            Import-Module WebAdministration -ErrorAction Stop
+            $cgi = (Get-WebConfiguration system.webServer/fastCgi/application | Select-Object -First 1).fullPath
+            if ($cgi) {
+                $candidate = Join-Path (Split-Path ([Environment]::ExpandEnvironmentVariables($cgi))) 'php.exe'
+                if (Test-Path $candidate) { $Php = $candidate }
+            }
+        } catch { }
+    }
+    if (-not $Php) {
         $Php = @('C:\xampp\php\php.exe', 'C:\php\php.exe', 'C:\Program Files\PHP\php.exe') |
             Where-Object { Test-Path $_ } | Select-Object -First 1
     }
