@@ -65,6 +65,37 @@ http://localhost/uyanisinsesi/public/
 - **İlk yönetici:** `/yonetim/kurulum` sayfası yalnızca yerelden açılır. Canlıda SSH varsa `php bin/create-admin.php "Ad Soyad" eposta@adres`; SSH yoksa sunucudaki `.env` dosyasına en az 20 karakterlik rastgele bir `SETUP_KEY=...` satırı ekleyin; `/yonetim/kurulum` sayfası bu anahtarı isteyerek açılır. İlk yönetici oluşunca sayfa kapanır; ardından `SETUP_KEY` satırını silin.
 - **Git ile dağıtım (Plesk):** Alan adı → Git → Uzak depo: `https://github.com/volkansozen1-bot/uyanisinsesi.git` (private ise SSH adresi + GitHub "Deploy key"). Dağıtım yolu `httpdocs`. Önce elle dağıtım; `.env`, `storage/logs` ve `public/uploads` repoda olmadığı için sunucuda korunur. Veritabanı değişiklikleri Git ile gelmez: migration varsa phpMyAdmin'den ayrıca içe aktarılır.
 
+## Windows sunucu: PowerShell ile güncelleme
+
+Sunucu kodu GitHub'dan kendisi çeker; FTP veya GitHub ayarı gerekmez. Sunucuda Git kurulu olmalı (`winget install --id Git.Git -e`).
+
+**İlk kez** (sitenin klasöründe, yani `app` ve `public` klasörlerinin olduğu yerde, yönetici PowerShell'de):
+
+```powershell
+cd "C:\siteler\perihanates"   # kendi klasörünüz
+iwr https://raw.githubusercontent.com/volkansozen1-bot/uyanisinsesi/main/bin/deploy.ps1 -OutFile $env:TEMP\deploy.ps1
+powershell -ExecutionPolicy Bypass -File $env:TEMP\deploy.ps1 -SitePath (Get-Location).Path
+```
+
+Mevcut dosyalar GitHub'daki sürümle değiştirilir; `.env`, `storage\logs` ve `public\uploads` korunur. Ardından bekleyen veritabanı güncellemeleri çalışır (PHP `PATH`'te yoksa `-Php "C:\...\php.exe"`).
+
+**Sonraki güncellemeler:**
+
+```powershell
+powershell -ExecutionPolicy Bypass -File "C:\siteler\perihanates\bin\deploy.ps1"
+```
+
+**Otomatik (her 5 dakikada bir kontrol):**
+
+```powershell
+$site = "C:\siteler\perihanates"
+$act  = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-NoProfile -ExecutionPolicy Bypass -File `"$site\bin\deploy.ps1`""
+$trg  = New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Minutes 5)
+Register-ScheduledTask -TaskName "perihanates-guncelle" -Action $act -Trigger $trg -User "SYSTEM" -RunLevel Highest
+```
+
+Kayıt: `storage\logs\deploy.log`. Durdurmak için: `Unregister-ScheduledTask -TaskName "perihanates-guncelle"`.
+
 ## Otomatik yayın (GitHub → FTP)
 
 `main` dalına her gönderimde `.github/workflows/deploy.yml` siteyi FTP ile sunucuya yükler. Panel gerektirmez.
