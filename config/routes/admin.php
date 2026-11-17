@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use App\Controllers\Admin\AuthController;
 use App\Controllers\Admin\ContentController;
+use App\Controllers\Admin\CollectionController;
 use App\Controllers\Admin\DashboardController;
 use App\Controllers\Admin\MessageController;
 use App\Controllers\Admin\PasswordController;
@@ -26,6 +27,8 @@ $router->post('/yonetim/ana-sayfa/{id}', [ContentController::class, 'saveBlock']
 $router->get('/yonetim/sayfalar', [ContentController::class, 'pages']);
 $router->post('/yonetim/sayfalar', [ContentController::class, 'createPage']);
 $router->post('/yonetim/sayfalar/{id}', [ContentController::class, 'savePage']);
+$router->get('/yonetim/icerik/{module}', [CollectionController::class, 'index']);
+$router->post('/yonetim/icerik/{module}/{id}', [CollectionController::class, 'save']);
 
 $router->get('/yonetim/mesajlar', [MessageController::class, 'index']);
 $router->get('/yonetim/mesajlar/{id}', [MessageController::class, 'show']);
