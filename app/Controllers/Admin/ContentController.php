@@ -115,6 +115,36 @@ final class ContentController extends AdminController
         $this->saved(self::PAGES);
     }
 
+    public function createPage(): void
+    {
+        $this->verifyCsrf(self::PAGES);
+        $fields = $this->readFields(self::PAGE_FIELDS, self::PAGES);
+        $slug = trim($this->post('slug'));
+        if (trim($fields['title']) === '' || strlen($slug) > 150
+            || !preg_match('/\A[a-z0-9]+(?:-[a-z0-9]+)*\z/', $slug)) {
+            $this->invalid(self::PAGES, 'Başlık ve geçerli bir sayfa adresi gerekli.');
+        }
+        if (in_array($slug, ['yonetim', 'iletisim', 'bulten', 'hizmetler', 'egitimler', 'blog',
+            'albumler', 'e-kitaplar', 'assets', 'uploads'], true)) {
+            $this->invalid(self::PAGES, 'Bu adres site tarafından kullanılıyor.');
+        }
+        try {
+            Database::run(
+                "INSERT INTO pages (slug, title, body, hero_image, meta_title, meta_description, status)
+                 VALUES (?, ?, ?, ?, ?, ?, 'draft')",
+                [$slug, $fields['title'], nl2br(e($fields['body']), false), $fields['hero_image'],
+                 $fields['meta_title'], $fields['meta_description']]
+            );
+        } catch (\PDOException $exception) {
+            if ((int) ($exception->errorInfo[1] ?? 0) !== 1062) {
+                throw $exception;
+            }
+            $this->invalid(self::PAGES, 'Bu adreste zaten bir sayfa var.');
+        }
+        flash('admin_success', 'Sayfa taslak olarak oluşturuldu.');
+        redirect(self::PAGES);
+    }
+
     private static function pageText(string $html): string
     {
         $html = preg_replace('~<br\s*/?>(?:\r\n|\r|\n)?|</(?:p|div|li|h[1-6])>~i', "\n", $html);

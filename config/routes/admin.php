@@ -24,6 +24,7 @@ $router->get('/yonetim', [DashboardController::class, 'index']);
 $router->get('/yonetim/ana-sayfa', [ContentController::class, 'home']);
 $router->post('/yonetim/ana-sayfa/{id}', [ContentController::class, 'saveBlock']);
 $router->get('/yonetim/sayfalar', [ContentController::class, 'pages']);
+$router->post('/yonetim/sayfalar', [ContentController::class, 'createPage']);
 $router->post('/yonetim/sayfalar/{id}', [ContentController::class, 'savePage']);
 
 $router->get('/yonetim/mesajlar', [MessageController::class, 'index']);

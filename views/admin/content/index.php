@@ -7,6 +7,20 @@ $types = [
 ];
 ?>
 <div class="page-title"><h1><?= e($pageTitle) ?></h1></div>
+<?php if (!$isHome): ?>
+<details class="panel content-editor">
+    <summary><strong>Yeni sayfa oluştur</strong></summary>
+    <form class="form" method="post" action="<?= e(url($path)) ?>">
+        <?= App\Core\Csrf::field() ?>
+        <div class="field-grid">
+            <label>Başlık <input name="title" maxlength="200" required></label>
+            <label>Sayfa adresi <input name="slug" placeholder="ornek-sayfa" maxlength="150" required></label>
+            <label>İçerik <textarea name="body" rows="8"></textarea></label>
+        </div>
+        <div class="form-actions"><button class="btn" type="submit">Taslak oluştur</button></div>
+    </form>
+</details>
+<?php endif; ?>
 <?php if (!$rows): ?><p>Henüz içerik yok.</p><?php endif; ?>
 <?php foreach ($rows as $row): ?>
 <details class="panel content-editor">
