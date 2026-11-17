@@ -24,12 +24,6 @@ return [
 
     ['label' => 'Ana Sayfa', 'url' => '/yonetim/ana-sayfa', 'icon' => 'layout', 'group' => 'İçerik'],
     ['label' => 'Sayfalar', 'url' => '/yonetim/sayfalar', 'icon' => 'file'],
-    ['label' => 'Hizmetler', 'url' => null, 'icon' => 'star'],
-    ['label' => 'Eğitimler', 'url' => null, 'icon' => 'book'],
-    ['label' => 'Blog',      'url' => null, 'icon' => 'pen'],
-    ['label' => 'Albümler',  'url' => null, 'icon' => 'music'],
-    ['label' => 'Yorumlar',  'url' => null, 'icon' => 'quote'],
-    ['label' => 'Medya',     'url' => null, 'icon' => 'image'],
 
     ['label' => 'Ayarlar',   'url' => '/yonetim/ayarlar', 'icon' => 'settings', 'group' => 'Hesap'],
     ['label' => 'Parolam',   'url' => '/yonetim/parola',  'icon' => 'key'],
