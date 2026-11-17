@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use App\Controllers\Admin\AuthController;
+use App\Controllers\Admin\ContentController;
 use App\Controllers\Admin\DashboardController;
 use App\Controllers\Admin\MessageController;
 use App\Controllers\Admin\PasswordController;
@@ -20,6 +21,10 @@ $router->get('/yonetim/kurulum', [SetupController::class, 'form']);
 $router->post('/yonetim/kurulum', [SetupController::class, 'store']);
 
 $router->get('/yonetim', [DashboardController::class, 'index']);
+$router->get('/yonetim/ana-sayfa', [ContentController::class, 'home']);
+$router->post('/yonetim/ana-sayfa/{id}', [ContentController::class, 'saveBlock']);
+$router->get('/yonetim/sayfalar', [ContentController::class, 'pages']);
+$router->post('/yonetim/sayfalar/{id}', [ContentController::class, 'savePage']);
 
 $router->get('/yonetim/mesajlar', [MessageController::class, 'index']);
 $router->get('/yonetim/mesajlar/{id}', [MessageController::class, 'show']);

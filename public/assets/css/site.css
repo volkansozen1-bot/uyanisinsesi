@@ -2,16 +2,16 @@
    Renkler ve fontlar asagidaki :root degiskenlerinden degistirilir. */
 
 :root {
-    --ink: #1d1730;            /* koyu gece moru: basliklar, koyu bolumler */
-    --ink-soft: #2e2547;
-    --plum: #5b3a6e;           /* ikincil vurgu */
+    --ink: #302219;            /* koyu kahve: basliklar, koyu bolumler */
+    --ink-soft: #493427;
+    --plum: #855c47;           /* ikincil vurgu */
     --gold: #c39a4b;           /* ana vurgu: butonlar, cizgiler */
     --gold-soft: #e6d3a7;
     --cream: #fbf7f0;          /* sayfa zemini */
     --sand: #f3ebdd;           /* alternatif zemin */
     --surface: #ffffff;
-    --text: #3a3347;
-    --muted: #756c82;
+    --text: #40342d;
+    --muted: #6f6057;
     --border: #e6dccb;
     --success: #2f6b46;
     --error: #a23b3b;
@@ -22,7 +22,7 @@
     --radius: 14px;
     --container: 72rem;
     --narrow: 46rem;
-    --shadow: 0 10px 30px rgba(29, 23, 48, 0.08);
+    --shadow: 0 10px 30px rgba(48, 34, 25, 0.08);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -90,70 +90,59 @@ img { max-width: 100%; height: auto; display: block; }
 /* Bolumler */
 .section { padding: clamp(3.5rem, 8vw, 6rem) 0; }
 .section-alt { background: var(--sand); }
-.section-dark { background: var(--ink); color: #d9d2e4; }
+.section-dark { background: var(--ink); color: #ebddd0; }
 .section-dark h1, .section-dark h2, .section-dark h3 { color: var(--cream); }
 .section-head { max-width: 40rem; margin: 0 auto 2.5rem; text-align: center; }
 .lead { font-size: 1.2rem; color: var(--muted); }
-.section-dark .lead { color: #c3bad3; }
+.section-dark .lead { color: #e2d3c5; }
 
-/* Hero: koyu gece zemini, isik haleleri.
-   Mobil: sade ve ortali. Masaustu (>= 64rem): metin solda, sagda hareketli kemer kompozisyonu. */
-.hero { position: relative; overflow: hidden; padding: clamp(4.5rem, 13vw, 7rem) 0 0; text-align: center; color: #d9d2e4;
-    background:
-        radial-gradient(60rem 30rem at 50% -10%, rgba(195, 154, 75, 0.28), transparent 60%),
-        radial-gradient(40rem 26rem at 85% 110%, rgba(91, 58, 110, 0.7), transparent 60%),
-        radial-gradient(36rem 24rem at 10% 100%, rgba(91, 58, 110, 0.5), transparent 60%),
-        var(--ink); }
-.hero-grid { position: relative; padding-bottom: clamp(4.5rem, 13vw, 7rem); }
-.hero-text { max-width: var(--narrow); margin: 0 auto; }
-.hero h1 { color: var(--cream); font-weight: 500; font-style: italic; margin-bottom: 1.25rem; }
-.hero .lead { color: #c9c0d8; max-width: 34rem; margin: 0 auto 2.25rem; }
-.hero-actions { display: flex; flex-wrap: wrap; gap: 0.9rem; justify-content: center; }
-.hero-art { display: none; }
-
-/* Anahtar kelime seridi */
-.hero-band { border-top: 1px solid rgba(195, 154, 75, 0.25); overflow: hidden; padding: 1rem 0; }
-.hero-band-track { display: flex; gap: 3rem; width: max-content; animation: band-scroll 40s linear infinite; }
-.hero-band span { font-family: var(--font-heading); font-style: italic; font-size: 1.25rem; color: var(--gold-soft); white-space: nowrap; display: inline-flex; align-items: center; gap: 3rem; }
-.hero-band span::after { content: ""; width: 0.4rem; height: 0.4rem; border: 1px solid var(--gold); transform: rotate(45deg); }
-@keyframes band-scroll { to { transform: translateX(-50%); } }
-
-@media (min-width: 64rem) {
-    .hero { text-align: left; padding-top: 0;
-        background:
-            radial-gradient(48rem 34rem at 78% 45%, rgba(91, 58, 110, 0.85), transparent 62%),
-            radial-gradient(40rem 26rem at 0% 0%, rgba(195, 154, 75, 0.16), transparent 60%),
-            radial-gradient(30rem 20rem at 20% 110%, rgba(91, 58, 110, 0.45), transparent 60%),
-            var(--ink); }
-    .hero-grid { display: grid; grid-template-columns: 11fr 10fr; align-items: center; gap: 3rem; min-height: min(46rem, calc(100vh - 8rem)); padding-top: 4rem; padding-bottom: 4rem; }
-    .hero-text { margin: 0; max-width: 36rem; }
-    .hero h1 { font-size: clamp(3.4rem, 5.2vw, 5rem); line-height: 1.05; }
-    .hero .ornament { justify-content: flex-start; margin-left: 0; }
-    .hero .ornament::before { display: none; }
-    .hero .lead { margin-left: 0; font-size: 1.25rem; }
-    .hero-actions { justify-content: flex-start; }
-
-    .hero-art { display: block; position: relative; width: min(100%, 34rem); aspect-ratio: 1; margin-left: auto; }
-    .hero-rings { position: absolute; inset: 0; width: 100%; height: 100%; }
-    .ring { transform-origin: 300px 300px; }
-    .ring-slow { animation: ring-spin 90s linear infinite; }
-    .ring-reverse { animation: ring-spin 60s linear infinite reverse; }
-    .stars circle { animation: twinkle 4s ease-in-out infinite; }
-    .stars circle:nth-child(2n) { animation-delay: 1.3s; }
-    .stars circle:nth-child(3n) { animation-delay: 2.4s; }
-    .hero-arch { position: absolute; left: 50%; top: 50%; width: 56%; aspect-ratio: 34 / 46; transform: translate(-50%, -50%); border-radius: 20rem 20rem 1.25rem 1.25rem; overflow: hidden; border: 1px solid rgba(230, 211, 167, 0.55); box-shadow: 0 30px 70px rgba(0, 0, 0, 0.45), 0 0 0 10px rgba(195, 154, 75, 0.08); animation: arch-float 9s ease-in-out infinite; }
-    .hero-arch img, .hero-arch svg { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .waves circle { transform-origin: 170px 250px; animation: wave-pulse 6s ease-out infinite; }
-    .waves circle:nth-child(2) { animation-delay: 1.5s; }
-    .waves circle:nth-child(3) { animation-delay: 3s; }
-    .waves circle:nth-child(4) { animation-delay: 4.5s; }
-    .hero-note { position: absolute; left: -1rem; bottom: 11%; display: grid; gap: 0.15rem; max-width: 15rem; padding: 1rem 1.25rem; border-radius: var(--radius); background: rgba(251, 247, 240, 0.96); color: var(--text); box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35); font-size: 0.9rem; line-height: 1.45; }
-    .hero-note strong { font-family: var(--font-heading); font-size: 1.25rem; color: var(--ink); }
+/* Full-width homepage cover */
+.hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    text-align: center;
+    color: var(--cream);
+    background: radial-gradient(ellipse at 50% 0%, #84624e, transparent 75%), var(--ink);
 }
-@keyframes ring-spin { to { transform: rotate(360deg); } }
-@keyframes twinkle { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
-@keyframes arch-float { 0%, 100% { transform: translate(-50%, -50%); } 50% { transform: translate(-50%, calc(-50% - 10px)); } }
-@keyframes wave-pulse { 0% { transform: scale(0.85); opacity: 0; } 30% { opacity: 1; } 100% { transform: scale(1.15); opacity: 0; } }
+.hero-cover-image, .page-cover-image {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.hero:has(.hero-cover-image)::before, .page-cover:has(.page-cover-image)::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(31, 21, 16, 0.42), rgba(31, 21, 16, 0.78));
+}
+.hero-grid {
+    display: grid;
+    place-items: center;
+    min-height: clamp(26rem, 57vw, 46rem);
+    padding-block: clamp(4rem, 9vw, 7rem);
+}
+.hero-text { max-width: 50rem; }
+.hero h1 { color: var(--cream); font-weight: 500; font-style: italic; margin-bottom: 1.25rem; }
+.hero .lead { color: #fff4e8; max-width: 36rem; margin: 0 auto 2rem; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 0.9rem; justify-content: center; }
+.hero .btn:not(.btn-ghost) { background: var(--cream); border-color: var(--cream); }
+.hero .btn:not(.btn-ghost):hover { background: var(--gold-soft); border-color: var(--gold-soft); }
+.hero-band { padding: 1rem 1.25rem; border-top: 1px solid rgba(255, 255, 255, 0.24); }
+.hero-band-track { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem 2rem; }
+.hero-band span { color: var(--gold-soft); font-size: 0.875rem; }
+.home-story { background: var(--sand); }
+.home-story .split-media { border-radius: var(--radius); }
+.promo-image { width: 100%; border-radius: var(--radius); }
+.page-cover { position: relative; isolation: isolate; }
+@media (min-width: 56rem) {
+    .promo-split { text-align: left; }
+    .promo-split .countdown { margin-inline: 0; }
+}
 
 /* Alinti bandi */
 .quote-band { padding: clamp(3rem, 7vw, 4.5rem) 0; text-align: center; background: var(--sand); }
@@ -240,7 +229,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
 
 /* Alt bilgi */
 .site-footer { background: var(--ink); color: #b9b0c9; padding: 4rem 0 1.5rem; font-size: 0.95rem; }
-.site-footer a { color: #d9d2e4; text-decoration: none; }
+.site-footer a { color: #ebddd0; text-decoration: none; }
 .site-footer a:hover { color: var(--gold); }
 .footer-grid { display: grid; gap: 2.5rem; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); }
 .footer-brand { font-family: var(--font-heading); font-size: 1.7rem; color: var(--cream); display: block; margin-bottom: 0.5rem; }
@@ -260,7 +249,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
 
 /* --- Ic sayfalar: ek bilesenler --- */
 .h3 { font-size: 1.5rem; }
-.page-head .lead { color: #c9c0d8; margin: 1rem auto 0; max-width: 36rem; }
+.page-head .lead { color: #e6d8ca; margin: 1rem auto 0; max-width: 36rem; }
 .page-head .promo-date { margin-top: 1rem; }
 .page-head .btn { margin-top: 0.5rem; }
 .prose-image { width: 100%; border-radius: var(--radius); margin-bottom: 2rem; box-shadow: var(--shadow); }
@@ -343,14 +332,14 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
 
 /* --- Hakkimda ve E-kitaplar --- */
 /* Hakkimda baslik alani: metin + kemer portre */
-.about-hero { padding: clamp(3.5rem, 9vw, 6rem) 0; color: #d9d2e4; text-align: center;
+.about-hero { padding: clamp(3.5rem, 9vw, 6rem) 0; color: #ebddd0; text-align: center;
     background:
-        radial-gradient(40rem 24rem at 80% 40%, rgba(91, 58, 110, 0.8), transparent 62%),
+        radial-gradient(40rem 24rem at 80% 40%, rgba(133, 92, 71, 0.8), transparent 62%),
         radial-gradient(36rem 20rem at 10% 0%, rgba(195, 154, 75, 0.18), transparent 60%),
         var(--ink); }
 .about-hero-grid { display: grid; gap: 2.75rem; align-items: center; }
 .about-hero h1 { color: var(--cream); font-weight: 500; font-style: italic; margin-bottom: 1rem; }
-.about-hero .lead { color: #c9c0d8; max-width: 32rem; margin: 0 auto; }
+.about-hero .lead { color: #e6d8ca; max-width: 32rem; margin: 0 auto; }
 .about-portrait { position: relative; width: min(100%, 19rem); aspect-ratio: 34 / 46; margin: 0 auto; border-radius: 20rem 20rem 1.25rem 1.25rem; overflow: hidden; border: 1px solid rgba(230, 211, 167, 0.55); box-shadow: 0 26px 60px rgba(0, 0, 0, 0.4), 0 0 0 10px rgba(195, 154, 75, 0.08); }
 .about-portrait img, .about-portrait svg { width: 100%; height: 100%; object-fit: cover; display: block; }
 @media (min-width: 56rem) {
@@ -391,7 +380,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
 
 /* E-kitaplar: kapak bicimli yer tutucular */
 .ebook-grid { list-style: none; margin: 0 auto; padding: 0; display: grid; gap: 2.5rem 2rem; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); max-width: 56rem; text-align: center; }
-.ebook-cover { position: relative; aspect-ratio: 200 / 290; max-width: 15rem; margin: 0 auto 1.25rem; border-radius: 4px 12px 12px 4px; overflow: hidden; color: var(--ink); background: linear-gradient(160deg, var(--ink-soft), var(--ink)); box-shadow: inset 6px 0 0 rgba(0, 0, 0, 0.25), inset 8px 0 0 rgba(255, 255, 255, 0.06), 0 18px 36px rgba(29, 23, 48, 0.25); transition: transform 0.25s; }
+.ebook-cover { position: relative; aspect-ratio: 200 / 290; max-width: 15rem; margin: 0 auto 1.25rem; border-radius: 4px 12px 12px 4px; overflow: hidden; color: var(--ink); background: linear-gradient(160deg, var(--ink-soft), var(--ink)); box-shadow: inset 6px 0 0 rgba(0, 0, 0, 0.25), inset 8px 0 0 rgba(255, 255, 255, 0.06), 0 18px 36px rgba(48, 34, 25, 0.25); transition: transform 0.25s; }
 .ebook-cover-2 { color: var(--plum); background: linear-gradient(160deg, var(--plum), #3a2a52); }
 .ebook-cover-3 { color: #3a2a52; background: linear-gradient(160deg, #3a2a52, var(--ink)); }
 .ebook-cover svg { width: 100%; height: 100%; display: block; }

@@ -22,8 +22,8 @@ return [
         }],
     ['label' => 'Bülten Aboneleri', 'url' => '/yonetim/aboneler', 'icon' => 'users'],
 
-    ['label' => 'Ana Sayfa', 'url' => null, 'icon' => 'layout',  'group' => 'İçerik'],
-    ['label' => 'Sayfalar',  'url' => null, 'icon' => 'file'],
+    ['label' => 'Ana Sayfa', 'url' => '/yonetim/ana-sayfa', 'icon' => 'layout', 'group' => 'İçerik'],
+    ['label' => 'Sayfalar', 'url' => '/yonetim/sayfalar', 'icon' => 'file'],
     ['label' => 'Hizmetler', 'url' => null, 'icon' => 'star'],
     ['label' => 'Eğitimler', 'url' => null, 'icon' => 'book'],
     ['label' => 'Blog',      'url' => null, 'icon' => 'pen'],

@@ -257,3 +257,8 @@ a.stat-note:hover { color: var(--ink); }
 @media (prefers-reduced-motion: reduce) {
     * { transition: none !important; }
 }
+
+.content-editor { margin-bottom: 1rem; }
+.content-editor summary { cursor: pointer; }
+.content-editor summary .muted { margin-inline-start: 0.75rem; }
+.content-editor form { margin-top: 1.25rem; }
