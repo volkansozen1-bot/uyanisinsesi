@@ -111,3 +111,73 @@
     window.addEventListener('hashchange', fromHash);
     if (location.hash) fromHash();
 })();
+
+/* Tam ekran giris: ozune donen isik zerreleri + fareyle hafif derinlik (hero_full) */
+(function () {
+    var hero = document.querySelector('[data-illusion]');
+    if (!hero) return;
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var canvas = hero.querySelector('.hero-full-particles');
+    var ctx = canvas && canvas.getContext ? canvas.getContext('2d') : null;
+
+    if (!reduce) {
+        hero.addEventListener('pointermove', function (e) {
+            var r = hero.getBoundingClientRect();
+            hero.style.setProperty('--mx', ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
+            hero.style.setProperty('--my', ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
+        });
+        hero.addEventListener('pointerleave', function () {
+            hero.style.setProperty('--mx', 0);
+            hero.style.setProperty('--my', 0);
+        });
+    }
+    if (!ctx) return;
+
+    var w, h, cx, cy, maxR, dots = [], dpr = Math.min(window.devicePixelRatio || 1, 2), running = true;
+    function spawn(d, anywhere) {
+        d.a = Math.random() * Math.PI * 2;
+        d.r = anywhere ? Math.random() * maxR : maxR * (0.85 + Math.random() * 0.3);
+        d.v = 0.12 + Math.random() * 0.35;          // merkeze dogru hiz
+        d.s = 0.002 + Math.random() * 0.004;        // donus
+        d.z = 0.6 + Math.random() * 1.6;            // boyut
+        return d;
+    }
+    function resize() {
+        var r = hero.getBoundingClientRect();
+        w = r.width; h = r.height;
+        canvas.width = w * dpr; canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        cx = w / 2; cy = h * 0.42; maxR = Math.hypot(w, h) * 0.55;
+        var n = Math.round(Math.min(140, w * h / 9000));
+        dots = [];
+        for (var i = 0; i < n; i++) dots.push(spawn({}, true));
+    }
+    function frame() {
+        ctx.clearRect(0, 0, w, h);
+        for (var i = 0; i < dots.length; i++) {
+            var d = dots[i];
+            if (!reduce) {
+                d.r -= d.v * (0.4 + d.r / maxR);
+                d.a += d.s;
+                if (d.r < 8) spawn(d, false);
+            }
+            var t = d.r / maxR;                       // merkeze yaklastikca parlar, sonra kaybolur
+            var alpha = Math.min(1, t * 6) * (0.25 + 0.75 * (1 - t));
+            ctx.beginPath();
+            ctx.arc(cx + Math.cos(d.a) * d.r, cy + Math.sin(d.a) * d.r * 0.82, d.z, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(240, 222, 175,' + alpha.toFixed(3) + ')';
+            ctx.fill();
+        }
+        if (!reduce && running) requestAnimationFrame(frame);
+    }
+    resize();
+    window.addEventListener('resize', function () { resize(); if (reduce) frame(); });
+    if ('IntersectionObserver' in window && !reduce) {
+        new IntersectionObserver(function (entries) {
+            var vis = entries[0].isIntersecting;
+            if (vis && !running) { running = true; requestAnimationFrame(frame); }
+            running = vis;
+        }).observe(hero);
+    }
+    frame();
+})();
