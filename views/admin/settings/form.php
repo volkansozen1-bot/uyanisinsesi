@@ -12,9 +12,31 @@ $groups = [
 
 <form class="form" method="post" action="<?= e(url('/yonetim/ayarlar')) ?>" enctype="multipart/form-data" novalidate>
     <?= App\Core\Csrf::field() ?>
+    <?php
+    $logoValue  = (string) ($values['site_logo'] ?? '');
+    $isCustom   = App\Core\Upload::isUploadPath($logoValue);
+    $logoChoice = $isCustom ? 'custom' : (str_starts_with($logoValue, 'preset:') ? substr($logoValue, 7) : 'varsayilan');
+    ?>
     <fieldset class="panel">
         <legend>Logo</legend>
-        <?= (new App\Core\Form($values, $errors))->image('site_logo', 'Site logosu', [
+        <p class="muted">Hazır logolardan birini seçin ya da aşağıdan kendi logonuzu yükleyin.</p>
+        <div class="logo-choices">
+            <?php foreach (logo_presets() as $key => $preset): ?>
+            <label class="logo-choice">
+                <input type="radio" name="logo_choice" value="<?= e($key) ?>"<?= $logoChoice === $key ? ' checked' : '' ?>>
+                <img src="<?= e(asset($preset['file'])) ?>" alt="" width="56" height="56">
+                <span><?= e($preset['label']) ?></span>
+            </label>
+            <?php endforeach; ?>
+            <?php if ($isCustom): ?>
+            <label class="logo-choice">
+                <input type="radio" name="logo_choice" value="custom" checked>
+                <img src="<?= e(url($logoValue)) ?>" alt="" height="56">
+                <span>Yüklenen logo</span>
+            </label>
+            <?php endif; ?>
+        </div>
+        <?= (new App\Core\Form($isCustom ? $values : ['site_logo' => ''] + $values, $errors))->image('site_logo', 'Kendi logonuzu yükleyin', [
             'help' => 'PNG (şeffaf arka planlı) veya WebP önerilir; en fazla ' . App\Core\Upload::limitText() . '. Sitenin üst kısmında, yönetim panelinde ve tarayıcı sekmesinde görünür. Kaldırırsanız varsayılan logo kullanılır.',
         ]) ?>
     </fieldset>

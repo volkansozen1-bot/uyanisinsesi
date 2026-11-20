@@ -369,3 +369,11 @@ input[type="file"] { font: inherit; font-size: 0.9rem; }
 
 /* Panelden yuklenen logo: yukseklik sabit, genislik orantili */
 .brand-logo { width: auto; max-width: 180px; object-fit: contain; flex-shrink: 0; }
+
+/* Ayarlar: hazir logo secimi */
+.logo-choices { display: flex; flex-wrap: wrap; gap: .75rem; margin: .5rem 0 1rem; }
+.logo-choice { display: flex; flex-direction: column; align-items: center; gap: .35rem; padding: .75rem; border: 2px solid #e6dccb; border-radius: 12px; cursor: pointer; min-width: 96px; background: #fff; }
+.logo-choice img { width: auto; height: 56px; max-width: 140px; object-fit: contain; }
+.logo-choice input { position: absolute; opacity: 0; }
+.logo-choice:has(input:checked) { border-color: #c39a4b; box-shadow: 0 0 0 3px rgba(195,154,75,.25); }
+.logo-choice:has(input:focus-visible) { outline: 2px solid #142829; outline-offset: 2px; }

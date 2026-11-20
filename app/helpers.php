@@ -76,12 +76,31 @@ function asset(string $path): string
 function site_logo(): array
 {
     $path = setting('site_logo');
+    $presets = logo_presets();
+    if (str_starts_with($path, 'preset:') && isset($presets[substr($path, 7)])) {
+        return ['url' => asset($presets[substr($path, 7)]['file']), 'type' => 'image/svg+xml'];
+    }
     if ($path !== '' && \App\Core\Upload::isUploadPath($path) && is_file(BASE_PATH . '/public/' . $path)) {
         $ext  = strtolower(pathinfo($path, PATHINFO_EXTENSION));
         $type = ['jpg' => 'image/jpeg', 'png' => 'image/png', 'webp' => 'image/webp', 'gif' => 'image/gif'][$ext] ?? 'image/png';
         return ['url' => url($path), 'type' => $type];
     }
     return ['url' => asset('img/logo-mark.svg'), 'type' => 'image/svg+xml'];
+}
+
+/**
+ * Panelde secilebilen hazir logolar (public/assets/ altinda).
+ * @return array<string, array{label: string, file: string}>
+ */
+function logo_presets(): array
+{
+    return [
+        'varsayilan' => ['label' => 'Alev', 'file' => 'img/logo-mark.svg'],
+        'alev-cizgi' => ['label' => 'Alev (altın)', 'file' => 'img/logos/alev-cizgi.svg'],
+        'monogram'   => ['label' => 'Monogram', 'file' => 'img/logos/monogram.svg'],
+        'lotus'      => ['label' => 'Lotus', 'file' => 'img/logos/lotus.svg'],
+        'gunes'      => ['label' => 'Güneş', 'file' => 'img/logos/gunes.svg'],
+    ];
 }
 
 /** settings tablosundan deger okur; tum ayarlar istek basina bir kez cekilir. */
