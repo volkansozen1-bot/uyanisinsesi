@@ -19,6 +19,22 @@ $icons = [
     'leaf'   => '<path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14z"/><path d="M5 19l8-8"/>',
 ];
 ?>
+<?php if (!empty($page['hero_image'])): ?>
+<section class="about-cover">
+    <img class="about-cover-image" src="<?= e(url($page['hero_image'])) ?>" alt="<?= e(setting('site_name', 'Perihan Ateş')) ?> portresi">
+    <div class="container about-cover-text">
+        <span class="eyebrow"><?= e(setting('site_name', 'Perihan Ateş')) ?></span>
+        <h1><?= e($page['title']) ?></h1>
+        <?php if (!empty($page['meta_description'])): ?>
+        <p class="lead"><?= e($page['meta_description']) ?></p>
+        <?php endif; ?>
+    </div>
+    <svg class="about-cover-wave" viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 38C180 22 340 50 560 40S900 14 1100 30 1340 46 1440 34V60H0z" fill="var(--cream)"/>
+        <path d="M0 38C180 22 340 50 560 40S900 14 1100 30 1340 46 1440 34" fill="none" stroke="var(--ink)" stroke-opacity=".35" stroke-width="1.5"/>
+    </svg>
+</section>
+<?php else: ?>
 <section class="about-hero">
     <div class="container about-hero-grid">
         <div class="about-hero-text">
@@ -62,6 +78,7 @@ $icons = [
         </div>
     </div>
 </section>
+<?php endif; ?>
 
 <?php if (trim((string) $page['body']) !== ''): ?>
 <section class="section">
