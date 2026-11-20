@@ -71,6 +71,16 @@ final class SettingsController extends AdminController
         // Logo: diger alanlar hataliysa yuklenmez; dosya secilmemisse mevcut logo kalir
         $currentLogo = $this->settingRow('site_logo');
         $logo = $this->imageAfterValidation('site_logo', $currentLogo !== '' ? $currentLogo : null, $errors, 'Site logosu');
+        // Sayfa kapaklari: duz renk / hazir desen / yuklenen resim
+        $mode = $this->post('page_cover_mode');
+        $input['page_cover_mode'] = in_array($mode, ['duz', 'desen', 'resim'], true) ? $mode : 'duz';
+        $currentCover = $this->settingRow('page_cover_image');
+        $cover = $this->imageAfterValidation('page_cover_image', $currentCover !== '' ? $currentCover : null, $errors, 'Sayfa kapağı');
+        $input['page_cover_image'] = $cover ?? '';
+        if ($input['page_cover_mode'] === 'resim' && $input['page_cover_image'] === '' && !isset($errors['page_cover_image'])) {
+            $errors['page_cover_image'] = '"Kendi resmim" için bir kapak resmi yükleyin ya da başka bir seçenek seçin.';
+        }
+
         $choice = $this->post('logo_choice');
         if ($logo === ($currentLogo !== '' ? $currentLogo : null) && $this->post('site_logo_remove') !== '1'
             && $choice !== 'custom' && isset(logo_presets()[$choice])) {
@@ -80,7 +90,7 @@ final class SettingsController extends AdminController
         $input['site_logo'] = $logo ?? '';
 
         if ($errors !== []) {
-            unset($input['site_logo']);
+            unset($input['site_logo'], $input['page_cover_image']);
             $_SESSION['_old']    = $input;
             $_SESSION['_errors'] = $errors;
             flash('admin_error', 'Ayarlar kaydedilmedi. İşaretli alanları düzeltin.');

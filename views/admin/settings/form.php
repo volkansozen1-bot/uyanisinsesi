@@ -17,6 +17,36 @@ $groups = [
     $isCustom   = App\Core\Upload::isUploadPath($logoValue);
     $logoChoice = $isCustom ? 'custom' : (str_starts_with($logoValue, 'preset:') ? substr($logoValue, 7) : 'varsayilan');
     ?>
+    <?php
+    $coverMode  = (string) ($values['page_cover_mode'] ?? 'duz');
+    $coverModes = [
+        'duz'   => ['Düz renk', 'Koyu yeşil zemin, ortada hafif altın ışık (şu anki görünüm).', 'background: radial-gradient(60% 90% at 50% 0%, rgba(195,154,75,.35), transparent 70%), #142829'],
+        'desen' => ['Hazır desen', 'Altın halkalar, yıldız noktaları ve dalga çizgileriyle "öze dönüş" kapağı.', "background: #142829 url('" . asset('img/kapak-desen.svg') . "') center / cover"],
+        'resim' => ['Kendi resmim', 'Aşağıdan yüklediğiniz fotoğraf, yazı okunsun diye hafif karartılır.', ''],
+    ];
+    ?>
+    <fieldset class="panel">
+        <legend>Sayfa kapakları</legend>
+        <p class="muted">İletişim, blog yazısı, hizmet gibi sayfaların üstündeki başlık şeridi. Bir sayfaya ayrıca kapak görseli yüklenmişse o sayfada o görsel kullanılır.</p>
+        <div class="logo-choices cover-choices">
+            <?php foreach ($coverModes as $key => [$label, $desc, $style]): ?>
+            <label class="logo-choice cover-choice">
+                <input type="radio" name="page_cover_mode" value="<?= e($key) ?>"<?= $coverMode === $key ? ' checked' : '' ?>>
+                <span class="cover-swatch" style="<?= e($style) ?>">
+                    <?php if ($key === 'resim' && !empty($values['page_cover_image']) && App\Core\Upload::isUploadPath((string) $values['page_cover_image'])): ?>
+                    <img src="<?= e(url((string) $values['page_cover_image'])) ?>" alt="">
+                    <?php elseif ($key === 'resim'): ?><small>Resim yok</small><?php endif; ?>
+                    <b>Başlık</b>
+                </span>
+                <span><?= e($label) ?></span>
+                <small class="muted"><?= e($desc) ?></small>
+            </label>
+            <?php endforeach; ?>
+        </div>
+        <?= (new App\Core\Form($values, $errors))->image('page_cover_image', 'Kapak resmi (Kendi resmim için)', [
+            'help' => 'Yatay, en az 1600 px genişlikte bir fotoğraf. Şerit dar olduğu için fotoğrafın orta kısmı görünür.',
+        ]) ?>
+    </fieldset>
     <fieldset class="panel">
         <legend>Logo</legend>
         <p class="muted">Hazır logolardan birini seçin ya da aşağıdan kendi logonuzu yükleyin.</p>

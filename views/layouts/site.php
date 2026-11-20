@@ -44,7 +44,17 @@ $title    = isset($pageTitle) && $pageTitle !== $siteName ? $pageTitle . ' | ' .
     <link rel="stylesheet" href="<?= e(asset('css/fonts.css')) ?>">
     <link rel="stylesheet" href="<?= e(asset('css/site.css')) ?>">
 </head>
-<body>
+<?php
+$coverMode  = setting('page_cover_mode', 'duz');
+$coverImage = setting('page_cover_image');
+$coverStyle = '';
+if ($coverMode === 'resim' && App\Core\Upload::isUploadPath($coverImage)) {
+    $coverStyle = " style=\"--page-cover: url('" . e(url($coverImage)) . "')\"";
+} elseif ($coverMode === 'resim') {
+    $coverMode = 'duz';
+}
+?>
+<body class="cover-<?= e($coverMode) ?>"<?= $coverStyle ?>>
     <a class="skip-link" href="#icerik">İçeriğe geç</a>
     <?= App\Core\View::renderFile('partials/header') ?>
     <main id="icerik">
