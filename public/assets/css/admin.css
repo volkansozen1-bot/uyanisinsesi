@@ -302,3 +302,9 @@ input[type="file"] { font: inherit; font-size: 0.9rem; }
 .row-card { border: 1px solid var(--border); border-radius: 10px; padding: 1rem; background: var(--cream); display: grid; gap: 0.75rem; }
 .row-card .field-grid { gap: 0.75rem 1rem; }
 .row-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; font-weight: 700; color: var(--ink); }
+
+/* --- Blog ve Sayfalar --- */
+.page-row-text { margin: 0; font-size: 0.9rem; }
+.row-head .cell-actions { display: flex; align-items: center; gap: 0.4rem; flex: none; }
+.row-head .cell-actions .muted { font-size: 0.82rem; }
+@media (max-width: 40rem) { .row-head { flex-direction: column; align-items: flex-start; gap: 0.5rem; } }
