@@ -10,10 +10,14 @@ $start  = $course['start_date'] ? strtotime((string) $course['start_date']) : nu
 $until  = $course['countdown_until'] ? strtotime((string) $course['countdown_until']) : null;
 ?>
 <section class="section section-dark promo">
-    <div class="container narrow">
+    <div class="container <?= $block['image'] ? 'split promo-split' : 'narrow' ?>">
+        <?php if ($block['image']): ?>
+        <img class="promo-image" src="<?= e(url($block['image'])) ?>" alt="" loading="lazy">
+        <?php endif; ?>
+        <div>
         <span class="eyebrow"><?= e($block['subtitle'] ?: 'Yeni dönem') ?></span>
         <h2><?= e($block['title'] ?: $course['title']) ?></h2>
-        <?php if ($course['summary']): ?><p class="lead"><?= e($course['summary']) ?></p><?php endif; ?>
+        <?php if ($block['body'] || $course['summary']): ?><p class="lead"><?= nl2br(e($block['body'] ?: $course['summary'])) ?></p><?php endif; ?>
         <?php if ($start): ?>
         <p class="promo-date">Başlangıç: <?= (int) date('j', $start) ?> <?= $months[(int) date('n', $start)] ?> <?= date('Y', $start) ?></p>
         <?php endif; ?>
@@ -28,5 +32,6 @@ $until  = $course['countdown_until'] ? strtotime((string) $course['countdown_unt
         </div>
         <?php endif; ?>
         <p><a class="btn" href="<?= e(url($block['button_url'] ?: '/egitimler/' . $course['slug'])) ?>"><?= e($block['button_text'] ?: 'Eğitimi İncele') ?></a></p>
+        </div>
     </div>
 </section>

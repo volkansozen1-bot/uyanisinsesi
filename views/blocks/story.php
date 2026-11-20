@@ -1,11 +1,11 @@
 <?php /** @var array<string, mixed> $block */ ?>
-<section class="section">
-    <div class="container split">
+<section class="section home-story">
+    <div class="container <?= $block['image'] ? 'split' : 'narrow' ?>">
+        <?php if ($block['image']): ?>
         <div class="split-media">
-            <?php if ($block['image']): ?>
             <img src="<?= e(url($block['image'])) ?>" alt="" loading="lazy">
-            <?php endif; ?>
         </div>
+        <?php endif; ?>
         <div>
             <?php if ($block['subtitle']): ?><span class="eyebrow"><?= e($block['subtitle']) ?></span><?php endif; ?>
             <h2><?= e($block['title']) ?></h2>

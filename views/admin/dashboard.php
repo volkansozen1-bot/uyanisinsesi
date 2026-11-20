@@ -7,10 +7,19 @@ $cards = [
     ['Aktif hizmet', $stats['services'], 'Hizmetler', null],
 ];
 ?>
-<div class="page-title">
-    <h1>Hoş geldiniz, <?= e(explode(' ', (string) $admin['name'])[0]) ?></h1>
-    <p class="muted">Sitenizin kısa özeti.</p>
-</div>
+<section class="dashboard-intro">
+    <h1>Site yönetimi</h1>
+    <div class="dashboard-shortcuts">
+        <a href="<?= e(url('/yonetim/ana-sayfa')) ?>">
+            <strong>Ana sayfayı düzenle</strong>
+            <span>Bölümler, görseller ve görünürlük</span>
+        </a>
+        <a href="<?= e(url('/yonetim/sayfalar')) ?>">
+            <strong>Sayfaları düzenle</strong>
+            <span>İçerik, kapak ve yayın durumu</span>
+        </a>
+    </div>
+</section>
 
 <div class="stat-grid">
     <?php foreach ($cards as [$label, $value, $note, $link]): ?>

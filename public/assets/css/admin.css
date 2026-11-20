@@ -2,16 +2,16 @@
    Renk ve fontlar sitenin temasiyla ayni (site.css :root). site.css burada yuklenmez. */
 
 :root {
-    --ink: #1d1730;
-    --ink-soft: #2e2547;
-    --plum: #5b3a6e;
+    --ink: #142829;
+    --ink-soft: #243b39;
+    --plum: #356459;
     --gold: #c39a4b;
     --gold-soft: #e6d3a7;
-    --cream: #fbf7f0;
-    --sand: #f3ebdd;
+    --cream: #f8f6ee;
+    --sand: #eaf0e8;
     --surface: #ffffff;
-    --text: #3a3347;
-    --muted: #756c82;
+    --text: #223534;
+    --muted: #536862;
     --border: #e6dccb;
     --success: #2f6b46;
     --error: #a23b3b;
@@ -348,3 +348,21 @@ input[type="file"] { font: inherit; font-size: 0.9rem; }
 .copy-input { background: var(--surface); color: var(--muted); }
 .media-actions { display: flex; justify-content: flex-end; }
 .media-card > form:last-of-type { justify-items: start; }
+.content-editor { margin-bottom: 1rem; }
+.content-editor summary { cursor: pointer; }
+.content-editor summary .muted { margin-inline-start: 0.75rem; }
+.content-editor form { margin-top: 1.25rem; }
+
+
+.dashboard-intro {
+    margin-bottom: 1.5rem;
+    padding: clamp(1.25rem, 4vw, 2.75rem);
+    background: var(--ink);
+    border-radius: var(--radius);
+}
+.dashboard-intro h1 { color: var(--cream); margin-bottom: 1.25rem; }
+.dashboard-shortcuts { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); gap: 0.8rem; }
+.dashboard-shortcuts a { display: grid; padding: 1rem 1.2rem; border-radius: var(--radius); color: var(--ink); background: var(--cream); text-decoration: none; }
+.dashboard-shortcuts a:hover { background: var(--gold-soft); }
+.dashboard-shortcuts a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+.dashboard-shortcuts span { color: var(--muted); font-size: 0.875rem; }

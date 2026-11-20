@@ -23,19 +23,15 @@ final class HomeBlockAdminController extends AdminController
     public const TYPES = [
         'hero' => [
             'label' => 'Giriş (hero)',
-            'desc'  => 'Sayfanın en üstündeki büyük karşılama alanı.',
+            'desc'  => 'Sayfanın en üstündeki karşılama alanı. Üstteki küçük yazı site adıdır (Ayarlar\'dan değişir).',
             'fields' => [
-                'x_eyebrow'      => ['label' => 'Başlığın üstündeki küçük yazı', 'type' => 'text', 'max' => 100, 'help' => 'Örnek: Perihan Ateş'],
                 'title'          => ['label' => 'Büyük başlık', 'type' => 'text', 'max' => 255, 'required' => true, 'wide' => true],
                 'subtitle'       => ['label' => 'Alt metin', 'type' => 'textarea', 'max' => 500, 'help' => 'Başlığın altındaki bir iki cümlelik açıklama.'],
-                'button_text'    => ['label' => '1. buton yazısı', 'type' => 'text', 'max' => 100],
-                'button_url'     => ['label' => '1. buton bağlantısı', 'type' => 'link', 'pair' => 'button_text'],
-                'x_button2_text' => ['label' => '2. buton yazısı', 'type' => 'text', 'max' => 100, 'help' => 'Çerçeveli ikinci buton. Boşsa görünmez.'],
-                'x_button2_url'  => ['label' => '2. buton bağlantısı', 'type' => 'link', 'pair' => 'x_button2_text'],
-                'image'          => ['label' => 'Kemer içindeki fotoğraf', 'type' => 'image', 'help' => 'Geniş ekranda sağdaki kemerin içinde görünür. Yüklenmezse gün batımı çizimi gösterilir. Dikey fotoğraf uygundur.'],
-                'x_note_title'   => ['label' => 'Küçük not kartı: başlık', 'type' => 'text', 'max' => 100, 'help' => 'Fotoğrafın köşesindeki kart. Boşsa kart görünmez.'],
-                'x_note_text'    => ['label' => 'Küçük not kartı: metin', 'type' => 'text', 'max' => 200],
-                'x_keywords'     => ['label' => 'Kayan kelimeler', 'type' => 'lines', 'max' => 1000, 'help' => 'Her satıra bir kelime. Başlığın altındaki kayan şeritte görünür. Boşsa şerit görünmez.'],
+                'button_text'    => ['label' => 'Buton yazısı', 'type' => 'text', 'max' => 100, 'help' => 'Boşsa "Çalışmaları keşfet" yazar.'],
+                'button_url'     => ['label' => 'Buton bağlantısı', 'type' => 'link', 'help' => 'Boşsa /hizmetler sayfasına gider.'],
+                'x_button2_text' => ['label' => 'İkinci bağlantının yazısı', 'type' => 'text', 'max' => 100, 'help' => 'Butonun yanındaki ince bağlantı. Boşsa "İletişime geç" yazar.'],
+                'x_button2_url'  => ['label' => 'İkinci bağlantının adresi', 'type' => 'link', 'help' => 'Boşsa /iletisim sayfasına gider.'],
+                'image'          => ['label' => 'Pencere içindeki fotoğraf', 'type' => 'image', 'help' => 'Sağdaki yuvarlak pencerede görünür. Yüklenmezse ay çizimi gösterilir. Kare ya da dikey fotoğraf uygundur.'],
             ],
         ],
         'intro' => [
@@ -59,7 +55,7 @@ final class HomeBlockAdminController extends AdminController
         ],
         'story' => [
             'label' => 'Hikâye',
-            'desc'  => 'Solda fotoğraf, sağda başlık, metin ve buton.',
+            'desc'  => 'Fotoğraf, başlık, metin ve buton. Fotoğraf yüklenmezse metin tek sütun olur.',
             'fields' => [
                 'subtitle'    => ['label' => 'Üst küçük yazı', 'type' => 'text', 'max' => 150, 'help' => 'Örnek: Hikâyem'],
                 'title'       => ['label' => 'Başlık', 'type' => 'text', 'max' => 255, 'required' => true],
@@ -83,8 +79,10 @@ final class HomeBlockAdminController extends AdminController
             'fields' => [
                 'subtitle'    => ['label' => 'Üst küçük yazı', 'type' => 'text', 'max' => 150, 'help' => 'Boşsa "Yeni dönem" yazar.'],
                 'title'       => ['label' => 'Başlık', 'type' => 'text', 'max' => 255, 'help' => 'Boşsa eğitimin adı kullanılır.'],
+                'body'        => ['label' => 'Tanıtım metni', 'type' => 'textarea', 'max' => 1000, 'rows' => 4, 'help' => 'Boşsa eğitimin kendi özeti kullanılır.'],
                 'button_text' => ['label' => 'Buton yazısı', 'type' => 'text', 'max' => 100, 'help' => 'Boşsa "Eğitimi İncele" yazar.'],
                 'button_url'  => ['label' => 'Buton bağlantısı', 'type' => 'link', 'help' => 'Boşsa eğitimin sayfasına gider.'],
+                'image'       => ['label' => 'Fotoğraf', 'type' => 'image', 'help' => 'Yüklenirse duyurunun yanında görünür.'],
             ],
         ],
         'testimonials' => [
