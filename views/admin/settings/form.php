@@ -10,8 +10,14 @@ $groups = [
     <p class="muted">Sitenin genelinde kullanılan bilgiler.</p>
 </div>
 
-<form class="form" method="post" action="<?= e(url('/yonetim/ayarlar')) ?>" novalidate>
+<form class="form" method="post" action="<?= e(url('/yonetim/ayarlar')) ?>" enctype="multipart/form-data" novalidate>
     <?= App\Core\Csrf::field() ?>
+    <fieldset class="panel">
+        <legend>Logo</legend>
+        <?= (new App\Core\Form($values, $errors))->image('site_logo', 'Site logosu', [
+            'help' => 'PNG (şeffaf arka planlı) veya WebP önerilir; en fazla ' . App\Core\Upload::limitText() . '. Sitenin üst kısmında, yönetim panelinde ve tarayıcı sekmesinde görünür. Kaldırırsanız varsayılan logo kullanılır.',
+        ]) ?>
+    </fieldset>
     <?php foreach ($groups as $title => $keys): ?>
     <fieldset class="panel">
         <legend><?= e($title) ?></legend>

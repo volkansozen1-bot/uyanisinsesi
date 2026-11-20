@@ -366,3 +366,6 @@ input[type="file"] { font: inherit; font-size: 0.9rem; }
 .dashboard-shortcuts a:hover { background: var(--gold-soft); }
 .dashboard-shortcuts a:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
 .dashboard-shortcuts span { color: var(--muted); font-size: 0.875rem; }
+
+/* Panelden yuklenen logo: yukseklik sabit, genislik orantili */
+.brand-logo { width: auto; max-width: 180px; object-fit: contain; flex-shrink: 0; }

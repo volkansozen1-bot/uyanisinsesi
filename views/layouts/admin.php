@@ -24,7 +24,8 @@ $icon     = static function (string $name): string {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex">
     <title><?= e(($pageTitle ?? 'Yönetim') . ' | Yönetim | ' . $siteName) ?></title>
-    <link rel="icon" type="image/svg+xml" href="<?= e(asset('img/logo-mark.svg')) ?>">
+    <?php $logo = site_logo(); ?>
+    <link rel="icon" type="<?= e($logo['type']) ?>" href="<?= e($logo['url']) ?>">
     <link rel="stylesheet" href="<?= e(asset('css/fonts.css')) ?>">
     <link rel="stylesheet" href="<?= e(asset('css/admin.css')) ?>">
 </head>
@@ -32,7 +33,7 @@ $icon     = static function (string $name): string {
 <body class="admin-bare">
     <main class="bare-card">
         <div class="bare-brand">
-            <img src="<?= e(asset('img/logo-mark.svg')) ?>" alt="" width="44" height="44">
+            <img class="brand-logo" src="<?= e($logo['url']) ?>" alt="" height="44">
             <span><?= e($siteName) ?></span>
             <small>Yönetim paneli</small>
         </div>
@@ -49,7 +50,7 @@ $icon     = static function (string $name): string {
     <a class="skip-link" href="#icerik">İçeriğe geç</a>
     <aside class="sidebar" id="yonetim-menu">
         <a class="sidebar-brand" href="<?= e(url('/yonetim')) ?>">
-            <img src="<?= e(asset('img/logo-mark.svg')) ?>" alt="" width="34" height="34">
+            <img class="brand-logo" src="<?= e($logo['url']) ?>" alt="" height="34">
             <span><?= e($siteName) ?></span>
         </a>
         <nav aria-label="Yönetim menüsü">

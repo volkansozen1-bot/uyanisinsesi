@@ -39,7 +39,8 @@ $title    = isset($pageTitle) && $pageTitle !== $siteName ? $pageTitle . ' | ' .
         JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP
     ) ?></script>
     <?php endif; ?>
-    <link rel="icon" type="image/svg+xml" href="<?= e(asset('img/logo-mark.svg')) ?>">
+    <?php $logo = site_logo(); ?>
+    <link rel="icon" type="<?= e($logo['type']) ?>" href="<?= e($logo['url']) ?>">
     <link rel="stylesheet" href="<?= e(asset('css/fonts.css')) ?>">
     <link rel="stylesheet" href="<?= e(asset('css/site.css')) ?>">
 </head>

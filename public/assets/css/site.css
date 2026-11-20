@@ -405,3 +405,6 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
 .footer-social a.is-icon { display: block; line-height: 0; opacity: 0.9; transition: opacity 0.2s; }
 .footer-social a.is-icon:hover { opacity: 0.6; }
 .footer-social img { width: 24px; height: 24px; border-radius: 6px; object-fit: contain; }
+
+/* Panelden yuklenen logo: yukseklik sabit, genislik orantili */
+.brand-logo { width: auto; max-width: 180px; object-fit: contain; flex-shrink: 0; }

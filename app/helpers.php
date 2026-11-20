@@ -69,6 +69,21 @@ function asset(string $path): string
     return url('assets/' . ltrim($path, '/')) . $version;
 }
 
+/**
+ * Site logosu: panelden yuklenmisse o gorsel, yoksa varsayilan logo-mark.svg.
+ * @return array{url: string, type: string}
+ */
+function site_logo(): array
+{
+    $path = setting('site_logo');
+    if ($path !== '' && \App\Core\Upload::isUploadPath($path) && is_file(BASE_PATH . '/public/' . $path)) {
+        $ext  = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+        $type = ['jpg' => 'image/jpeg', 'png' => 'image/png', 'webp' => 'image/webp', 'gif' => 'image/gif'][$ext] ?? 'image/png';
+        return ['url' => url($path), 'type' => $type];
+    }
+    return ['url' => asset('img/logo-mark.svg'), 'type' => 'image/svg+xml'];
+}
+
 /** settings tablosundan deger okur; tum ayarlar istek basina bir kez cekilir. */
 function setting(string $key, string $default = ''): string
 {

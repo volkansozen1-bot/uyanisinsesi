@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controllers\Admin;
 
 use App\Core\Database;
+use App\Core\Upload;
 
 /** settings tablosundaki genel site ayarlari. */
 final class SettingsController extends AdminController
@@ -67,7 +68,13 @@ final class SettingsController extends AdminController
             }
         }
 
+        // Logo: diger alanlar hataliysa yuklenmez; dosya secilmemisse mevcut logo kalir
+        $currentLogo = $this->settingRow('site_logo');
+        $logo = $this->imageAfterValidation('site_logo', $currentLogo !== '' ? $currentLogo : null, $errors, 'Site logosu');
+        $input['site_logo'] = $logo ?? '';
+
         if ($errors !== []) {
+            unset($input['site_logo']);
             $_SESSION['_old']    = $input;
             $_SESSION['_errors'] = $errors;
             flash('admin_error', 'Ayarlar kaydedilmedi. İşaretli alanları düzeltin.');
@@ -96,5 +103,12 @@ final class SettingsController extends AdminController
 
         flash('admin_success', 'Ayarlar kaydedildi.');
         redirect('/yonetim/ayarlar');
+    }
+
+    private function settingRow(string $key): string
+    {
+        $row = Database::one('SELECT `value` FROM settings WHERE `key` = ?', [$key]);
+        $value = $row === null ? '' : (string) $row['value'];
+        return Upload::isUploadPath($value) ? $value : '';
     }
 }
