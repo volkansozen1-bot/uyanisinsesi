@@ -33,6 +33,39 @@ final class MediaAdminController extends AdminController
     }
 
     /** Tek dosya yukleme. Upload::image dosyayi kaydeder ve media satirini olusturur. */
+    /**
+     * Zengin metin editorundeki "Gorsel ekle" dugmesi icin: dosyayi yukler ve adresini JSON dondurur.
+     * Sayfa yenilenmeden calisir; CSRF yine zorunlu.
+     */
+    public function uploadJson(): void
+    {
+        header('Content-Type: application/json; charset=utf-8');
+        header('Cache-Control: no-store');
+
+        if (!\App\Core\Csrf::verify()) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Oturum süresi doldu. Sayfayı yenileyip yeniden deneyin.'], JSON_UNESCAPED_UNICODE);
+            return;
+        }
+
+        $file = $_FILES['image'] ?? null;
+        if (!is_array($file) || (int) ($file['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_NO_FILE) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Yüklenecek bir görsel seçin.'], JSON_UNESCAPED_UNICODE);
+            return;
+        }
+
+        $alt  = $this->postText('alt', 255);
+        $path = Upload::image($file, $alt === null ? '' : $alt);
+        if ($path === null) {
+            http_response_code(400);
+            echo json_encode(['error' => Upload::$error !== '' ? Upload::$error : 'Görsel yüklenemedi.'], JSON_UNESCAPED_UNICODE);
+            return;
+        }
+
+        echo json_encode(['url' => url($path)], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    }
+
     public function upload(): void
     {
         $this->verifyCsrf(self::BASE);
@@ -109,15 +142,15 @@ final class MediaAdminController extends AdminController
      */
     public static function usage(string $path): array
     {
-        $like  = '%' . str_replace(['\\', '%', '_'], ['\\\\', '\%', '\_'], $path) . '%';
+        $like  = '%' . str_replace(['!', '%', '_'], ['!!', '!%', '!_'], $path) . '%';
         $found = [];
 
         $checks = [
-            ['Hizmet', 'SELECT title AS name FROM services WHERE image = ? OR body LIKE ?', [$path, $like]],
-            ['Hizmet bölümü', 'SELECT tab_label AS name FROM service_sections WHERE image = ? OR body LIKE ?', [$path, $like]],
-            ['Eğitim', 'SELECT title AS name FROM courses WHERE image = ? OR body LIKE ?', [$path, $like]],
-            ['Yazı', 'SELECT title AS name FROM posts WHERE cover_image = ? OR body LIKE ?', [$path, $like]],
-            ['Sayfa', 'SELECT title AS name FROM pages WHERE hero_image = ? OR body LIKE ?', [$path, $like]],
+            ['Hizmet', 'SELECT title AS name FROM services WHERE image = ? OR body LIKE ? ESCAPE \'!\'', [$path, $like]],
+            ['Hizmet bölümü', 'SELECT tab_label AS name FROM service_sections WHERE image = ? OR body LIKE ? ESCAPE \'!\'', [$path, $like]],
+            ['Eğitim', 'SELECT title AS name FROM courses WHERE image = ? OR body LIKE ? ESCAPE \'!\'', [$path, $like]],
+            ['Yazı', 'SELECT title AS name FROM posts WHERE cover_image = ? OR body LIKE ? ESCAPE \'!\'', [$path, $like]],
+            ['Sayfa', 'SELECT title AS name FROM pages WHERE hero_image = ? OR body LIKE ? ESCAPE \'!\'', [$path, $like]],
             ['Ana sayfa bloğu', 'SELECT type AS name FROM home_blocks WHERE image = ?', [$path]],
             ['Albüm', 'SELECT title AS name FROM albums WHERE cover_image = ?', [$path]],
             ['Sosyal medya', 'SELECT label AS name FROM social_links WHERE icon = ?', [$path]],

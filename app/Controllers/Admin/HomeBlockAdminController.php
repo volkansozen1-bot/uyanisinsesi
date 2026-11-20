@@ -417,12 +417,15 @@ final class HomeBlockAdminController extends AdminController
         $extra = $row ? json_decode((string) ($row['extra_json'] ?? ''), true) : [];
         $extra = is_array($extra) ? $extra : [];
 
-        $values = [];
+        $values     = [];
+        $imageNames = [];
         foreach ($info['fields'] as $name => $field) {
             $label = $field['label'];
             switch ($field['type']) {
                 case 'image':
-                    $value = $this->imageField($name, $row[$name] ?? null, $errors, (string) $this->post('title'));
+                    // Gorsel en sona birakilir: once diger alanlar dogrulanir, hata varsa dosya yuklenmez
+                    $imageNames[] = $name;
+                    $value = $row[$name] ?? null;
                     break;
                 case 'link':
                     $value = $this->postLink($name);
@@ -470,6 +473,10 @@ final class HomeBlockAdminController extends AdminController
             } elseif (($values[$textField] ?? '') === '' && $values[$name] !== '') {
                 $errors[$textField] = 'Butonun görünmesi için buton yazısını da yazın.';
             }
+        }
+
+        foreach ($imageNames as $name) {
+            $values[$name] = $this->imageAfterValidation($name, $row[$name] ?? null, $errors, (string) $this->post('title'));
         }
 
         if ($errors !== []) {

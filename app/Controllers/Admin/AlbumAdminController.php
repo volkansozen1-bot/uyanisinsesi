@@ -110,7 +110,7 @@ final class AlbumAdminController extends AdminController
             $errors['listen_url'] = 'Adres https:// ile başlamalı (örnek: https://open.spotify.com/album/...).';
         }
 
-        $cover = $this->imageField('cover_image', $row['cover_image'] ?? null, $errors, (string) $title);
+        $cover = $this->imageAfterValidation('cover_image', $row['cover_image'] ?? null, $errors, (string) $title);
 
         if ($errors !== []) {
             $this->backWithErrors($back, $errors, $_POST);

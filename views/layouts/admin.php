@@ -45,7 +45,7 @@ $icon     = static function (string $name): string {
     $menu    = require BASE_PATH . '/config/admin_menu.php';
     $current = current_path();
 ?>
-<body class="admin">
+<body class="admin" data-admin-base="<?= e(url('/')) ?>">
     <a class="skip-link" href="#icerik">İçeriğe geç</a>
     <aside class="sidebar" id="yonetim-menu">
         <a class="sidebar-brand" href="<?= e(url('/yonetim')) ?>">

@@ -43,10 +43,17 @@ abstract class AdminController
     /** CSRF hataliysa mesajla geri yollar. */
     protected function verifyCsrf(string $back): void
     {
-        if (!Csrf::verify()) {
-            flash('admin_error', 'Oturum süresi doldu ya da form geçersiz. Lütfen yeniden deneyin.');
-            redirect($back);
+        if (Csrf::verify()) {
+            return;
         }
+        // Gonderi sunucunun post_max_size sinirini asarsa PHP $_POST'u bosaltir; token da gelmez.
+        $length = (int) ($_SERVER['CONTENT_LENGTH'] ?? 0);
+        if ($_POST === [] && $length > 0) {
+            flash('admin_error', 'Gönderdiğiniz dosya sunucunun izin verdiğinden büyük (en fazla ' . \App\Core\Upload::limitText() . '). Daha küçük bir görsel seçip yeniden deneyin.');
+        } else {
+            flash('admin_error', 'Oturum süresi doldu ya da form geçersiz. Lütfen yeniden deneyin.');
+        }
+        redirect($back);
     }
 
     /**
@@ -101,6 +108,9 @@ abstract class AdminController
     // Ornek kullanim: TestimonialController
     // ------------------------------------------------------------------
 
+    /** postHtml() ile okunan alanlarin temizlenmis degerleri */
+    private array $htmlKeys = [];
+
     /**
      * Hatali form gonderiminden sonra geri donuldugunde eski degerler ve hatalar.
      * @param array<string, mixed> $defaults veritabanindaki mevcut degerler
@@ -121,6 +131,12 @@ abstract class AdminController
      */
     protected function backWithErrors(string $back, array $errors, array $input): void
     {
+        // Zengin metin alanlari temizlenmis haliyle saklanir (editor bunlari innerHTML ile yukluyor)
+        foreach ($this->htmlKeys as $key => $clean) {
+            if (array_key_exists($key, $input)) {
+                $input[$key] = $clean;
+            }
+        }
         $_SESSION['_errors'] = $errors;
         $_SESSION['_old']    = $input;
         flash('admin_error', 'Kaydedilmedi. İşaretli alanları düzeltin.');
@@ -152,7 +168,7 @@ abstract class AdminController
      */
     protected function postPrice(string $key)
     {
-        $raw = str_replace([' ', 'TL', '₺'], '', trim($this->post($key)));
+        $raw = str_ireplace([' ', 'TL', '₺', "\u{00a0}"], '', trim($this->post($key)));
         if ($raw === '') {
             return null;
         }
@@ -201,7 +217,10 @@ abstract class AdminController
     /** Zengin metin alanini temizleyerek okur. */
     protected function postHtml(string $key): string
     {
-        return \App\Core\HtmlSanitizer::clean($this->post($key));
+        $clean = \App\Core\HtmlSanitizer::clean($this->post($key));
+        // Form hatayla geri donerse editore temizlenmis hali yuklensin
+        $this->htmlKeys[$key] = $clean;
+        return $clean;
     }
 
     /**
@@ -209,6 +228,24 @@ abstract class AdminController
      * Hata olursa $errors[$name] doldurulur ve mevcut yol korunur.
      * @param array<string, string> $errors
      */
+    /**
+     * Gorsel alani, AMA once diger alanlarda hata var mi diye bakar.
+     * Hata varsa dosyayi yuklemez (yetim dosya birikmesin) ve kullaniciya yeniden secmesini soyler.
+     * Dogrulamalardan SONRA, backWithErrors'tan ONCE cagrilir.
+     * @param array<string, string> $errors
+     */
+    protected function imageAfterValidation(string $name, ?string $current, array &$errors, string $alt = ''): ?string
+    {
+        if ($errors !== []) {
+            $file = $_FILES[$name] ?? null;
+            if (is_array($file) && ($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
+                $errors[$name] = 'Görsel yüklenmedi. Diğer hataları düzelttikten sonra görseli yeniden seçin.';
+            }
+            return $current;
+        }
+        return $this->imageField($name, $current, $errors, $alt);
+    }
+
     protected function imageField(string $name, ?string $current, array &$errors, string $alt = ''): ?string
     {
         $file = $_FILES[$name] ?? null;

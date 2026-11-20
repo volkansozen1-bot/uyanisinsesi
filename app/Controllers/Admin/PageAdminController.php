@@ -221,7 +221,7 @@ final class PageAdminController extends AdminController
             }
         }
 
-        $hero = $this->imageField('hero_image', $row['hero_image'] ?? null, $errors, (string) $title);
+        $hero = $this->imageAfterValidation('hero_image', $row['hero_image'] ?? null, $errors, (string) $title);
 
         if ($errors !== []) {
             $this->backWithErrors($back, $errors, $_POST);

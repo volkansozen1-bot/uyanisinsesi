@@ -69,6 +69,46 @@
 // Sunucu kaydederken HtmlSanitizer ile temizler; burada temizlik guvenlik icin yeterli sayilmaz.
 (function () {
     var areas = document.querySelectorAll('textarea[data-richtext]');
+
+    // "Bilgisayardan gorsel ekle": dosya secici acar, yukler ve imleç konumuna ekler
+    function insertImage(editor) {
+        var form = editor.closest('form');
+        var token = form && form.querySelector('input[name="_csrf"]');
+        var base = document.body.getAttribute('data-admin-base') || '';
+        if (!token || !window.FormData) {
+            window.alert('Bu tarayıcıda görsel ekleme çalışmıyor. Görseli Medya sayfasından yükleyip adresini kullanabilirsiniz.');
+            return;
+        }
+        var picker = document.createElement('input');
+        picker.type = 'file';
+        picker.accept = 'image/jpeg,image/png,image/webp,image/gif';
+        picker.addEventListener('change', function () {
+            var file = picker.files && picker.files[0];
+            if (!file) return;
+            var data = new FormData();
+            data.append('_csrf', token.value);
+            data.append('image', file);
+            data.append('alt', '');
+            editor.setAttribute('aria-busy', 'true');
+            fetch(base + 'yonetim/medya/yukle-json', { method: 'POST', body: data, credentials: 'same-origin' })
+                .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+                .then(function (res) {
+                    editor.removeAttribute('aria-busy');
+                    if (!res.ok || !res.body.url) {
+                        window.alert(res.body.error || 'Görsel yüklenemedi.');
+                        return;
+                    }
+                    editor.focus();
+                    document.execCommand('insertHTML', false, '<img src="' + res.body.url + '" alt="">');
+                })
+                .catch(function () {
+                    editor.removeAttribute('aria-busy');
+                    window.alert('Görsel yüklenemedi. Bağlantınızı kontrol edip yeniden deneyin.');
+                });
+        });
+        picker.click();
+    }
+
     if (!areas.length || !document.execCommand) return;
 
     var buttons = [
@@ -80,6 +120,7 @@
         ['insertUnorderedList', '•', 'Madde listesi'],
         ['insertOrderedList', '1.', 'Numaralı liste'],
         ['blockquote', '❝', 'Alıntı'],
+        ['image', '🖼', 'Bilgisayardan görsel ekle'],
         ['link', '🔗', 'Bağlantı'],
         ['unlink', '⛓', 'Bağlantıyı kaldır'],
         ['removeFormat', '⌫', 'Biçimi temizle'],
@@ -123,7 +164,9 @@
                 }
                 if (sourceMode) return;
                 editor.focus();
-                if (b[0] === 'link') {
+                if (b[0] === 'image') {
+                    insertImage(editor);
+                } else if (b[0] === 'link') {
                     var url = window.prompt('Bağlantı adresi (https://... ya da /sayfa):', 'https://');
                     if (url) document.execCommand('createLink', false, url);
                 } else if (['h2', 'h3', 'p', 'blockquote'].indexOf(b[0]) !== -1) {

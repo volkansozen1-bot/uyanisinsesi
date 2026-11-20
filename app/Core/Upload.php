@@ -6,7 +6,8 @@ namespace App\Core;
 /**
  * Panelden gorsel yukleme.
  * - Yalnizca JPEG, PNG, WebP, GIF (icerige bakilarak dogrulanir; uzantiya guvenilmez)
- * - En fazla 8 MB; genisligi 2000 pikselden buyukse kucultulur (GD varsa)
+ * - En fazla 8 MB (sunucunun upload_max_filesize ayari daha dusukse o gecerli)
+ * - Genisligi 2000 pikselden buyukse kucultulur (GD varsa)
  * - Dosya adi rastgele uretilir: public/uploads/2026/11/a1b2c3d4e5f6.webp
  * - media tablosuna kaydedilir
  * Donen deger site icinde kullanilacak yol: "uploads/2026/11/a1b2c3d4e5f6.webp" (url() ile basilir)
@@ -26,6 +27,45 @@ final class Upload
     /** Son hatanin kullaniciya gosterilecek aciklamasi */
     public static string $error = '';
 
+    /** Gercekte gecerli olan sinir: 8 MB ile PHP ayarlarinin kucugu. */
+    public static function limitBytes(): int
+    {
+        $limits = [self::MAX_BYTES];
+        foreach (['upload_max_filesize', 'post_max_size'] as $key) {
+            $bytes = self::toBytes((string) ini_get($key));
+            if ($bytes > 0) {
+                $limits[] = $bytes;
+            }
+        }
+        return min($limits);
+    }
+
+    public static function limitText(): string
+    {
+        $mb = self::limitBytes() / (1024 * 1024);
+        return rtrim(rtrim(number_format($mb, 1, ',', '.'), '0'), ',') . ' MB';
+    }
+
+    private static function toBytes(string $value): int
+    {
+        $value = trim($value);
+        if ($value === '') {
+            return 0;
+        }
+        $unit   = strtolower(substr($value, -1));
+        $number = (int) $value;
+        if ($unit === 'g') {
+            return $number * 1024 * 1024 * 1024;
+        }
+        if ($unit === 'm') {
+            return $number * 1024 * 1024;
+        }
+        if ($unit === 'k') {
+            return $number * 1024;
+        }
+        return $number;
+    }
+
     /**
      * $_FILES['alan'] dizisini alir. Dosya secilmemisse null doner ($error bos kalir).
      * Hata varsa null doner ve self::$error doldurulur.
@@ -40,15 +80,15 @@ final class Upload
             return null;
         }
         if ($file['error'] === UPLOAD_ERR_INI_SIZE || $file['error'] === UPLOAD_ERR_FORM_SIZE) {
-            self::$error = 'Dosya çok büyük (en fazla 8 MB).';
+            self::$error = 'Dosya çok büyük (en fazla ' . self::limitText() . ').';
             return null;
         }
         if ($file['error'] !== UPLOAD_ERR_OK || !is_uploaded_file((string) $file['tmp_name'])) {
             self::$error = 'Dosya yüklenemedi, lütfen yeniden deneyin.';
             return null;
         }
-        if ((int) $file['size'] > self::MAX_BYTES) {
-            self::$error = 'Dosya çok büyük (en fazla 8 MB).';
+        if ((int) $file['size'] > self::limitBytes()) {
+            self::$error = 'Dosya çok büyük (en fazla ' . self::limitText() . ').';
             return null;
         }
 
@@ -60,6 +100,16 @@ final class Upload
         }
         [$mime, $ext] = self::TYPES[$info[2]];
         [$width, $height] = [(int) $info[0], (int) $info[1]];
+
+        // Bozuk/sahte gorseller (ornek: icine PHP gomulmus "GIF" dosyasi) burada elenir
+        if ($width < 1 || $height < 1 || $width > 12000 || $height > 12000) {
+            self::$error = 'Görsel okunamadı ya da ölçüleri geçersiz.';
+            return null;
+        }
+        if (extension_loaded('gd') && !self::openable($tmp, $info[2])) {
+            self::$error = 'Görsel okunamadı. Dosya bozuk olabilir; başka bir görsel deneyin.';
+            return null;
+        }
 
         $dir = 'uploads/' . date('Y') . '/' . date('m');
         $abs = BASE_PATH . '/public/' . $dir;
@@ -91,6 +141,26 @@ final class Upload
             [$path, mb_substr($alt, 0, 255) ?: null, $mime, (int) filesize($dest), $width, $height, $now, $now]
         );
         return $path;
+    }
+
+    /** Gorsel gercekten acilabiliyor mu? */
+    private static function openable(string $file, int $type): bool
+    {
+        $image = match ($type) {
+            IMAGETYPE_JPEG => @imagecreatefromjpeg($file),
+            IMAGETYPE_PNG  => @imagecreatefrompng($file),
+            IMAGETYPE_GIF  => @imagecreatefromgif($file),
+            IMAGETYPE_WEBP => function_exists('imagecreatefromwebp') ? @imagecreatefromwebp($file) : null,
+            default        => null,
+        };
+        if ($image === null) {
+            return true; // bu turu GD acamiyor; getimagesize dogrulamasiyla yetin
+        }
+        if ($image === false) {
+            return false;
+        }
+        imagedestroy($image);
+        return true;
     }
 
     private static function resize(string $src, string $dest, int $type, int $width, int $height): bool

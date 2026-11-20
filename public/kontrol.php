@@ -47,7 +47,7 @@ $add('.env dosyası', true, is_file($root . '/.env') ? 'var' : 'yok (varsayılan
 $expected = [
     'admins', 'login_attempts', 'settings', 'menu_items', 'media', 'pages', 'about_timeline', 'about_values',
     'home_blocks', 'services', 'service_sections', 'service_packages', 'courses', 'course_modules', 'course_plans',
-    'post_categories', 'posts', 'albums', 'testimonials', 'faqs', 'stats', 'subscribers', 'contact_messages',
+    'post_categories', 'posts', 'albums', 'testimonials', 'faqs', 'stats', 'social_links', 'subscribers', 'contact_messages',
 ];
 // Eksik tablo => ice aktarilmasi gereken migration dosyasi
 $migrationFor = [
@@ -55,6 +55,7 @@ $migrationFor = [
     'login_attempts'   => '002_admin.sql',
     'about_timeline'   => '003_pages.sql',
     'about_values'     => '003_pages.sql',
+    'social_links'     => '005_sosyal_medya.sql',
 ];
 
 try {

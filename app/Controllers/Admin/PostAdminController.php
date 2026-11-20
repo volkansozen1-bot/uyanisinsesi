@@ -215,7 +215,7 @@ final class PostAdminController extends AdminController
             }
         }
 
-        $cover = $this->imageField('cover_image', $row['cover_image'] ?? null, $errors, (string) $title);
+        $cover = $this->imageAfterValidation('cover_image', $row['cover_image'] ?? null, $errors, (string) $title);
 
         if ($errors !== []) {
             $this->backWithErrors($back, $errors, $_POST);

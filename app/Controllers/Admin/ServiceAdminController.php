@@ -448,17 +448,6 @@ final class ServiceAdminController extends AdminController
      * Gorsel yalnizca diger alanlar gecerliyse islenir (hatali formda yuklenen dosya bosa gitmesin).
      * @param array<string, string> $errors
      */
-    private function imageAfterValidation(string $name, ?string $current, array &$errors, string $alt): ?string
-    {
-        if ($errors !== []) {
-            $file = $_FILES[$name] ?? null;
-            if (is_array($file) && ($file['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
-                $errors[$name] = 'Görsel yüklenmedi. Diğer hataları düzelttikten sonra görseli yeniden seçin.';
-            }
-            return $current;
-        }
-        return $this->imageField($name, $current, $errors, $alt);
-    }
 
     /** "7500.00" -> "7500", "7500.50" -> "7500,50" (formda gosterim icin) */
     private function priceInput($price): string

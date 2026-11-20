@@ -13,6 +13,18 @@ use App\Core\Database;
  */
 final class SocialAdminController extends AdminController
 {
+    private const MIGRATION_HINT = 'Sosyal medya tablosu henüz oluşturulmamış. Sunucuda veritabanı güncellemesini çalıştırın (database/migrations/005_sosyal_medya.sql).';
+
+    /** Tablo yoksa (guncelleme calismamissa) panel 500 vermesin, anlasilir mesaj gostersin. */
+    private function guard(\Throwable $e): void
+    {
+        if (str_contains($e->getMessage(), 'social_links')) {
+            flash('admin_error', self::MIGRATION_HINT);
+            redirect('/yonetim');
+        }
+        throw $e;
+    }
+
     private const BASE = '/yonetim/sosyal-medya';
 
     /** platform anahtari => gorunen ad (select sirasi) */
@@ -32,39 +44,63 @@ final class SocialAdminController extends AdminController
 
     public function index(): void
     {
-        $this->render('social/index', [
-            'pageTitle' => 'Sosyal Medya',
-            'items'     => Database::all('SELECT * FROM social_links ORDER BY sort_order, id'),
-        ]);
+        try {
+            $this->render('social/index', [
+                'pageTitle' => 'Sosyal Medya',
+                'items'     => Database::all('SELECT * FROM social_links ORDER BY sort_order, id'),
+            ]);
+        } catch (\PDOException $e) {
+            $this->guard($e);
+        }
     }
 
     public function create(): void
     {
-        $this->form(null);
+        try {
+            $this->form(null);
+        } catch (\PDOException $e) {
+            $this->guard($e);
+        }
     }
 
     public function edit(string $id): void
     {
-        $this->form($this->find($id));
+        try {
+            $this->form($this->find($id));
+        } catch (\PDOException $e) {
+            $this->guard($e);
+        }
     }
 
     public function store(): void
     {
-        $this->save(null);
+        try {
+            $this->save(null);
+        } catch (\PDOException $e) {
+            $this->guard($e);
+        }
     }
 
     public function update(string $id): void
     {
-        $this->save($this->find($id));
+        try {
+            $this->save($this->find($id));
+        } catch (\PDOException $e) {
+            $this->guard($e);
+        }
     }
 
     public function delete(string $id): void
     {
-        $this->verifyCsrf(self::BASE);
-        $row = $this->find($id);
-        Database::run('DELETE FROM social_links WHERE id = ?', [$row['id']]);
-        flash('admin_success', 'Bağlantı silindi.');
-        redirect(self::BASE);
+        try {
+            $this->verifyCsrf(self::BASE);
+            $row = $this->find($id);
+            Database::run('DELETE FROM social_links WHERE id = ?', [$row['id']]);
+            flash('admin_success', 'Bağlantı silindi.');
+            redirect(self::BASE);
+        } catch (\PDOException $e) {
+            $this->guard($e);
+        }
     }
 
     /** @return array<string, mixed> */
@@ -129,7 +165,7 @@ final class SocialAdminController extends AdminController
             $errors['url'] = 'Adres https:// ile başlamalı (örnek: https://www.instagram.com/kullaniciadi).';
         }
 
-        $icon = $this->imageField('icon', $row['icon'] ?? null, $errors, (string) $label);
+        $icon = $this->imageAfterValidation('icon', $row['icon'] ?? null, $errors, (string) $label);
 
         if ($errors !== []) {
             $this->backWithErrors($back, $errors, $_POST);

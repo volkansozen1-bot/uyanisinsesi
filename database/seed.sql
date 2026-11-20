@@ -9,10 +9,7 @@ INSERT INTO settings (`key`, `value`) VALUES
     ('contact_email', 'bilgi@example.com'),
     ('admin_notify_email', ''),
     ('contact_phone', ''),
-    ('whatsapp_number', ''),
-    ('instagram_url', ''),
-    ('youtube_url', ''),
-    ('spotify_url', '')
+    ('whatsapp_number', '')
 ON DUPLICATE KEY UPDATE `value` = VALUES(`value`);
 
 INSERT INTO menu_items (location, label, url, sort_order) VALUES
