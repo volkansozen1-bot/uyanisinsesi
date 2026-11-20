@@ -454,18 +454,18 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
 @media (prefers-reduced-motion: reduce) { .hero-full-image, .hero-full-content > *, .hf-ring, .hf-core { animation: none; } .hero-full-illusion, .hero-full-content { transition: none; } }
 
 /* Sosyal medya dugmeleri: altin halkali yuvarlak, uzerine gelince dolar ve parlar */
-.social-btn { --c: var(--gold); position: relative; display: inline-grid; place-items: center; width: 2.9rem; height: 2.9rem; border-radius: 50%; color: var(--ink); border: 1px solid rgba(230, 211, 167, 0.6); background: linear-gradient(145deg, #e6c47e, #b38638); text-decoration: none; transition: transform 0.35s cubic-bezier(.2,.8,.2,1.4), background 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s; }
+.social-btn { --c: var(--gold); position: relative; display: inline-grid; place-items: center; width: 2.9rem; height: 2.9rem; border-radius: 50%; color: #fff; border: 1px solid transparent; background: var(--c); text-decoration: none; transition: transform 0.35s cubic-bezier(.2,.8,.2,1.4), background 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s; }
 .social-btn img { width: 22px; height: 22px; object-fit: contain; border-radius: 4px; }
-.social-btn:hover, .social-btn:focus-visible { transform: translateY(-4px) scale(1.08); background: var(--c); border-color: var(--c); color: #fff; box-shadow: 0 0 0 6px rgba(195, 154, 75, 0.15), 0 10px 26px rgba(195, 154, 75, 0.45); }
+.social-btn:hover, .social-btn:focus-visible { transform: translateY(-4px) scale(1.08); filter: brightness(1.12); color: #fff; box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3); }
 .site-footer .social-btn:hover { color: #fff; }
-.social-instagram { --c: #c1477d; } .social-youtube { --c: #c4302b; } .social-spotify { --c: #1d9a4f; } .social-facebook { --c: #3b5fa8; }
-.social-x { --c: #222; } .social-tiktok { --c: #111; } .social-linkedin { --c: #2b6cb0; } .social-telegram { --c: #2a9fd6; } .social-pinterest { --c: #bd2b32; } .social-apple_podcasts { --c: #8e44c4; }
+.social-instagram { --c: linear-gradient(45deg, #f9a825, #e1306c 45%, #833ab4); } .social-youtube { --c: #ff0000; } .social-spotify { --c: #1db954; } .social-facebook { --c: #1877f2; }
+.social-x { --c: #000; } .social-tiktok { --c: #010101; } .social-linkedin { --c: #0a66c2; } .social-telegram { --c: #229ed9; } .social-pinterest { --c: #e60023; } .social-apple_podcasts { --c: #9933cc; }
 
 /* Sag kenarda sabit serit (genis ekran) */
 .social-float { position: fixed; right: 1.1rem; top: 50%; transform: translateY(-50%); z-index: 55; display: none; flex-direction: column; align-items: center; gap: 0.6rem; }
-.social-float .social-btn { width: 2.75rem; height: 2.75rem; background: linear-gradient(145deg, #e6c47e, #b38638); border-color: rgba(255, 255, 255, 0.6); color: var(--ink); box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18); animation: social-in 0.6s ease-out both; }
+.social-float .social-btn { width: 2.75rem; height: 2.75rem; box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18); animation: social-in 0.6s ease-out both; }
 .social-float .social-btn:nth-of-type(2) { animation-delay: 0.08s; } .social-float .social-btn:nth-of-type(3) { animation-delay: 0.16s; } .social-float .social-btn:nth-of-type(4) { animation-delay: 0.24s; } .social-float .social-btn:nth-of-type(5) { animation-delay: 0.32s; }
-.social-float .social-btn:hover, .social-float .social-btn:focus-visible { transform: translateX(-4px) scale(1.1); background: var(--c); border-color: var(--c); color: #fff; }
+.social-float .social-btn:hover, .social-float .social-btn:focus-visible { transform: translateX(-4px) scale(1.1); }
 .social-float-label { position: absolute; right: calc(100% + 0.7rem); top: 50%; transform: translate(0.5rem, -50%); white-space: nowrap; padding: 0.35rem 0.75rem; border-radius: 999px; background: var(--ink); color: var(--cream); font-size: 0.82rem; font-weight: 600; opacity: 0; pointer-events: none; transition: opacity 0.25s, transform 0.25s; }
 .social-float .social-btn:hover .social-float-label, .social-float .social-btn:focus-visible .social-float-label { opacity: 1; transform: translate(0, -50%); }
 .social-float-line { width: 1px; height: 2.5rem; background: linear-gradient(transparent, var(--gold)); }
@@ -480,4 +480,5 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
 .cover-desen .page-head h1, .cover-resim .page-head h1 { text-shadow: 0 2px 24px rgba(0, 0, 0, 0.4); }
 
 /* Alt bilgideki sosyal dugmeler: altin zemin uzerinde koyu ikon */
-.site-footer .social-btn { color: var(--ink); }
+.site-footer .social-btn, .site-footer .social-btn:hover { color: #fff; }
+.social-x, .social-tiktok { border-color: rgba(255, 255, 255, 0.35); }
