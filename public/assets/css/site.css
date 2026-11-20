@@ -470,3 +470,24 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
 /* Alt bilgideki sosyal dugmeler: altin zemin uzerinde koyu ikon */
 .site-footer .social-btn, .site-footer .social-btn:hover { color: #fff; }
 .social-x, .social-tiktok { border-color: rgba(255, 255, 255, 0.35); }
+
+/* Iletisim sayfasi: solda bilgiler, sagda kart icinde form */
+.contact-wrap { background: radial-gradient(50rem 30rem at 0% 0%, rgba(195, 154, 75, 0.1), transparent 60%), var(--cream); }
+.contact-grid { display: grid; gap: 2.5rem; align-items: start; }
+.contact-info h2 { font-size: clamp(1.8rem, 3.5vw, 2.4rem); margin: 0.3rem 0 0.75rem; }
+.contact-info .eyebrow { font-style: italic; color: var(--gold); }
+.contact-items { list-style: none; margin: 1.75rem 0; padding: 1.75rem 0; border-block: 1px solid var(--border); display: grid; gap: 1.4rem; }
+.contact-items li { display: flex; align-items: center; gap: 1rem; }
+.contact-items strong { display: block; font-family: var(--font-heading); font-size: 1.35rem; font-weight: 600; color: var(--ink); line-height: 1.2; }
+.contact-items a { color: var(--muted); text-decoration: none; }
+.contact-items a:hover { color: var(--gold); }
+.contact-ico { flex: none; display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%; background: linear-gradient(145deg, var(--gold), #a87d33); color: #fff; box-shadow: 0 8px 20px rgba(195, 154, 75, 0.35); transition: transform 0.3s; }
+.contact-items li:hover .contact-ico { transform: rotate(-8deg) scale(1.08); }
+.contact-social { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.contact-social .social-btn { width: 2.4rem; height: 2.4rem; }
+.contact-social .social-btn svg { width: 18px; height: 18px; }
+.contact-card { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 1.5rem; padding: clamp(1.5rem, 4vw, 2.75rem); box-shadow: 0 30px 60px rgba(20, 40, 41, 0.08); }
+.contact-card::before { content: ""; position: absolute; inset: 0 2rem auto; height: 3px; border-radius: 0 0 3px 3px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+.contact-card h2 { font-size: clamp(1.7rem, 3vw, 2.2rem); margin: 0 0 1.5rem; }
+.contact-card .btn { width: 100%; justify-content: center; }
+@media (min-width: 56rem) { .contact-grid { grid-template-columns: 5fr 7fr; gap: 4.5rem; } .contact-info { position: sticky; top: 7rem; } }
