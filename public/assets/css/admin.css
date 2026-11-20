@@ -302,3 +302,34 @@ input[type="file"] { font: inherit; font-size: 0.9rem; }
 .row-card { border: 1px solid var(--border); border-radius: 10px; padding: 1rem; background: var(--cream); display: grid; gap: 0.75rem; }
 .row-card .field-grid { gap: 0.75rem 1rem; }
 .row-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; font-weight: 700; color: var(--ink); }
+
+/* --- Ana sayfa, Medya, Sosyal medya --- */
+/* Blok turu secimi */
+.block-types { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.6rem; }
+.block-types a { display: grid; gap: 0.15rem; padding: 0.85rem 1rem; border: 1px solid var(--border); border-radius: 10px; background: var(--cream); text-decoration: none; color: var(--ink); }
+.block-types a:hover { border-color: var(--gold); background: var(--surface); }
+.block-types strong { font-weight: 700; }
+.block-types span { font-size: 0.88rem; }
+
+/* Blok listesi: yukari/asagi tasima */
+.cell-move { white-space: nowrap; }
+.cell-move form { display: inline; margin: 0; }
+.btn-move { min-width: 2rem; padding: 0.25rem 0.5rem; line-height: 1.2; }
+.btn-move[disabled] { opacity: 0.35; cursor: default; }
+
+/* Kapak/ikon kucuk resimleri */
+.cell-thumb { width: 4rem; }
+.thumb-icon { object-fit: contain; padding: 0.25rem; background: var(--cream); }
+
+/* Medya kitapligi */
+.media-grid { list-style: none; margin: 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); }
+.media-card { display: grid; gap: 0.6rem; align-content: start; border: 1px solid var(--border); border-radius: 10px; padding: 0.85rem; background: var(--cream); }
+.media-card form { margin: 0; display: grid; gap: 0.5rem; }
+.media-thumb { display: block; aspect-ratio: 4 / 3; border-radius: 8px; overflow: hidden; background: var(--sand); }
+.media-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.media-meta { margin: 0; font-size: 0.82rem; line-height: 1.45; }
+.media-card .field > label { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.media-card input[type="text"] { font-size: 0.85rem; padding: 0.4rem 0.55rem; }
+.copy-input { background: var(--surface); color: var(--muted); }
+.media-actions { display: flex; justify-content: flex-end; }
+.media-card > form:last-of-type { justify-items: start; }

@@ -401,3 +401,10 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
 .ebook p { color: var(--muted); margin: 0; }
 .ebook-notify { margin-top: 3.5rem; padding-top: 2.5rem; border-top: 1px solid var(--border); }
 @media (max-width: 40rem) { .ebook-cover { max-width: 12rem; } }
+
+/* --- Sosyal medya --- */
+.footer-social { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 0.65rem 0.9rem; margin: 0.75rem 0 0.5rem; padding: 0; }
+.footer-social li { margin: 0; }
+.footer-social a.is-icon { display: block; line-height: 0; opacity: 0.9; transition: opacity 0.2s; }
+.footer-social a.is-icon:hover { opacity: 0.6; }
+.footer-social img { width: 24px; height: 24px; border-radius: 6px; object-fit: contain; }
