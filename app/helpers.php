@@ -79,7 +79,7 @@ function site_logo(): array
     $presets = logo_presets();
     if (str_starts_with($path, 'preset:') && isset($presets[substr($path, 7)])) {
         $file = $presets[substr($path, 7)]['file'];
-        return ['url' => asset($file), 'type' => str_ends_with($file, '.webp') ? 'image/webp' : 'image/svg+xml'];
+        return ['url' => asset($file), 'type' => str_ends_with($file, '.png') ? 'image/png' : 'image/svg+xml'];
     }
     if ($path !== '' && \App\Core\Upload::isUploadPath($path) && is_file(BASE_PATH . '/public/' . $path)) {
         $ext  = strtolower(pathinfo($path, PATHINFO_EXTENSION));
@@ -96,12 +96,20 @@ function site_logo(): array
 function logo_presets(): array
 {
     return [
-        'perihan'    => ['label' => 'Perihan Ateş', 'file' => 'img/logos/perihan-amblem.webp'],
+        'perihan'    => ['label' => 'Perihan Ateş', 'file' => 'img/logos/perihan-amblem.png'],
         'varsayilan' => ['label' => 'Alev', 'file' => 'img/logo-mark.svg'],
         'alev-cizgi' => ['label' => 'Alev (altın)', 'file' => 'img/logos/alev-cizgi.svg'],
         'monogram'   => ['label' => 'Monogram', 'file' => 'img/logos/monogram.svg'],
         'lotus'      => ['label' => 'Lotus', 'file' => 'img/logos/lotus.svg'],
         'gunes'      => ['label' => 'Güneş', 'file' => 'img/logos/gunes.svg'],
+        'kelebek'    => ['label' => 'Kelebek', 'file' => 'img/logos/kelebek.svg'],
+        'ay'         => ['label' => 'Hilal', 'file' => 'img/logos/ay.svg'],
+        'mandala'    => ['label' => 'Mandala', 'file' => 'img/logos/mandala.svg'],
+        'agac'       => ['label' => 'Hayat ağacı', 'file' => 'img/logos/agac.svg'],
+        'spiral'     => ['label' => 'Spiral', 'file' => 'img/logos/spiral.svg'],
+        'goz'        => ['label' => 'Üçüncü göz', 'file' => 'img/logos/goz.svg'],
+        'p-alev'     => ['label' => 'P + alev', 'file' => 'img/logos/p-alev.svg'],
+        'dalga'      => ['label' => 'Dalga', 'file' => 'img/logos/dalga.svg'],
     ];
 }
 
