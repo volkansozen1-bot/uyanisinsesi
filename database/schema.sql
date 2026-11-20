@@ -60,6 +60,21 @@ CREATE TABLE IF NOT EXISTS menu_items (
     CONSTRAINT fk_menu_parent FOREIGN KEY (parent_id) REFERENCES menu_items (id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
 
+-- Alt bilgideki sosyal medya baglantilari. Ikon panelden yuklenir; yoksa platform adi yazi olarak gorunur.
+CREATE TABLE IF NOT EXISTS social_links (
+    id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    platform   VARCHAR(30) NOT NULL,
+    label      VARCHAR(60) NOT NULL,
+    url        VARCHAR(255) NOT NULL,
+    icon       VARCHAR(255) NULL,
+    sort_order INT NOT NULL DEFAULT 0,
+    is_active  TINYINT(1) NOT NULL DEFAULT 1,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (id),
+    KEY idx_social_links_order (is_active, sort_order)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_turkish_ci;
+
 CREATE TABLE IF NOT EXISTS media (
     id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
     path       VARCHAR(255) NOT NULL,
