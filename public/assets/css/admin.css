@@ -308,3 +308,13 @@ input[type="file"] { font: inherit; font-size: 0.9rem; }
 .row-head .cell-actions { display: flex; align-items: center; gap: 0.4rem; flex: none; }
 .row-head .cell-actions .muted { font-size: 0.82rem; }
 @media (max-width: 40rem) { .row-head { flex-direction: column; align-items: flex-start; gap: 0.5rem; } }
+/* --- hizmetler ve egitimler --- */
+.subnav { display: flex; flex-wrap: wrap; gap: 0.4rem 0.5rem; margin: 0 0 1.25rem; }
+.subnav a { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; font-weight: 700; text-decoration: none; color: var(--ink); background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 0.35rem 0.9rem; }
+.subnav a:hover { border-color: var(--ink); }
+.subnav .count { font-weight: 700; font-size: 0.75rem; color: var(--muted); background: var(--sand); border-radius: 999px; padding: 0 0.4rem; }
+.notice-info { color: var(--ink); border-color: var(--gold); background: #fdf6e6; }
+.panel-intro { margin: -0.5rem 0 1rem; font-size: 0.88rem; }
+.btn-link { font: inherit; font-size: 0.9rem; font-weight: 600; color: var(--muted); text-decoration: none; padding: 0.65rem 0.5rem; }
+.btn-link:hover { color: var(--ink); text-decoration: underline; }
+.table code { font-family: ui-monospace, Consolas, monospace; font-size: 0.85rem; color: var(--plum); }
