@@ -5,16 +5,7 @@ $columns  = [
     'Hizmetler' => menu('footer_services'),
     'Yasal'     => menu('footer_legal'),
 ];
-// Sosyal medya baglantilari panelden yonetilir (social_links). Ikon yuklenmisse gorsel,
-// yuklenmemisse yazi baglantisi gosterilir. Tablo henuz olusmamissa (guncelleme yapilmamis
-// kurulum) alt bilgi yine de calisir.
-try {
-    $social = App\Core\Database::all(
-        'SELECT label, url, icon FROM social_links WHERE is_active = 1 ORDER BY sort_order, id'
-    );
-} catch (Throwable $e) {
-    $social = [];
-}
+$social = social_links();
 ?>
 <footer class="site-footer">
     <div class="container footer-grid">
@@ -29,11 +20,11 @@ try {
             <ul class="footer-social">
                 <?php foreach ($social as $link): ?>
                 <li>
-                    <a href="<?= e($link['url']) ?>" target="_blank" rel="noopener" aria-label="<?= e($link['label']) ?>"<?= $link['icon'] ? ' class="is-icon"' : '' ?>>
+                    <a class="social-btn social-<?= e($link['platform']) ?>" href="<?= e($link['url']) ?>" target="_blank" rel="noopener" aria-label="<?= e($link['label']) ?>" title="<?= e($link['label']) ?>">
                         <?php if ($link['icon']): ?>
-                        <img src="<?= e(url($link['icon'])) ?>" alt="<?= e($link['label']) ?>" width="24" height="24" loading="lazy">
+                        <img src="<?= e(url($link['icon'])) ?>" alt="" width="22" height="22" loading="lazy">
                         <?php else: ?>
-                        <?= e($link['label']) ?>
+                        <?= social_glyph($link['platform']) ?>
                         <?php endif; ?>
                     </a>
                 </li>

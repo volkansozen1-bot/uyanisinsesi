@@ -113,6 +113,42 @@ function logo_presets(): array
     ];
 }
 
+/**
+ * Aktif sosyal medya baglantilari (istek basina bir kez okunur). Tablo yoksa bos dizi.
+ * @return array<int, array{platform: string, label: string, url: string, icon: ?string}>
+ */
+function social_links(): array
+{
+    static $links = null;
+    if ($links === null) {
+        try {
+            $links = Database::all('SELECT platform, label, url, icon FROM social_links WHERE is_active = 1 ORDER BY sort_order, id');
+        } catch (\Throwable $e) {
+            $links = [];
+        }
+    }
+    return $links;
+}
+
+/** Platform icin sade cizgi ikon (24x24, currentColor). Marka logosu degil, genel bir isaret. */
+function social_glyph(string $platform): string
+{
+    $paths = [
+        'instagram'      => '<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none"/>',
+        'youtube'        => '<rect x="2.5" y="5.5" width="19" height="13" rx="4"/><path d="M10 9.2v5.6l4.8-2.8z" fill="currentColor" stroke="none"/>',
+        'spotify'        => '<circle cx="12" cy="12" r="9"/><path d="M7.5 9.5c3-1 6.500-.8 9.300.8M8 12.600c2.500-.7 5.200-.5 7.400.8M8.600 15.500c1.900-.5 3.900-.3 5.600.6"/>',
+        'facebook'       => '<path d="M14.500 8.500h2V5h-2.500A3.500 3.500 0 0 0 10.500 8.500V11H8v3.500h2.500V21H14v-6.500h2.500l.5-3.500h-3V9a.5.5 0 0 1 .5-.5z"/>',
+        'x'              => '<path d="M4 4l16 16M20 4L4 20"/>',
+        'tiktok'         => '<path d="M14 3v11.500a3.500 3.500 0 1 1-3.500-3.500"/><path d="M14 3c.5 2.500 2.300 4.200 5 4.500"/>',
+        'linkedin'       => '<rect x="3.500" y="3.500" width="17" height="17" rx="3"/><path d="M8 10.500V17M8 7.500v.1M12 17v-6.500M12 13.500c0-1.700 1-3 2.500-3s2.500 1 2.500 3V17"/>',
+        'telegram'       => '<path d="M21 4L3 11l6 2.500L18 7l-7 8 .5 5 3-3.500 4.500 3.500z"/>',
+        'pinterest'      => '<circle cx="12" cy="12" r="9"/><path d="M10.500 20l2-8M10 13.500c-1-3 .5-6 3.500-6 2.500 0 3.500 1.800 3.500 3.500 0 2.500-1.500 4.500-3.500 4.500-1 0-1.800-.6-1.800-1.500"/>',
+        'apple_podcasts' => '<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.500 11a6.500 6.500 0 0 0 13 0M12 17.500V21"/>',
+    ];
+    $p = $paths[$platform] ?? '<path d="M10 14a4 4 0 0 0 5.600.4l3-3a4 4 0 0 0-5.600-5.700l-1.200 1.100"/><path d="M14 10a4 4 0 0 0-5.600-.4l-3 3a4 4 0 0 0 5.600 5.700l1.200-1.100"/>';
+    return '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' . $p . '</svg>';
+}
+
 /** settings tablosundan deger okur; tum ayarlar istek basina bir kez cekilir. */
 function setting(string $key, string $default = ''): string
 {
