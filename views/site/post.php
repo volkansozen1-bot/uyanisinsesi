@@ -19,7 +19,7 @@
         <?php if ($post['cover_image']): ?>
         <img class="prose-image" src="<?= e(url($post['cover_image'])) ?>" alt="">
         <?php endif; ?>
-        <?php /* body panelden girilecek HTML'dir. Panelden duzenleme eklenince kaydederken temizlenmeli (HTML temizleyici henuz yok); simdilik icerik yalnizca SQL dosyalarindan gelir. Burada oldugu gibi basilir. */ ?>
+        <?php /* Panelden girilen zengin metin; kaydedilirken HtmlSanitizer ile temizlenir, burada oldugu gibi basilir */ ?>
         <?= $post['body'] ?>
         <p class="back-link"><a href="<?= e(url('/blog')) ?>">← Tüm yazılar</a></p>
     </div>

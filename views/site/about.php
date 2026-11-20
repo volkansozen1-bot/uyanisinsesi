@@ -66,7 +66,7 @@ $icons = [
 <?php if (trim((string) $page['body']) !== ''): ?>
 <section class="section">
     <div class="container narrow prose about-intro">
-        <?php /* body panelden girilecek HTML'dir. Panelden duzenleme eklenince kaydederken temizlenmeli (HTML temizleyici henuz yok); simdilik icerik yalnizca SQL dosyalarindan gelir. Burada oldugu gibi basilir. */ ?>
+        <?php /* Panelden girilen zengin metin; kaydedilirken HtmlSanitizer ile temizlenir, burada oldugu gibi basilir */ ?>
         <?= $page['body'] ?>
     </div>
 </section>

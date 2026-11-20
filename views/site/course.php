@@ -35,7 +35,7 @@ $until = $course['countdown_until'] ? strtotime((string) $course['countdown_unti
         <?php if ($course['image']): ?>
         <img class="prose-image" src="<?= e(url($course['image'])) ?>" alt="">
         <?php endif; ?>
-        <?php /* body panelden girilecek HTML'dir. Panelden duzenleme eklenince kaydederken temizlenmeli (HTML temizleyici henuz yok); simdilik icerik yalnizca SQL dosyalarindan gelir. Burada oldugu gibi basilir. */ ?>
+        <?php /* Panelden girilen zengin metin; kaydedilirken HtmlSanitizer ile temizlenir, burada oldugu gibi basilir */ ?>
         <?= $course['body'] ?>
     </div>
 </article>
