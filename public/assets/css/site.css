@@ -408,3 +408,4 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
 
 /* Panelden yuklenen logo: yukseklik sabit, genislik orantili */
 .brand-logo { width: auto; max-width: 180px; object-fit: contain; flex-shrink: 0; }
+.logo .brand-logo { height: 36px; }
