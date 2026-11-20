@@ -38,8 +38,18 @@ echo View::renderFile('partials/page_head', [
         </div>
         <?php endif; ?>
 
-        <?php if (setting('spotify_url')): ?>
-        <p class="center" style="margin-top:2.5rem"><a class="btn btn-outline" href="<?= e(setting('spotify_url')) ?>" target="_blank" rel="noopener">Spotify Profilini Aç</a></p>
+        <?php
+        // Spotify dugmesi: Sosyal Medya bolumundeki ilk aktif Spotify baglantisi (yoksa dugme gorunmez)
+        try {
+            $spotify = App\Core\Database::one(
+                "SELECT url FROM social_links WHERE platform = 'spotify' AND is_active = 1 ORDER BY sort_order, id"
+            );
+        } catch (Throwable $e) {
+            $spotify = null;
+        }
+        ?>
+        <?php if ($spotify): ?>
+        <p class="center" style="margin-top:2.5rem"><a class="btn btn-outline" href="<?= e($spotify['url']) ?>" target="_blank" rel="noopener">Spotify Profilini Aç</a></p>
         <?php endif; ?>
     </div>
 </section>

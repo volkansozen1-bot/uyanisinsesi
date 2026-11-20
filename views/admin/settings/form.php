@@ -3,7 +3,6 @@ $inputType = ['text' => 'text', 'email' => 'email', 'tel' => 'tel', 'url' => 'ur
 $groups = [
     'Genel'           => ['site_name', 'site_tagline'],
     'İletişim'        => ['contact_email', 'contact_phone', 'whatsapp_number', 'admin_notify_email'],
-    'Sosyal medya'    => ['instagram_url', 'youtube_url', 'spotify_url'],
 ];
 ?>
 <div class="page-title">
@@ -32,5 +31,10 @@ $groups = [
         </div>
     </fieldset>
     <?php endforeach; ?>
+    <fieldset class="panel">
+        <legend>Sosyal medya</legend>
+        <p class="muted">Instagram, YouTube, Spotify ve diğer bağlantılar artık
+            <a href="<?= e(url('/yonetim/sosyal-medya')) ?>">Sosyal Medya</a> bölümünden yönetiliyor.</p>
+    </fieldset>
     <div class="form-actions"><button class="btn" type="submit">Kaydet</button></div>
 </form>

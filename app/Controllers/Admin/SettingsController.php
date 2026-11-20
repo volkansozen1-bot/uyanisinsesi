@@ -11,6 +11,7 @@ final class SettingsController extends AdminController
     /**
      * Formdaki alanlar: anahtar => [etiket, tur, aciklama]
      * tur: text | email | tel | url
+     * Sosyal medya adresleri burada degil, Sosyal Medya bolumunde (social_links) yonetilir.
      */
     public const FIELDS = [
         'site_name'          => ['Site adı', 'text', 'Tarayıcı sekmesinde, logoda ve alt bilgide görünür.'],
@@ -18,9 +19,6 @@ final class SettingsController extends AdminController
         'contact_email'      => ['İletişim e-postası', 'email', 'Sitede ziyaretçilere gösterilir.'],
         'contact_phone'      => ['Telefon', 'tel', 'Örnek: 0532 000 00 00'],
         'whatsapp_number'    => ['WhatsApp numarası', 'tel', 'Ülke koduyla, örnek: 90 532 000 00 00. Boş bırakılırsa WhatsApp düğmesi görünmez.'],
-        'instagram_url'      => ['Instagram adresi', 'url', 'https:// ile başlamalı.'],
-        'youtube_url'        => ['YouTube adresi', 'url', 'https:// ile başlamalı.'],
-        'spotify_url'        => ['Spotify adresi', 'url', 'https:// ile başlamalı.'],
         'admin_notify_email' => ['Bildirim e-postası', 'email', 'İletişim formundan gelen mesajların bildirimi bu adrese gider. Boşsa iletişim e-postası kullanılır.'],
     ];
 
