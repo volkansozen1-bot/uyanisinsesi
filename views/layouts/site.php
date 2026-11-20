@@ -62,7 +62,6 @@ if ($coverMode === 'resim' && App\Core\Upload::isUploadPath($coverImage)) {
     </main>
     <?= App\Core\View::renderFile('partials/newsletter') ?>
     <?= App\Core\View::renderFile('partials/footer') ?>
-    <?= App\Core\View::renderFile('partials/social_float') ?>
     <script src="<?= e(asset('js/site.js')) ?>" defer></script>
 </body>
 </html>
