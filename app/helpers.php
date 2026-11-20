@@ -78,7 +78,8 @@ function site_logo(): array
     $path = setting('site_logo');
     $presets = logo_presets();
     if (str_starts_with($path, 'preset:') && isset($presets[substr($path, 7)])) {
-        return ['url' => asset($presets[substr($path, 7)]['file']), 'type' => 'image/svg+xml'];
+        $file = $presets[substr($path, 7)]['file'];
+        return ['url' => asset($file), 'type' => str_ends_with($file, '.webp') ? 'image/webp' : 'image/svg+xml'];
     }
     if ($path !== '' && \App\Core\Upload::isUploadPath($path) && is_file(BASE_PATH . '/public/' . $path)) {
         $ext  = strtolower(pathinfo($path, PATHINFO_EXTENSION));
@@ -95,6 +96,7 @@ function site_logo(): array
 function logo_presets(): array
 {
     return [
+        'perihan'    => ['label' => 'Perihan Ateş', 'file' => 'img/logos/perihan-amblem.webp'],
         'varsayilan' => ['label' => 'Alev', 'file' => 'img/logo-mark.svg'],
         'alev-cizgi' => ['label' => 'Alev (altın)', 'file' => 'img/logos/alev-cizgi.svg'],
         'monogram'   => ['label' => 'Monogram', 'file' => 'img/logos/monogram.svg'],
