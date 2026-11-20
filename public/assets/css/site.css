@@ -419,3 +419,18 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
 .about-cover h1 { color: var(--cream); font-size: clamp(2.6rem, 6vw, 4.2rem); margin: 0.25rem 0 0.75rem; }
 .about-cover .lead { color: #ece6d8; max-width: 34rem; margin: 0; }
 .about-cover-wave { position: absolute; left: 0; right: 0; bottom: -1px; z-index: 2; width: 100%; height: 3.5rem; display: block; }
+
+/* Ana sayfa: tam ekran fotografli giris (hero_full blogu) */
+.hero-full { position: relative; min-height: calc(100svh - 5rem); display: flex; align-items: flex-end; justify-content: center; overflow: hidden; background: var(--ink); color: #fff; text-align: center; }
+.hero-full-plain { background: radial-gradient(120% 90% at 50% 0%, var(--plum) 0%, var(--ink) 70%); }
+.hero-full-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 25%; animation: hero-full-zoom 18s ease-out both; }
+.hero-full::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(0deg, rgba(10, 20, 20, 0.62) 0%, rgba(10, 20, 20, 0.28) 38%, rgba(10, 20, 20, 0) 65%); }
+.hero-full-content { position: relative; z-index: 2; padding-bottom: clamp(3rem, 8vh, 5.5rem); max-width: 60rem; animation: hero-full-rise 1.2s 0.2s ease-out both; }
+.hero-full-quote { font-family: var(--font-heading); font-style: italic; font-weight: 500; font-size: clamp(2rem, 4.6vw, 3.6rem); line-height: 1.18; color: #fff; margin: 0 0 1rem; text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35); }
+.hero-full-author { font-family: var(--font-heading); font-size: clamp(1.15rem, 2vw, 1.5rem); color: var(--gold-soft); margin: 0 0 1.75rem; }
+.hero-full-btn { display: inline-block; padding: 0.85rem 2rem; border-radius: 999px; background: #fff; color: var(--ink); font-weight: 600; text-decoration: none; transition: background 0.2s, color 0.2s; }
+.hero-full-btn:hover, .hero-full-btn:focus-visible { background: var(--gold); color: #fff; }
+@keyframes hero-full-zoom { from { transform: scale(1.08); } to { transform: scale(1); } }
+@keyframes hero-full-rise { from { opacity: 0; transform: translateY(1.5rem); } to { opacity: 1; transform: none; } }
+@media (max-width: 40rem) { .hero-full { min-height: 80svh; } }
+@media (prefers-reduced-motion: reduce) { .hero-full-image, .hero-full-content { animation: none; } }

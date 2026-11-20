@@ -34,6 +34,17 @@ final class HomeBlockAdminController extends AdminController
                 'image'          => ['label' => 'Pencere içindeki fotoğraf', 'type' => 'image', 'help' => 'Sağdaki yuvarlak pencerede görünür. Yüklenmezse ay çizimi gösterilir. Kare ya da dikey fotoğraf uygundur.'],
             ],
         ],
+        'hero_full' => [
+            'label' => 'Tam ekran giriş (fotoğraflı)',
+            'desc'  => 'Ekranı kaplayan büyük fotoğraf, üzerinde ortalanmış büyük bir söz ve buton. Kullanırsanız eski "Giriş (hero)" bloğunu gizleyin.',
+            'fields' => [
+                'image'       => ['label' => 'Arka plan fotoğrafı', 'type' => 'image', 'help' => 'Yatay ve en az 1920 px genişlikte bir fotoğraf seçin. Önemli kısım ortada ya da üstte olsun; yazı alt kısma gelir.'],
+                'subtitle'    => ['label' => 'Büyük söz', 'type' => 'textarea', 'max' => 300, 'required' => true, 'rows' => 3, 'help' => 'Fotoğrafın üzerinde büyük ve italik yazılır. Tırnak işaretleri otomatik eklenir.'],
+                'title'       => ['label' => 'Söyleyen / kaynak', 'type' => 'text', 'max' => 255, 'help' => 'İsteğe bağlı. Sözün altında yazılır (örnek: Mevlânâ).'],
+                'button_text' => ['label' => 'Buton yazısı', 'type' => 'text', 'max' => 100],
+                'button_url'  => ['label' => 'Buton bağlantısı', 'type' => 'link', 'pair' => 'button_text'],
+            ],
+        ],
         'intro' => [
             'label' => 'Karşılama',
             'desc'  => 'Ortalanmış başlık, kısa metin ve isteğe bağlı buton.',
