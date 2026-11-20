@@ -461,12 +461,6 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
 .social-instagram { --c: linear-gradient(45deg, #f9a825, #e1306c 45%, #833ab4); } .social-youtube { --c: #ff0000; } .social-spotify { --c: #1db954; } .social-facebook { --c: #1877f2; }
 .social-x { --c: #000; } .social-tiktok { --c: #010101; } .social-linkedin { --c: #0a66c2; } .social-telegram { --c: #229ed9; } .social-pinterest { --c: #e60023; } .social-apple_podcasts { --c: #9933cc; }
 
-/* Iletisim sayfasi: sosyal medya satiri */
-.contact-social { text-align: center; margin: 0 0 2.5rem; padding-bottom: 2rem; border-bottom: 1px solid var(--border); }
-.contact-social-title { font-family: var(--font-heading); font-size: 1.35rem; font-style: italic; color: var(--ink); margin: 0 0 1rem; }
-.contact-social-list { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin: 0; padding: 0; }
-.contact-social .social-btn { width: 3.2rem; height: 3.2rem; }
-.contact-social .social-x, .contact-social .social-tiktok { border-color: transparent; }
 
 /* Sayfa kapaklari (Ayarlar > Sayfa kapaklari): duz renk varsayilan */
 .cover-desen .page-head { background: var(--ink) url("../img/kapak-desen.svg") center / cover no-repeat; }

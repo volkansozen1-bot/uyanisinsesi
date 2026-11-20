@@ -19,24 +19,6 @@ $field   = static fn (string $key): string => e($old[$key] ?? '');
         <?php if ($success): ?><p class="notice notice-success" role="status"><?= e($success) ?></p><?php endif; ?>
         <?php if ($error): ?><p class="notice notice-error" role="alert"><?= e($error) ?></p><?php endif; ?>
 
-        <?php if ($social = social_links()): ?>
-        <div class="contact-social">
-            <p class="contact-social-title">Beni sosyal medyada takip edin</p>
-            <ul class="contact-social-list">
-                <?php foreach ($social as $link): ?>
-                <li>
-                    <a class="social-btn social-<?= e($link['platform']) ?>" href="<?= e($link['url']) ?>" target="_blank" rel="noopener" aria-label="<?= e($link['label']) ?>" title="<?= e($link['label']) ?>">
-                        <?php if ($link['icon']): ?>
-                        <img src="<?= e(url($link['icon'])) ?>" alt="" width="22" height="22" loading="lazy">
-                        <?php else: ?>
-                        <?= social_glyph($link['platform']) ?>
-                        <?php endif; ?>
-                    </a>
-                </li>
-                <?php endforeach; ?>
-            </ul>
-        </div>
-        <?php endif; ?>
 
         <form method="post" action="<?= e(url('/iletisim')) ?>" class="form" novalidate>
             <?= Csrf::field() ?>
