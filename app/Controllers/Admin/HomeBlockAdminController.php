@@ -34,6 +34,17 @@ final class HomeBlockAdminController extends AdminController
                 'image'          => ['label' => 'Pencere içindeki fotoğraf', 'type' => 'image', 'help' => 'Sağdaki yuvarlak pencerede görünür. Yüklenmezse ay çizimi gösterilir. Kare ya da dikey fotoğraf uygundur.'],
             ],
         ],
+        'certificates' => [
+            'label' => 'Sertifikalar (QR kodlu)',
+            'desc'  => 'QR kodlu sertifika kartı. QR ve bağlantı boşsa sitedeki Sertifikalarım sayfası (/sertifikalar) kullanılır.',
+            'fields' => [
+                'title'       => ['label' => 'Başlık', 'type' => 'text', 'max' => 255, 'required' => true],
+                'subtitle'    => ['label' => 'Açıklama', 'type' => 'textarea', 'max' => 600, 'rows' => 3],
+                'image'       => ['label' => 'QR kod görseli', 'type' => 'image', 'help' => 'Boş bırakın: /sertifikalar sayfasına giden hazır QR kodu kullanılır.'],
+                'button_text' => ['label' => 'Buton yazısı', 'type' => 'text', 'max' => 100, 'help' => 'Boşsa: Tüm Sertifikaları Gör'],
+                'button_url'  => ['label' => 'Buton bağlantısı', 'type' => 'link', 'help' => 'Boşsa: /sertifikalar'],
+            ],
+        ],
         'hero_full' => [
             'label' => 'Tam ekran giriş (fotoğraflı)',
             'desc'  => 'Ekranı kaplayan büyük fotoğraf, üzerinde ortalanmış büyük bir söz ve buton. Kullanırsanız eski "Giriş (hero)" bloğunu gizleyin.',
