@@ -129,7 +129,9 @@ final class Upload
                 $width  = self::MAX_WIDTH;
             }
         }
-        if (!$resized && !move_uploaded_file($tmp, $dest)) {
+        // Windows/IIS: move_uploaded_file gecici klasorun izinlerini tasir ve IIS dosyayi okuyamaz;
+        // copy() ile yazilan dosya uploads klasorunun izinlerini alir.
+        if (!$resized && !(is_uploaded_file($tmp) && copy($tmp, $dest))) {
             self::$error = 'Dosya kaydedilemedi (public/uploads yazılabilir olmalı).';
             return null;
         }
