@@ -19,11 +19,12 @@ final class HtmlSanitizer
 {
     /** etiket => izinli nitelikler */
     private const ALLOWED = [
-        'p' => [], 'br' => [], 'hr' => [],
+        'p' => ['class'], 'br' => [], 'hr' => [],
         'strong' => [], 'b' => [], 'em' => [], 'i' => [], 'u' => [], 's' => [],
-        'h2' => [], 'h3' => [], 'h4' => [],
-        'ul' => [], 'ol' => [], 'li' => [],
-        'blockquote' => [],
+        'span' => ['class'],
+        'h2' => ['class'], 'h3' => ['class'], 'h4' => ['class'],
+        'ul' => [], 'ol' => [], 'li' => ['class'],
+        'blockquote' => ['class'],
         'a' => ['href', 'title', 'target'],
         'img' => ['src', 'alt', 'width', 'height'],
         'figure' => [], 'figcaption' => [],
@@ -106,6 +107,16 @@ final class HtmlSanitizer
             $name = strtolower($attr->nodeName);
             if (!in_array($name, $allowed, true)) {
                 $el->removeAttribute($attr->nodeName);
+            }
+        }
+
+        // Editorun bicim siniflari disindaki class degerleri atilir (boyut, renk, hizalama, yazi tipi)
+        if ($el->hasAttribute('class')) {
+            $ok = preg_grep('/^(t-(sm|lg|xl|xxl)|c-(gold|plum|ink|green|rose|muted)|a-(left|center|right|justify)|f-(serif|sans))$/', preg_split('/\s+/', trim($el->getAttribute('class'))) ?: []);
+            if ($ok) {
+                $el->setAttribute('class', implode(' ', $ok));
+            } else {
+                $el->removeAttribute('class');
             }
         }
 

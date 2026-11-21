@@ -529,3 +529,9 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
 .page-head::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; z-index: 1; height: 3.5rem; pointer-events: none;
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 60' preserveAspectRatio='none'%3E%3Cpath d='M0 38C180 22 340 50 560 40S900 14 1100 30 1340 46 1440 34V60H0z' fill='%23f8f6ee'/%3E%3Cpath d='M0 38C180 22 340 50 560 40S900 14 1100 30 1340 46 1440 34' fill='none' stroke='%23142829' stroke-opacity='.35' stroke-width='1.5'/%3E%3C/svg%3E") bottom / 100% 100% no-repeat; }
 .page-head > .container { position: relative; z-index: 2; }
+
+/* Editor bicimleri (panelde ve sitede ayni) */
+.t-sm { font-size: 0.85em; } .t-lg { font-size: 1.25em; } .t-xl { font-size: 1.6em; line-height: 1.3; } .t-xxl { font-size: 2.2em; line-height: 1.2; }
+.c-ink { color: #142829; } .c-gold { color: #b38638; } .c-plum { color: #6b3a6e; } .c-green { color: #46625b; } .c-rose { color: #b5577a; } .c-muted { color: #7a7a72; }
+.f-serif { font-family: var(--font-heading, Georgia, serif); } .f-sans { font-family: var(--font-body, system-ui, sans-serif); }
+.a-left { text-align: left; } .a-center { text-align: center; } .a-right { text-align: right; } .a-justify { text-align: justify; }

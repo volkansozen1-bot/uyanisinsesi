@@ -394,3 +394,10 @@ input[type="file"] { font: inherit; font-size: 0.9rem; }
 .cert-admin-item img { width: 100%; aspect-ratio: 4 / 3; object-fit: contain; background: #f6f2ea; border-radius: 6px; }
 .cert-admin-row { display: flex; justify-content: space-between; align-items: center; gap: .5rem; font-size: .85rem; }
 .cert-admin-row input[type=number] { width: 4rem; }
+
+/* Editor bicimleri (panelde ve sitede ayni) */
+.t-sm { font-size: 0.85em; } .t-lg { font-size: 1.25em; } .t-xl { font-size: 1.6em; line-height: 1.3; } .t-xxl { font-size: 2.2em; line-height: 1.2; }
+.c-ink { color: #142829; } .c-gold { color: #b38638; } .c-plum { color: #6b3a6e; } .c-green { color: #46625b; } .c-rose { color: #b5577a; } .c-muted { color: #7a7a72; }
+.f-serif { font-family: var(--font-heading, Georgia, serif); } .f-sans { font-family: var(--font-body, system-ui, sans-serif); }
+.a-left { text-align: left; } .a-center { text-align: center; } .a-right { text-align: right; } .a-justify { text-align: justify; }
+.rte-select { height: 2rem; margin: 0 .15rem; padding: 0 .4rem; border: 1px solid #e6dccb; border-radius: 6px; background: #fff; font-size: .85rem; }

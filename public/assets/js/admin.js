@@ -114,6 +114,7 @@
     var buttons = [
         ['bold', '<b>K</b>', 'Kalın'],
         ['italic', '<i>İ</i>', 'İtalik'],
+        ['underline', '<u>A</u>', 'Altı çizili'],
         ['h2', 'B2', 'Başlık'],
         ['h3', 'B3', 'Ara başlık'],
         ['p', '¶', 'Paragraf'],
@@ -176,6 +177,41 @@
                 }
             });
             bar.appendChild(btn);
+        });
+
+        // Boyut / renk / yazi tipi (secili metne) ve hizalama (paragrafa): sitede tanimli siniflarla
+        var styleMenus = [
+            ['Boyut', 'span', [['t-sm', 'Küçük'], ['', 'Normal'], ['t-lg', 'Büyük'], ['t-xl', 'Çok büyük'], ['t-xxl', 'Dev']]],
+            ['Renk', 'span', [['c-ink', 'Koyu yeşil'], ['c-gold', 'Altın'], ['c-plum', 'Mürdüm'], ['c-green', 'Adaçayı'], ['c-rose', 'Gül'], ['c-muted', 'Gri'], ['', 'Varsayılan']]],
+            ['Yazı tipi', 'span', [['f-serif', 'Zarif (başlık)'], ['f-sans', 'Sade']]],
+            ['Hizala', 'block', [['a-left', 'Sola'], ['a-center', 'Ortaya'], ['a-right', 'Sağa'], ['a-justify', 'İki yana']]]
+        ];
+        styleMenus.forEach(function (m) {
+            var sel = document.createElement('select');
+            sel.className = 'rte-select';
+            sel.setAttribute('aria-label', m[0]);
+            sel.innerHTML = '<option value="-">' + m[0] + '</option>' + m[2].map(function (o) { return '<option value="' + o[0] + '">' + o[1] + '</option>'; }).join('');
+            sel.addEventListener('change', function () {
+                var cls = sel.value; sel.value = '-';
+                if (sourceMode || cls === '-') return;
+                editor.focus();
+                var s = window.getSelection();
+                if (!s.rangeCount) return;
+                if (m[1] === 'block') {
+                    var node = s.anchorNode && (s.anchorNode.nodeType === 1 ? s.anchorNode : s.anchorNode.parentNode);
+                    var block = node && node.closest('p,h2,h3,h4,li,blockquote');
+                    if (block && editor.contains(block)) {
+                        block.className = (block.className.replace(/\ba-\w+\b/g, '') + ' ' + cls).trim();
+                    }
+                    return;
+                }
+                if (s.isCollapsed) { window.alert('Önce biçimlendirmek istediğiniz metni seçin.'); return; }
+                var div = document.createElement('div');
+                div.appendChild(s.getRangeAt(0).cloneContents());
+                var html = div.innerHTML;
+                document.execCommand('insertHTML', false, cls ? '<span class="' + cls + '">' + html + '</span>' : html);
+            });
+            bar.appendChild(sel);
         });
 
         // Baska yerden yapistirilan metin duz metin olarak eklenir (Word bicimleri tasinmasin)
