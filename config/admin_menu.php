@@ -28,6 +28,7 @@ return [
     ['label' => 'Eğitimler',    'url' => '/yonetim/egitimler',    'icon' => 'book'],
     ['label' => 'Blog',         'url' => '/yonetim/blog',         'icon' => 'pen'],
     ['label' => 'Meditasyon',   'url' => '/yonetim/albumler',     'icon' => 'music'],
+    ['label' => 'Sertifikalar', 'url' => '/yonetim/sertifikalar', 'icon' => 'image'],
     ['label' => 'Yorumlar',     'url' => '/yonetim/yorumlar',     'icon' => 'quote'],
     ['label' => 'Medya',        'url' => '/yonetim/medya',        'icon' => 'image'],
     ['label' => 'Sosyal Medya', 'url' => '/yonetim/sosyal-medya', 'icon' => 'share'],
