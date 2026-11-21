@@ -518,3 +518,14 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
 .cert-lightbox { position: fixed; inset: 0; z-index: 100; display: none; place-items: center; padding: 2rem; background: rgba(10, 18, 18, 0.88); cursor: zoom-out; }
 .cert-lightbox:target { display: grid; }
 .cert-lightbox img { max-width: min(95vw, 70rem); max-height: 90vh; object-fit: contain; border-radius: 0.5rem; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5); }
+
+/* Tum sayfa kapaklari Hakkimda kapagi gibi: yuksek, baslik sol altta, dalgali alt kenar */
+.page-head { position: relative; isolation: isolate; min-height: clamp(17rem, 42vh, 25rem); display: flex; align-items: flex-end; text-align: left; padding: 3rem 0 clamp(4.5rem, 9vw, 6rem); overflow: hidden; }
+.page-head > .container, .page-head > .container.narrow { max-width: var(--container); }
+.page-head h1 { font-size: clamp(2.6rem, 6vw, 4.2rem); text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35); }
+.page-head h1::before { content: ""; display: block; width: 3rem; height: 2px; margin-bottom: 1rem; background: var(--gold); }
+.page-head .lead { margin-left: 0; }
+.page-cover:has(.page-cover-image)::before { background: linear-gradient(90deg, rgba(20, 40, 41, 0.72) 0%, rgba(20, 40, 41, 0.25) 60%, rgba(20, 40, 41, 0.05) 100%), linear-gradient(0deg, rgba(20, 40, 41, 0.45), transparent 50%); }
+.page-head::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; z-index: 1; height: 3.5rem; pointer-events: none;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 60' preserveAspectRatio='none'%3E%3Cpath d='M0 38C180 22 340 50 560 40S900 14 1100 30 1340 46 1440 34V60H0z' fill='%23f8f6ee'/%3E%3Cpath d='M0 38C180 22 340 50 560 40S900 14 1100 30 1340 46 1440 34' fill='none' stroke='%23142829' stroke-opacity='.35' stroke-width='1.5'/%3E%3C/svg%3E") bottom / 100% 100% no-repeat; }
+.page-head > .container { position: relative; z-index: 2; }
