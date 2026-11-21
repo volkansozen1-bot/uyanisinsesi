@@ -7,7 +7,7 @@
         <h1><?= e($page['title']) ?></h1>
     </div>
 </header>
-<article class="section">
+<article class="section page-<?= e($page['slug']) ?>">
     <div class="container narrow prose">
         <?php /* Panelden girilen zengin metin; kaydedilirken HtmlSanitizer ile temizlenir, burada oldugu gibi basilir */ ?>
         <?= $page['body'] ?>

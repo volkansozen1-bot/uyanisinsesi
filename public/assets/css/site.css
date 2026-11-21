@@ -508,3 +508,9 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
     .about-story-grid.no-portrait { grid-template-columns: minmax(0, 46rem); justify-content: center; }
     .about-story-photo { position: sticky; top: 7rem; }
 }
+
+/* Sertifikalar sayfasi: metne eklenen gorseller izgara */
+.page-sertifikalar .container.narrow { max-width: 68rem; }
+.page-sertifikalar .prose p:has(img) { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: 1.25rem; }
+.page-sertifikalar .prose img { width: 100%; height: auto; border-radius: 0.75rem; border: 1px solid var(--border); box-shadow: 0 12px 30px rgba(20, 40, 41, 0.08); background: #fff; transition: transform 0.3s; }
+.page-sertifikalar .prose img:hover { transform: translateY(-4px); }

@@ -82,8 +82,10 @@ $icons = [
 
 <?php
 $portrait = setting('about_portrait');
-$certUrl  = setting('about_cert_url');
+// Bos birakilirsa: /sertifikalar sayfasi ve ona giden hazir QR kodu
+$certUrl  = setting('about_cert_url') ?: url('/sertifikalar');
 $certQr   = setting('about_cert_qr');
+$certQrUrl = $certQr !== '' ? url($certQr) : asset('img/qr-sertifikalar.png');
 ?>
 <section class="section about-story">
     <div class="container about-story-grid<?= $portrait ? '' : ' no-portrait' ?>">
@@ -105,13 +107,13 @@ $certQr   = setting('about_cert_qr');
     </div>
 </section>
 
-<?php if (setting('about_cert_title') !== '' || $certQr !== ''): ?>
+<?php if (setting('about_cert_title') !== ''): ?>
 <section class="section section-alt about-certs">
     <div class="container narrow center">
         <?php if (setting('about_cert_title')): ?><h2><?= e(setting('about_cert_title')) ?></h2><?php endif; ?>
         <?php if (setting('about_cert_text')): ?><p class="muted"><?= nl2br(e(setting('about_cert_text'))) ?></p><?php endif; ?>
         <div class="cert-card">
-            <?php if ($certQr): ?><img src="<?= e(url($certQr)) ?>" alt="Sertifikalar QR kodu" width="160" height="160" loading="lazy"><?php endif; ?>
+            <?php if ($certQrUrl): ?><img src="<?= e($certQrUrl) ?>" alt="Sertifikalar QR kodu" width="160" height="160" loading="lazy"><?php endif; ?>
             <h3>Okut, Sertifikaları İncele</h3>
             <p class="muted">Telefonunuzun kamerasıyla QR kodu okutarak tüm sertifikalara göz atabilirsiniz.</p>
             <?php if ($certUrl): ?><a class="btn" href="<?= e($certUrl) ?>" target="_blank" rel="noopener"><?= e(setting('about_cert_button') ?: 'Tüm Sertifikaları Gör') ?></a><?php endif; ?>

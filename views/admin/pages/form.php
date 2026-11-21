@@ -60,12 +60,12 @@ if ($menuLinks) {
     </fieldset>
     <fieldset class="panel">
         <legend>Sertifikalar</legend>
-        <p class="muted">Metnin altında QR kodlu kart olarak görünür. Başlık ve QR görseli boşsa bölüm gösterilmez.</p>
+        <p class="muted">Metnin altında QR kodlu kart olarak görünür. Başlık boşsa bölüm gösterilmez. Sertifika görsellerini Sayfalar → Sertifikalarım sayfasının metnine ekleyin.</p>
         <div class="field-grid">
             <?= $f->text('about_cert_title', 'Başlık', ['maxlength' => 150, 'help' => 'Örnek: Sertifikalarım']) ?>
             <?= $f->textarea('about_cert_text', 'Açıklama', ['maxlength' => 600, 'rows' => 3, 'class' => 'wide']) ?>
-            <?= $f->image('about_cert_qr', 'QR kod görseli', ['help' => 'Sertifika sayfanızın QR kodunu PNG olarak yükleyin.']) ?>
-            <?= $f->text('about_cert_url', 'Sertifikalar bağlantısı', ['maxlength' => 300, 'help' => 'Butonun gideceği adres (Google Drive klasörü, PDF vb.).']) ?>
+            <?= $f->image('about_cert_qr', 'QR kod görseli', ['help' => 'Boş bırakın: /sertifikalar sayfasına giden hazır QR kodu kullanılır. Başka bir adres verirseniz onun QR kodunu yükleyin.']) ?>
+            <?= $f->text('about_cert_url', 'Sertifikalar bağlantısı', ['maxlength' => 300, 'help' => 'Boş bırakın: sitedeki Sertifikalarım sayfası (/sertifikalar) açılır.']) ?>
             <?= $f->text('about_cert_button', 'Buton yazısı', ['maxlength' => 60, 'help' => 'Boşsa: Tüm Sertifikaları Gör']) ?>
         </div>
     </fieldset>
