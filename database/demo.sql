@@ -53,7 +53,7 @@ INSERT INTO menu_items (location, label, url, sort_order) VALUES
     ('footer_explore', 'Ana Sayfa', '/', 1),
     ('footer_explore', 'Hakkımda', '/hakkimda', 2),
     ('footer_explore', 'Blog', '/blog', 3),
-    ('footer_explore', 'Albümler', '/albumler', 4),
+    ('footer_explore', 'Meditasyon', '/albumler', 4),
     ('footer_explore', 'E-Kitaplar', '/e-kitaplar', 5),
     ('footer_services', 'Hizmetler', '/hizmetler', 1),
     ('footer_services', 'Eğitimler', '/egitimler', 2),

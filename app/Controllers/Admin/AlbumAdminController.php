@@ -18,7 +18,7 @@ final class AlbumAdminController extends AdminController
     public function index(): void
     {
         $this->render('albums/index', [
-            'pageTitle' => 'Albümler',
+            'pageTitle' => 'Meditasyon',
             'items'     => Database::all('SELECT * FROM albums ORDER BY sort_order, id'),
         ]);
     }

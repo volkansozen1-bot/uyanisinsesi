@@ -8,7 +8,7 @@
  */
 $f = new App\Core\Form($values, $errors);
 ?>
-<p class="back-link"><a href="<?= e(url('/yonetim/albumler')) ?>">← Albümler</a></p>
+<p class="back-link"><a href="<?= e(url('/yonetim/albumler')) ?>">← Meditasyon</a></p>
 <div class="page-title">
     <h1><?= $row ? 'Albümü düzenle' : 'Yeni albüm' ?></h1>
 </div>

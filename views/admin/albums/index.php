@@ -4,8 +4,8 @@ $types = App\Controllers\Admin\AlbumAdminController::TYPES;
 ?>
 <div class="page-title page-title-row">
     <div>
-        <h1>Albümler</h1>
-        <p class="muted">Albümler sayfasında görünen kayıtlar. <a href="<?= e(url('/albumler')) ?>" target="_blank" rel="noopener">Sitede gör ↗</a></p>
+        <h1>Meditasyon</h1>
+        <p class="muted">Meditasyon sayfasında görünen kayıtlar. <a href="<?= e(url('/albumler')) ?>" target="_blank" rel="noopener">Sitede gör ↗</a></p>
     </div>
     <a class="btn" href="<?= e(url('/yonetim/albumler/yeni')) ?>">+ Yeni albüm</a>
 </div>

@@ -15,7 +15,7 @@ final class AlbumController
                 'SELECT title, type, year, track_count, cover_image, listen_url FROM albums
                  WHERE is_active = 1 ORDER BY sort_order, id'
             ),
-            'pageTitle' => 'Albümler',
+            'pageTitle' => 'Meditasyon',
         ]);
     }
 }

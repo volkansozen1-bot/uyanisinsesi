@@ -6,14 +6,14 @@ $types = ['album' => 'Albüm', 'ep' => 'EP', 'single' => 'Single'];
 
 echo View::renderFile('partials/page_head', [
     'eyebrow' => 'Müzik',
-    'title'   => 'Albümler',
+    'title'   => 'Meditasyon',
     'lead'    => 'Tüm kayıtlar dijital platformlarda dinlenebilir.',
 ]);
 ?>
 <section class="section">
     <div class="container">
         <?php if (!$albums): ?>
-        <p class="center lead">Albümler yakında burada olacak.</p>
+        <p class="center lead">Meditasyonlar yakında burada olacak.</p>
         <?php else: ?>
         <div class="card-grid album-grid">
             <?php foreach ($albums as $album): ?>

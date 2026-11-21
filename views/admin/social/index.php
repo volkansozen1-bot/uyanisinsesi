@@ -5,7 +5,7 @@ $platforms = App\Controllers\Admin\SocialAdminController::PLATFORMS;
 <div class="page-title page-title-row">
     <div>
         <h1>Sosyal Medya</h1>
-        <p class="muted">Sitenin alt bilgisinde görünen sosyal medya bağlantıları. Spotify bağlantısı Albümler sayfasındaki düğmede de kullanılır.</p>
+        <p class="muted">Sitenin alt bilgisinde görünen sosyal medya bağlantıları. Spotify bağlantısı Meditasyon sayfasındaki düğmede de kullanılır.</p>
     </div>
     <a class="btn" href="<?= e(url('/yonetim/sosyal-medya/yeni')) ?>">+ Yeni bağlantı</a>
 </div>
