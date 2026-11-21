@@ -29,6 +29,14 @@ final class PageAdminController extends AdminController
         'sitemap.xml', 'robots.txt', '_deploy', 'assets', 'uploads',
     ];
 
+    /** Hakkimda ek metin alanlari (settings): anahtar => en fazla karakter */
+    private const ABOUT_TEXTS = [
+        'about_eyebrow' => 100, 'about_heading' => 150,
+        'about_cert_title' => 150, 'about_cert_text' => 600, 'about_cert_url' => 300, 'about_cert_button' => 60,
+    ];
+    /** Hakkimda ek gorselleri (settings) */
+    private const ABOUT_IMAGES = ['about_portrait' => 'Portre görseli', 'about_cert_qr' => 'QR kod görseli'];
+
     /** views/site/about.php icindeki ikon anahtarlari */
     public const ICONS = [
         'circle' => 'Daire',
@@ -140,6 +148,9 @@ final class PageAdminController extends AdminController
         if ($isAbout) {
             $defaults['about_quote']        = $this->settingValue('about_quote');
             $defaults['about_quote_author'] = $this->settingValue('about_quote_author');
+            foreach (array_keys(self::ABOUT_TEXTS + self::ABOUT_IMAGES) as $k) {
+                $defaults[$k] = $this->settingValue($k);
+            }
         }
         [$values, $errors] = $this->formState($defaults);
 
@@ -219,6 +230,17 @@ final class PageAdminController extends AdminController
             if ($quoteAuthor === null) {
                 $errors['about_quote_author'] = 'En fazla 150 karakter olabilir.';
             }
+            $aboutExtra = [];
+            foreach (self::ABOUT_TEXTS as $k => $max) {
+                $aboutExtra[$k] = $this->postText($k, $max);
+                if ($aboutExtra[$k] === null) {
+                    $errors[$k] = "En fazla $max karakter olabilir.";
+                }
+            }
+            foreach (self::ABOUT_IMAGES as $k => $label) {
+                $cur = $this->settingValue($k);
+                $aboutExtra[$k] = $this->imageAfterValidation($k, $cur !== '' ? $cur : null, $errors, $label) ?? '';
+            }
         }
 
         $hero = $this->imageAfterValidation('hero_image', $row['hero_image'] ?? null, $errors, (string) $title);
@@ -252,6 +274,9 @@ final class PageAdminController extends AdminController
             if ($wasAbout) {
                 $this->saveSetting('about_quote', (string) $quote, $now);
                 $this->saveSetting('about_quote_author', (string) $quoteAuthor, $now);
+                foreach ($aboutExtra as $k => $v) {
+                    $this->saveSetting($k, (string) $v, $now);
+                }
             }
             $pdo->commit();
         } catch (\Throwable $e) {

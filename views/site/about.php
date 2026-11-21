@@ -80,11 +80,42 @@ $icons = [
 </section>
 <?php endif; ?>
 
-<?php if (trim((string) $page['body']) !== ''): ?>
-<section class="section">
-    <div class="container narrow prose about-intro">
-        <?php /* Panelden girilen zengin metin; kaydedilirken HtmlSanitizer ile temizlenir, burada oldugu gibi basilir */ ?>
-        <?= $page['body'] ?>
+<?php
+$portrait = setting('about_portrait');
+$certUrl  = setting('about_cert_url');
+$certQr   = setting('about_cert_qr');
+?>
+<section class="section about-story">
+    <div class="container about-story-grid<?= $portrait ? '' : ' no-portrait' ?>">
+        <?php if ($portrait): ?>
+        <figure class="about-story-photo"><img src="<?= e(url($portrait)) ?>" alt="<?= e(setting('site_name', 'Perihan Ateş')) ?>" loading="lazy"></figure>
+        <?php endif; ?>
+        <div class="about-story-text">
+            <?php if (setting('about_eyebrow')): ?><span class="eyebrow"><?= e(setting('about_eyebrow')) ?></span><?php endif; ?>
+            <?php if (setting('about_heading')): ?><h2><?= e(setting('about_heading')) ?></h2><?php endif; ?>
+            <div class="prose">
+                <?php /* Panelden girilen zengin metin; kaydedilirken HtmlSanitizer ile temizlenir */ ?>
+                <?= $page['body'] ?>
+            </div>
+            <p class="about-story-actions">
+                <a class="btn" href="<?= e(url('/hizmetler')) ?>">Hizmetleri Keşfet</a>
+                <a class="btn btn-ghost" href="<?= e(url('/iletisim')) ?>">İletişime Geç</a>
+            </p>
+        </div>
+    </div>
+</section>
+
+<?php if (setting('about_cert_title') !== '' || $certQr !== ''): ?>
+<section class="section section-alt about-certs">
+    <div class="container narrow center">
+        <?php if (setting('about_cert_title')): ?><h2><?= e(setting('about_cert_title')) ?></h2><?php endif; ?>
+        <?php if (setting('about_cert_text')): ?><p class="muted"><?= nl2br(e(setting('about_cert_text'))) ?></p><?php endif; ?>
+        <div class="cert-card">
+            <?php if ($certQr): ?><img src="<?= e(url($certQr)) ?>" alt="Sertifikalar QR kodu" width="160" height="160" loading="lazy"><?php endif; ?>
+            <h3>Okut, Sertifikaları İncele</h3>
+            <p class="muted">Telefonunuzun kamerasıyla QR kodu okutarak tüm sertifikalara göz atabilirsiniz.</p>
+            <?php if ($certUrl): ?><a class="btn" href="<?= e($certUrl) ?>" target="_blank" rel="noopener"><?= e(setting('about_cert_button') ?: 'Tüm Sertifikaları Gör') ?></a><?php endif; ?>
+        </div>
     </div>
 </section>
 <?php endif; ?>

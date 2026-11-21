@@ -41,14 +41,34 @@ if ($menuLinks) {
             <?= $f->text('slug', 'Adres', ['slug_from' => 'title', 'maxlength' => 150, 'help' => $slugHelp]) ?>
             <?= $f->select('template', 'Şablon', PageAdminController::TEMPLATES, ['help' => '"Hakkımda düzeni": portre, Yolculuğum, Yaklaşımım ve alıntı bölümleri olan sayfa. Bu bölümler kaydettikten sonra bu ekranda açılır.']) ?>
             <?= $f->select('status', 'Durum', ['draft' => 'Taslak (sitede görünmez)', 'published' => 'Yayında']) ?>
-            <?= $f->image('hero_image', $isAbout ? 'Portre' : 'Üst görsel', ['help' => $isAbout
-                ? 'Başlığın yanında portre olarak görünür. Dikey (3:4) bir fotoğraf önerilir. Boşsa süslemeli bir çizim gösterilir.'
+            <?= $f->image('hero_image', $isAbout ? 'Kapak fotoğrafı' : 'Üst görsel', ['help' => $isAbout
+                ? 'Sayfanın en üstünde tam genişlikte görünür, başlık üzerine yazılır. Yatay ve en az 1600 px genişlikte bir fotoğraf seçin.'
                 : 'Sayfa paylaşıldığında görünebilir; Hakkımda düzeninde portre olarak gösterilir. JPG, PNG, WebP veya GIF; en fazla 8 MB.']) ?>
             <?= $f->richtext('body', 'Metin') ?>
         </div>
     </fieldset>
 
     <?php if ($isAbout): ?>
+    <fieldset class="panel">
+        <legend>Tanıtım bölümü</legend>
+        <p class="muted">Kapak fotoğrafının altında: solda portre, sağda başlık ve yukarıdaki sayfa metni, altında "Hizmetleri keşfet" ve "İletişime geç" butonları.</p>
+        <div class="field-grid">
+            <?= $f->image('about_portrait', 'Portre görseli', ['help' => 'Dikey fotoğraf önerilir (örnek: 900×1200).']) ?>
+            <?= $f->text('about_eyebrow', 'Üst küçük yazı', ['maxlength' => 100, 'help' => 'Örnek: Perihan Ateş Kimdir?']) ?>
+            <?= $f->text('about_heading', 'Başlık', ['maxlength' => 150, 'help' => 'Örnek: Sadece Varolanım']) ?>
+        </div>
+    </fieldset>
+    <fieldset class="panel">
+        <legend>Sertifikalar</legend>
+        <p class="muted">Metnin altında QR kodlu kart olarak görünür. Başlık ve QR görseli boşsa bölüm gösterilmez.</p>
+        <div class="field-grid">
+            <?= $f->text('about_cert_title', 'Başlık', ['maxlength' => 150, 'help' => 'Örnek: Sertifikalarım']) ?>
+            <?= $f->textarea('about_cert_text', 'Açıklama', ['maxlength' => 600, 'rows' => 3, 'class' => 'wide']) ?>
+            <?= $f->image('about_cert_qr', 'QR kod görseli', ['help' => 'Sertifika sayfanızın QR kodunu PNG olarak yükleyin.']) ?>
+            <?= $f->text('about_cert_url', 'Sertifikalar bağlantısı', ['maxlength' => 300, 'help' => 'Butonun gideceği adres (Google Drive klasörü, PDF vb.).']) ?>
+            <?= $f->text('about_cert_button', 'Buton yazısı', ['maxlength' => 60, 'help' => 'Boşsa: Tüm Sertifikaları Gör']) ?>
+        </div>
+    </fieldset>
     <fieldset class="panel">
         <legend>Alıntı</legend>
         <p class="muted">Sayfanın altında koyu bant içinde görünür. Boş bırakılırsa bant gösterilmez.</p>

@@ -491,3 +491,20 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
 .contact-card h2 { font-size: clamp(1.7rem, 3vw, 2.2rem); margin: 0 0 1.5rem; }
 .contact-card .btn { width: 100%; justify-content: center; }
 @media (min-width: 56rem) { .contact-grid { grid-template-columns: 5fr 7fr; gap: 4.5rem; } .contact-info { position: sticky; top: 7rem; } }
+
+/* Hakkimda: portre + metin, sertifika karti */
+.about-story-grid { display: grid; gap: 2.5rem; align-items: start; }
+.about-story-photo { margin: 0; border-radius: 1.5rem; overflow: hidden; box-shadow: 0 30px 60px rgba(20, 40, 41, 0.15); }
+.about-story-photo img { display: block; width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+.about-story-text .eyebrow { font-style: italic; color: var(--gold); }
+.about-story-text h2 { font-size: clamp(2rem, 4vw, 2.8rem); margin: 0.3rem 0 1rem; }
+.about-story-text .prose blockquote { border-left: 2px solid var(--gold); padding-left: 1.25rem; margin: 1.5rem 0; font-family: var(--font-heading); font-style: italic; font-size: 1.3rem; color: var(--ink); }
+.about-story-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+.cert-card { max-width: 22rem; margin: 2rem auto 0; padding: 2rem; background: var(--surface); border: 1px solid var(--border); border-radius: 1.25rem; box-shadow: 0 20px 40px rgba(20, 40, 41, 0.06); }
+.cert-card img { display: block; margin: 0 auto 1rem; }
+.cert-card h3 { margin: 0 0 0.5rem; }
+@media (min-width: 56rem) {
+    .about-story-grid { grid-template-columns: 5fr 7fr; gap: 4rem; }
+    .about-story-grid.no-portrait { grid-template-columns: minmax(0, 46rem); justify-content: center; }
+    .about-story-photo { position: sticky; top: 7rem; }
+}
