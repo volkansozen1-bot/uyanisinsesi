@@ -520,7 +520,7 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
 .cert-lightbox img { max-width: min(95vw, 70rem); max-height: 90vh; object-fit: contain; border-radius: 0.5rem; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5); }
 
 /* Tum sayfa kapaklari Hakkimda kapagi gibi: yuksek, baslik sol altta, dalgali alt kenar */
-.page-head { position: relative; isolation: isolate; min-height: clamp(26rem, 62vh, 34rem); display: flex; align-items: flex-end; text-align: left; padding: 3rem 0 clamp(4.5rem, 9vw, 6rem); overflow: hidden; }
+.page-head { position: relative; isolation: isolate; min-height: clamp(16rem, 36vh, 22rem); display: flex; align-items: flex-end; text-align: left; padding: 3rem 0 clamp(4.5rem, 9vw, 6rem); overflow: hidden; }
 .page-head > .container, .page-head > .container.narrow { max-width: var(--container); }
 .page-head h1 { font-size: clamp(2.6rem, 6vw, 4.2rem); text-shadow: 0 2px 24px rgba(0, 0, 0, 0.35); }
 .page-head h1::before { content: ""; display: block; width: 3rem; height: 2px; margin-bottom: 1rem; background: var(--gold); }
@@ -535,3 +535,8 @@ input:focus-visible, textarea:focus-visible { outline: 2px solid var(--gold); ou
 .c-ink { color: #142829; } .c-gold { color: #b38638; } .c-plum { color: #6b3a6e; } .c-green { color: #46625b; } .c-rose { color: #b5577a; } .c-muted { color: #7a7a72; }
 .f-serif { font-family: var(--font-heading, Georgia, serif); } .f-sans { font-family: var(--font-body, system-ui, sans-serif); }
 .a-left { text-align: left; } .a-center { text-align: center; } .a-right { text-align: right; } .a-justify { text-align: justify; }
+
+/* Sertifikalar: tanitim metni genis ve ortali, kartlar hemen altinda */
+.page-sertifikalar { padding-bottom: 1rem; }
+.page-sertifikalar .container.narrow { max-width: var(--container); text-align: center; }
+.page-sertifikalar .prose p { max-width: none; }
